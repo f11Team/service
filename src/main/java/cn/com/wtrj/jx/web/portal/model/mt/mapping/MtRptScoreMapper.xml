@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.wtrj.jx.web.portal.model.mt.dao.MtRptScoreDetailMapper" >
+  <resultMap id="BaseResultMap" type="cn.com.wtrj.jx.web.portal.model.mt.entities.MtRptScoreDetail" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="EXAM_INS_ID" property="examInsId" jdbcType="DECIMAL" />
+    <result column="SCHOOL_CODE" property="schoolCode" jdbcType="VARCHAR" />
+    <result column="CLASS_NAME" property="className" jdbcType="VARCHAR" />
+    <result column="STUDENT_NAME" property="studentName" jdbcType="VARCHAR" />
+    <result column="SUBJECT" property="subject" jdbcType="VARCHAR" />
+    <result column="SCORE" property="score" jdbcType="DECIMAL" />
+    <result column="EXAM_NO" property="examNo" jdbcType="VARCHAR" />
+    <result column="SUBJECTIVE_ITEM_SCORE" property="subjectiveItemScore" jdbcType="DECIMAL" />
+    <result column="OBJECTIVE_ITEM_SCORE" property="objectiveItemScore" jdbcType="DECIMAL" />
+    <result column="Z_SCORE" property="zScore" jdbcType="DECIMAL" />
+    <result column="T_SCORE" property="tScore" jdbcType="DECIMAL" />
+    <result column="CLASS_RANK" property="classRank" jdbcType="DECIMAL" />
+    <result column="GRADE_RANK" property="gradeRank" jdbcType="DECIMAL" />
+    <result column="STUDENT_NO" property="studentNo" jdbcType="VARCHAR" />
+    <result column="EXAM_NAME" property="examName" jdbcType="VARCHAR"/>
+    <result column="CLASS_ID" property="classId" jdbcType="VARCHAR"/>
+     <result column="COURSE_CODE" property="courseCode" jdbcType="VARCHAR"/>
+     <result column="COURSE_NAME" property="courseName" jdbcType="VARCHAR"/>
+  </resultMap>
+  
+  <select id="selectAverageScore" resultType="double" parameterType="java.util.Map">
+  	select avg(score) from wtrj_rpt_score_detail where EXAM_INS_ID=#{examInsId} 
+    	and SCHOOL_CODE=#{schoolCode} and CLASS_ID=#{classId} and COURSE_CODE=#{courseCode} and flag = '1'
+  </select>
+  
+  <select id="searchScoreInfoByStudentAndExam" resultMap="BaseResultMap" parameterType="java.util.Map">
+  	select * from wtrj_rpt_score_detail where EXAM_INS_ID=#{examId} and STUDENT_NAME=#{studentNo} and flag = '1'
+  </select>
+  <select id="findExamInsIdByTypeCode" resultType="java.lang.Integer">
+ 	select id from (
+ 	select ROW_NUMBER() OVER (ORDER BY u.create_time desc) no, u.* from wtrj_rpt_score_exam_ins u 
+		where u.type_code=#{typeCode,jdbcType=VARCHAR} 
+		and u.class_id=#{classId,jdbcType=VARCHAR} and u.flag=1
+	) where no between 0 and 5
+ </select>
+  
+  <select id="searchByStudentAndSubject" resultMap="BaseResultMap" parameterType="java.util.Map">
+  	 select * from (select t.*,rownum rn from
+  	(select sd.*,se.name examName 
+  	from wtrj_rpt_score_detail sd join wtrj_rpt_score_exam_ins se on sd.exam_ins_id=se.id
+  	where subject =#{subject} and student_no=#{studentNo} order by se.start_date desc)t)
+  	where rn between 1 and 5 
+  	
+  </select>
+
+</mapper>

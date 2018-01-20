@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.wtrj.jx.web.portal.model.mt.dao.EmployeeFileMapper" >
+<resultMap id="BaseResultMap" type="cn.com.wtrj.jx.web.portal.model.entities.WtrjEmployee" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="ENGLISH_NAME" property="englishName" jdbcType="VARCHAR" />
+    <result column="SEX" property="sex" jdbcType="VARCHAR" />
+    <result column="PHONE" property="phone" jdbcType="VARCHAR" />
+    <result column="WORKING_YEARS" property="workingYears" jdbcType="DECIMAL" />
+    <result column="NATIVE_PLACE" property="nativePlace" jdbcType="VARCHAR" />
+    <result column="NATION" property="nation" jdbcType="VARCHAR" />
+    <result column="POLITICAL_STATUS" property="politicalStatus" jdbcType="VARCHAR" />
+    <result column="MARITAL_STATUS" property="maritalStatus" jdbcType="VARCHAR" />
+    <result column="GRADUATE_SCHOOL" property="graduateSchool" jdbcType="VARCHAR" />
+    <result column="GRADUATE_TIME" property="graduateTime" jdbcType="DATE" />
+    <result column="MAJOR" property="major" jdbcType="VARCHAR" />
+    <result column="AGE" property="age" jdbcType="DECIMAL" />
+    <result column="BIRTHDAY" property="birthday" jdbcType="DATE" />
+    <result column="BELONG_UNIT" property="belongUnit" jdbcType="VARCHAR" />
+    <result column="EMPLOYEE_NUMBER" property="employeeNumber" jdbcType="VARCHAR" />
+    <result column="SCHOOL_CODE" property="schoolCode" jdbcType="VARCHAR" />
+  </resultMap>
+  <select id="selectByPaging" resultMap="BaseResultMap">
+    select 
+  		id,NAME as name,ENGLISH_NAME as englishName,
+  		SEX as sex,PHONE as phone,
+  		WORKING_YEARS as workingYears,NATIVE_PLACE as nativePlace,
+  		NATION as nation,POLITICAL_STATUS as politicalStatus,
+  		MARITAL_STATUS as maritalStatus,GRADUATE_SCHOOL as graduateSchool,
+  		GRADUATE_TIME as graduateTime,MAJOR as major,
+  		AGE as age,BIRTHDAY as birthday,
+  		BELONG_UNIT as belongUnit, SCHOOL_CODE,
+  		EMPLOYEE_NUMBER as employeeNumber from(
+			select t.*,rownum row_num from wtrj_employee t 
+			where 
+				NAME like '%${employeeNameStr}%' 
+				or ENGLISH_NAME like '%${employeeNameStr}%' 
+				or SEX like '%${employeeNameStr}%' 
+				or PHONE like '%${employeeNameStr}%' 
+				or WORKING_YEARS like '%${employeeNameStr}%' 
+				or NATIVE_PLACE like '%${employeeNameStr}%' 
+				or NATION like '%${employeeNameStr}%'
+				or POLITICAL_STATUS like '%${employeeNameStr}%' 
+				or MARITAL_STATUS like '%${employeeNameStr}%'
+				or GRADUATE_SCHOOL like '%${employeeNameStr}%' 
+				or GRADUATE_TIME like '%${employeeNameStr}%' 
+				or MAJOR like '%${employeeNameStr}%' 
+				or AGE like '%${employeeNameStr}%' 
+				or BIRTHDAY like '%${employeeNameStr}%' 
+				or BELONG_UNIT like '%${employeeNameStr}%' 
+				or EMPLOYEE_NUMBER like '%${employeeNameStr}%') b 
+				where row_num between #{startRowNum} and #{endRowNum}
+  </select>
+  
+  <select id="selectCount" resultType="java.lang.Integer" >
+  	select count(id) from wtrj_employee 
+			where 
+				NAME like '%${employeeNameStr}%' 
+				or ENGLISH_NAME like '%${employeeNameStr}%' 
+				or SEX like '%${employeeNameStr}%' 
+				or PHONE like '%${employeeNameStr}%' 
+				or WORKING_YEARS like '%${employeeNameStr}%' 
+				or NATIVE_PLACE like '%${employeeNameStr}%' 
+				or NATION like '%${employeeNameStr}%'
+				or POLITICAL_STATUS like '%${employeeNameStr}%' 
+				or MARITAL_STATUS like '%${employeeNameStr}%'
+				or GRADUATE_SCHOOL like '%${employeeNameStr}%' 
+				or GRADUATE_TIME like '%${employeeNameStr}%' 
+				or MAJOR like '%${employeeNameStr}%' 
+				or AGE like '%${employeeNameStr}%' 
+				or BIRTHDAY like '%${employeeNameStr}%' 
+				or BELONG_UNIT like '%${employeeNameStr}%' 
+				or EMPLOYEE_NUMBER like '%${employeeNameStr}%'
+  </select>
+  
+</mapper>

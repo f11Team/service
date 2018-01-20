@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.wtrj.jx.web.portal.model.mt.dao.MtPayMapper">
+	<select id="selectYears" resultType="java.lang.Integer">
+		select distinct YEAR from
+		WTRJ_RPT_NC_PAY order by YEAR DESC
+	</select>
+	
+	<select id="searchPayOneYear" resultType="cn.com.wtrj.jx.web.portal.model.mt.entities.MtIntegerAndBigDecimalBean"
+		parameterType="java.lang.Integer">
+		select MONTH intName,SUM(PAY) as sumValue from WTRJ_RPT_NC_PAY where
+		YEAR = #{year} 
+		and org_code in (
+		   select distinct nr.org_code
+		                      from wtrj_user u
+		                      left join wtrj_user_role ur on u.id = ur.user_id
+		                      left join wtrj_role_nc_relationship nr on ur.role_id =
+		                                                                nr.role_id
+				        
+				                 where nr.org_code is not null 
+		                     and u.id= #{userId}
+		   )
+		GROUP BY MONTH 
+		ORDER BY MONTH
+	</select>
+	
+	<select id="searchPayOneMonth" resultType="cn.com.wtrj.jx.web.portal.model.mt.entities.MtStringAndBigDecimalBean">
+		select CNAME stringName,SUM(PAY) as sumValue 
+		from WTRJ_RPT_NC_PAY 
+    	where 1=1
+    	and "MONTH" &gt; 0
+    	<if test="year != null">
+    	and "YEAR"=#{year}
+    	</if>
+    	<if test="startDate != '' and startDate != null ">
+		and ("YEAR" || '-' || SUBSTR( '0' || "MONTH" , LENGTH('0' || "MONTH" ) - 1 ) || '-01') &gt;= #{startDate}
+    	</if>
+    	<if test="endDate != '' and endDate != null ">
+		and ("YEAR" || '-' || SUBSTR( '0' || "MONTH" , LENGTH('0' || "MONTH" ) - 1 ) || '-01') &lt;= #{endDate}
+    	</if>
+		and org_code in (
+		   select distinct nr.org_code
+		                      from wtrj_user u
+		                      left join wtrj_user_role ur on u.id = ur.user_id
+		                      left join wtrj_role_nc_relationship nr on ur.role_id = nr.role_id
+				        	  left join wtrj_org org on nr.org_code = org.code
+				                 where nr.org_code is not null 
+		                     and u.id= #{userId}
+							<if test="segementCode != null and segementCode != ''">
+		                     and org.segement_code = #{segementCode}
+							</if>
+							<if test="orgCode != null and orgCode != ''">
+		                     and org.code = #{orgCode}
+							</if>	
+		   )
+		GROUP BY CNAME 
+		ORDER BY sumValue DESC
+	</select>
+	
+	<select id="searchPayGroupByProject" resultType="cn.com.wtrj.jx.web.portal.model.mt.entities.MtStringAndBigDecimalBean"
+		parameterType="java.lang.Integer">
+		select SE.NAME stringName,SUM(P.PAY) sumValue 
+		from WTRJ_BUSINESS_SEGMENT SE 
+			LEFT JOIN WTRJ_ORG O
+ 				ON SE.code = O.Segement_Code  
+ 			LEFT JOIN WTRJ_RPT_NC_PAY P ON P.Org_Code = O.code 
+  			where P.YEAR =#{year} 
+  			and O.code in (
+			   select distinct nr.org_code
+			                      from wtrj_user u
+			                      left join wtrj_user_role ur on u.id = ur.user_id
+			                      left join wtrj_role_nc_relationship nr on ur.role_id =
+			                                                                nr.role_id
+					        
+					                 where nr.org_code is not null 
+			                     and u.id= #{userId}
+			   )
+  			GROUP BY SE.NAME ORDER BY sumValue DESC
+	</select>
+	
+	<select id="searchPayBySomeProject" resultType="cn.com.wtrj.jx.web.portal.model.mt.entities.MtStringAndBigDecimalBean">
+		select O.NICK_NAME stringName,SUM(P.PAY) sumValue 
+		 	from WTRJ_BUSINESS_SEGMENT SE 
+		 		LEFT JOIN WTRJ_ORG O
+				 ON SE.code = O.Segement_Code  
+				LEFT JOIN WTRJ_RPT_NC_PAY P 
+				 ON P.Org_Code = O.code 
+	 	 where P.YEAR = #{year} AND SE.NAME = #{project}
+	 	 and O.code in (
+			   select distinct nr.org_code
+			                      from wtrj_user u
+			                      left join wtrj_user_role ur on u.id = ur.user_id
+			                      left join wtrj_role_nc_relationship nr on ur.role_id =
+			                                                                nr.role_id
+					        
+					                 where nr.org_code is not null 
+			                     and u.id= #{userId}
+			   )
+	 	  GROUP BY O.NICK_NAME ORDER BY sumValue DESC
+
+	</select>
+	
+	<select id="searchPayBySomeOrgName" resultType="cn.com.wtrj.jx.web.portal.model.mt.entities.MtStringAndBigDecimalBean">
+		select P.CNAME stringName, SUM(P.PAY) as sumValue
+		  from WTRJ_RPT_NC_PAY P
+		  LEFT JOIN WTRJ_ORG O
+		ON P.Org_Code = O.Code
+		 where P.YEAR = #{year}
+		   and O.NICK_NAME = #{orgName}
+		   and O.code in (
+			   select distinct nr.org_code
+			                      from wtrj_user u
+			                      left join wtrj_user_role ur on u.id = ur.user_id
+			                      left join wtrj_role_nc_relationship nr on ur.role_id =
+			                                                                nr.role_id
+					        
+					                 where nr.org_code is not null 
+			                     and u.id= #{userId}
+			   )
+		 GROUP BY P.CNAME
+		 ORDER BY sumValue DESC
+	</select>
+</mapper>

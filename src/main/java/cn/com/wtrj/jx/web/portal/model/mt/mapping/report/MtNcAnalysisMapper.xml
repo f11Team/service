@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="cn.com.wtrj.jx.web.portal.model.mt.dao.report.MtNcAnalysisMapper">
+
+	<select id="selectNcAnalysisInfo"
+		resultType="cn.com.wtrj.jx.web.portal.model.mt.entities.report.MtNcAnalysisDto">
+		SELECT
+		org.code AS orgCode,
+		org.nick_name AS orgName,
+		se. NAME AS segmentName,
+		NVL(org.EMPLOYEE_NUM,0) AS employeeNum,
+		TSN.teacher,
+		TSN.student,
+		BS.asset,
+		BS.debt,
+		IE.income,
+		IE.expenditure,
+		FE.financial,
+		PF.grossProfit,
+		PF.netProfit,
+		CP.capital
+		FROM
+		wtrj_org org
+		LEFT JOIN wtrj_business_segment se ON org.segement_code = se.code
+		LEFT JOIN (
+		SELECT
+		org_code,
+		SUM (asset) AS asset,
+		SUM (debt) AS debt
+		FROM
+		WTRJ_RPT_NC_BALANCE_SHEET
+		WHERE 1=1
+		AND "MONTH" &gt;0
+		<if test="month != '' and month != null ">
+		and year=#{year}
+		</if>
+		<if test="month != '' and month != null ">
+		AND month=#{month}
+    	</if>
+    	<if test="startDate != '' and startDate != null ">
+		and TO_DATE("YEAR" || '-' || "MONTH" || '-01','yyyy-mm-dd') &gt;=TO_DATE(#{startDate}, 'yyyy-mm-dd')
+    	</if>
+    	<if test="endDate != '' and endDate != null ">
+		and TO_DATE("YEAR" || '-' || "MONTH" || '-01','yyyy-mm-dd') &lt;=TO_DATE(#{endDate}, 'yyyy-mm-dd')
+    	</if>
+		GROUP BY
+		org_code
+		) BS ON org.code = BS.org_code
+		LEFT JOIN (
+		SELECT
+		org_code,
+		SUM (income) AS income,
+		SUM (expenditure) AS expenditure
+		FROM
+		WTRJ_RPT_NC_INCOME_EXPENSE
+		WHERE 1=1
+		AND "MONTH" &gt;0
+		<if test="month != '' and month != null ">
+		and year=#{year}
+		</if>
+		<if test="month != '' and month != null ">
+		AND month=#{month}
+    	</if>
+    	<if test="startDate != '' and startDate != null ">
+		and TO_DATE("YEAR" || '-' || "MONTH" || '-01','yyyy-mm-dd') &gt;=TO_DATE(#{startDate}, 'yyyy-mm-dd')
+    	</if>
+    	<if test="endDate != '' and endDate != null ">
+		and TO_DATE("YEAR" || '-' || "MONTH" || '-01','yyyy-mm-dd') &lt;=TO_DATE(#{endDate}, 'yyyy-mm-dd')
+    	</if>
+		GROUP BY
+		org_code
+		) IE ON BS.org_code = IE.org_code
+		LEFT JOIN (
+		SELECT
+		org_code,
+		SUM (expense) AS financial
+		FROM
+		WTRJ_RPT_NC_FEE
+		WHERE 1=1
+		AND "MONTH" &gt;0
+		<if test="month != '' and month != null ">
+		and year=#{year}
+		</if>
+		<if test="month != '' and month != null ">
+		AND month=#{month}
+    	</if>
+    	<if test="startDate != '' and startDate != null ">
+		and TO_DATE("YEAR" || '-' || "MONTH" || '-01','yyyy-mm-dd') &gt;=TO_DATE(#{startDate}, 'yyyy-mm-dd')
+    	</if>
+    	<if test="endDate != '' and endDate != null ">
+		and TO_DATE("YEAR" || '-' || "MONTH" || '-01','yyyy-mm-dd') &lt;=TO_DATE(#{endDate}, 'yyyy-mm-dd')
+    	</if>
+		GROUP BY
+		org_code
+		) FE ON BS.org_code = FE.org_code
+		LEFT JOIN (
+		SELECT
+		org_code,
+		SUM (gross_profit) AS grossProfit,
+		SUM (net_profit) AS netProfit
+		FROM
+		WTRJ_RPT_NC_PROFIT
+		WHERE 1=1
+		AND "MONTH" &gt;0
+		<if test="month != '' and month != null ">
+		and year=#{year}
+		</if>
+		<if test="month != '' and month != null ">
+		AND month=#{month}
+    	</if>
+    	<if test="startDate != '' and startDate != null ">
+		and TO_DATE("YEAR" || '-' || "MONTH" || '-01','yyyy-mm-dd') &gt;=TO_DATE(#{startDate}, 'yyyy-mm-dd')
+    	</if>
+    	<if test="endDate != '' and endDate != null ">
+		and TO_DATE("YEAR" || '-' || "MONTH" || '-01','yyyy-mm-dd') &lt;=TO_DATE(#{endDate}, 'yyyy-mm-dd')
+    	</if>
+		GROUP BY
+		org_code
+		) PF ON BS.org_code = PF.org_code
+		LEFT JOIN (
+		SELECT
+		org_code,
+		SUM (money) AS capital
+		FROM
+		WTRJ_RPT_NC_CAPITAL
+		GROUP BY
+		org_code
+		) CP ON BS.org_code = CP.org_code
+		LEFT JOIN (
+		SELECT
+		TT.NC_ORG_CODE,
+		"SUM" (student) AS student,
+		"SUM" (teacher) AS teacher
+		FROM
+		(
+		SELECT
+		NC_ORG_CODE,
+		NVL (student, 0) AS student,
+		NVL (teacher, 0) AS teacher
+		FROM
+		WTRJ_SCHOOL_INFO aa
+		LEFT JOIN (
+		SELECT
+		SCHOOL_CODE AS schoolCode,
+		"COUNT" (ID_CARD_NUMBER) AS student
+		FROM
+		WTRJ_STUDENT
+		GROUP BY
+		SCHOOL_CODE
+		) SN ON SN.SCHOOLCODE = aa.CODE
+		LEFT JOIN (
+		SELECT
+		SCHOOL_CODE AS schoolCode,
+		"COUNT" ("ID") AS teacher
+		FROM
+		WTRJ_TEACHER
+		GROUP BY
+		SCHOOL_CODE
+		) TM ON TM.schoolCode = aa.code
+		WHERE
+		NC_ORG_CODE IS NOT NULL
+		) TT
+		GROUP BY
+		TT.NC_ORG_CODE
+		) TSN ON TSN.NC_ORG_CODE = org.code
+		WHERE
+		org.code IN (
+		SELECT DISTINCT
+		nr.org_code
+		FROM
+		wtrj_user U
+		LEFT JOIN wtrj_user_role ur ON U.ID = ur.user_id
+		LEFT JOIN wtrj_role_nc_relationship nr ON ur.role_id = nr.role_id
+		WHERE
+		nr.org_code IS NOT NULL
+		AND U . ID = #{userId}
+		)
+		ORDER BY
+		org.code ASC
+	</select>
+</mapper>

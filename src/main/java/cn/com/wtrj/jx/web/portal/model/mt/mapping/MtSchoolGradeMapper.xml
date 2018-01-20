@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.wtrj.jx.web.portal.model.mt.dao.MtSchoolGradeMapper" >
+  <resultMap id="BaseResultMap" type="cn.com.wtrj.jx.web.portal.model.entities.WtrjSchoolGradeKey" >
+    <id column="GRADE" property="grade" jdbcType="DECIMAL" />
+    <id column="SCHOOL_CODE" property="schoolCode" jdbcType="VARCHAR" />
+    <id column="STAGE" property="stage" jdbcType="DECIMAL" />
+  </resultMap>
+  <select id="searchStageBySchool" parameterType="String" resultType="Integer">
+  	SELECT DISTINCT STAGE FROM WTRJ_SCHOOL_GRADE WHERE SCHOOL_CODE=#{schoolCode}
+  </select>
+  
+  <select id="searchGradeBySchoolAndStage" resultType="Integer">
+  	SELECT GRADE FROM WTRJ_SCHOOL_GRADE WHERE SCHOOL_CODE=#{schoolCode} AND STAGE=#{stage}
+  </select>
+  
+   <select id="searchStageBySchoolCode" resultType="Integer" >
+  	SELECT  DISTINCT stage FROM WTRJ_SCHOOL_GRADE WHERE SCHOOL_CODE in (
+  	<foreach collection="schoolCodeList" item="schoolCode" separator=",">
+  		#{schoolCode}
+  	</foreach>
+  	)
+  </select>
+  
+  
+   <select id="searchGradeByStage" resultType="Integer" >
+  	SELECT GRADE FROM WTRJ_SCHOOL_GRADE WHERE stage=#{stage} and   SCHOOL_CODE in (
+  	<foreach collection="schoolCodes" item="code" separator=",">
+  			#{code}
+  	</foreach>
+  	)
+  </select>
+  
+   <select id="searchClassByGrade" resultType="Integer" >
+  	SELECT class_no FROM   wtrj_ecom_class   WHERE  grade=#{grade} and   stage =#{stage} and  SCHOOL_CODE in (
+  		<foreach collection="schoolCodes" item="code" separator=",">
+  			#{code}
+  	</foreach>
+  	)
+  </select>
+  
+  <select id="findSchoolCodeBySchoolCodesAndStage" resultType="String">
+  	select distinct school_code from wtrj_school_grade where school_code in(
+  		<foreach collection="schoolCodes" item="code" separator=",">
+  		#{code}
+  		</foreach>
+  	) and stage=#{stage}
+  </select>
+  
+  
+</mapper>

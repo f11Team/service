@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.wtrj.jx.web.portal.model.mt.dao.MtProfitMapper">
+	<select id="selectYears" resultType="java.lang.Integer">
+		select distinct YEAR from WTRJ_RPT_NC_PROFIT order by YEAR DESC
+	</select>
+
+	<select id="searchProfitAllYear"
+		resultType="cn.com.wtrj.jx.web.portal.model.mt.entities.MtIntegerAndBigDecimalBean"
+		parameterType="java.lang.Integer">
+		select YEAR, MONTH intName, NVL(SUM(NET_PROFIT),0) as sumValue,NVL(SUM (GROSS_PROFIT),0) AS sumMaoli
+		from WTRJ_RPT_NC_PROFIT
+    	where 1=1
+    	and "MONTH" &gt; 0
+    	<if test="year != null">
+    	and "YEAR"=#{year}
+    	</if>
+    	<if test="startDate != '' and startDate != null ">
+		and TO_DATE("YEAR" || '-' || "MONTH" || '-01','yyyy-mm-dd') &gt;=TO_DATE(#{startDate}, 'yyyy-mm-dd')
+    	</if>
+    	<if test="endDate != '' and endDate != null ">
+		and TO_DATE("YEAR" || '-' || "MONTH" || '-01','yyyy-mm-dd') &lt;=TO_DATE(#{endDate}, 'yyyy-mm-dd')
+    	</if>
+		and org_code in (
+		   select distinct nr.org_code
+		                      from wtrj_user u
+		                      left join wtrj_user_role ur on u.id = ur.user_id
+		                      left join wtrj_role_nc_relationship nr on ur.role_id = nr.role_id
+				        	  left join wtrj_org org on nr.org_code = org.code				        
+				                 where nr.org_code is not null 
+		                     and u.id= #{userId}
+							<if test="segementCode != null and segementCode != ''">
+		                     and org.segement_code = #{segementCode}
+							</if>
+							<if test="orgCode != null and orgCode != ''">
+		                     and org.code = #{orgCode}
+							</if>			                     
+		   )
+		GROUP BY YEAR, MONTH
+		ORDER BY YEAR, MONTH ASC
+
+	</select>
+
+	<select id="searchProfitByMonth"
+		resultType="cn.com.wtrj.jx.web.portal.model.mt.entities.MtStringAndBigDecimalBean">
+		select SE.NAME stringName,SUM(P.NET_PROFIT) sumValue
+		 from WTRJ_BUSINESS_SEGMENT SE
+		 LEFT JOIN WTRJ_ORG O
+ 			ON SE.code = O.Segement_Code  LEFT JOIN WTRJ_RPT_NC_PROFIT P
+ 			ON P.Org_Code = O.code 
+ 			where P.YEAR = #{year} AND P.MONTH = #{month} 
+			 and O.code in (
+			   select distinct nr.org_code
+			                      from wtrj_user u
+			                      left join wtrj_user_role ur on u.id = ur.user_id
+			                      left join wtrj_role_nc_relationship nr on ur.role_id =
+			                                                                nr.role_id
+					        
+					                 where nr.org_code is not null 
+			                     and u.id= #{userId}
+			   )		
+ 		GROUP BY SE.NAME ORDER BY sumValue DESC
+
+	</select>
+
+	<select id="searchProfitByMonthAndProject"
+		resultType="cn.com.wtrj.jx.web.portal.model.mt.entities.MtStringAndBigDecimalBean">
+		select O.NICK_NAME stringName,SUM(P.NET_PROFIT) sumValue 
+			from WTRJ_BUSINESS_SEGMENT SE 
+			LEFT JOIN WTRJ_ORG O
+ 			ON SE.code = O.Segement_Code  
+ 			LEFT JOIN WTRJ_RPT_NC_PROFIT P ON P.Org_Code = O.code 
+ 			and O.code in (
+			   select distinct nr.org_code
+			                      from wtrj_user u
+			                      left join wtrj_user_role ur on u.id = ur.user_id
+			                      left join wtrj_role_nc_relationship nr on ur.role_id =
+			                                                                nr.role_id
+					        
+					                 where nr.org_code is not null 
+			                     and u.id= #{userId}
+			   )		
+ 		 where P.YEAR = #{year} AND P.MONTH = #{month} AND SE.NAME=#{project} GROUP BY O.NICK_NAME ORDER BY sumValue DESC
+	</select>
+	
+	<select id="searchGrossProfitAllYear"
+		resultType="cn.com.wtrj.jx.web.portal.model.mt.entities.MtIntegerAndBigDecimalBean"
+		parameterType="java.lang.Integer">
+		select MONTH intName, SUM(GROSS_PROFIT) as sumValue
+		from WTRJ_RPT_NC_PROFIT
+		where YEAR = #{YEAR}
+		GROUP BY MONTH
+
+	</select>
+
+	<select id="searchGrossProfitByMonth"
+		resultType="cn.com.wtrj.jx.web.portal.model.mt.entities.MtStringAndBigDecimalBean">
+		select O.NICK_NAME stringName,SUM(P.GROSS_PROFIT) sumValue from WTRJ_BUSINESS_SEGMENT SE LEFT JOIN WTRJ_ORG O
+ 		ON SE.code = O.Segement_Code  LEFT JOIN WTRJ_RPT_NC_PROFIT P
+ 		ON P.Org_Code = O.code where P.YEAR = #{year} AND P.MONTH = #{month} GROUP BY SE.NAME ORDER BY O.NICK_NAME
+
+	</select>
+
+	<select id="searchGrossProfitByMonthAndProject"
+		resultType="cn.com.wtrj.jx.web.portal.model.mt.entities.MtStringAndBigDecimalBean">
+		select O.NICK_NAME stringName,SUM(P.GROSS_PROFIT) sumValue from WTRJ_BUSINESS_SEGMENT SE LEFT JOIN WTRJ_ORG O
+ ON SE.code = O.Segement_Code  LEFT JOIN WTRJ_RPT_NC_PROFIT P ON P.Org_Code = O.code 
+  where P.YEAR = #{year} AND P.MONTH = #{month} AND SE.NAME=#{project} GROUP BY O.NICK_NAME
+	</select>
+
+</mapper>

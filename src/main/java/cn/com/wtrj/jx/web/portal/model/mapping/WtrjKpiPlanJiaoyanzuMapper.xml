@@ -1,0 +1,386 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.wtrj.jx.web.portal.model.dao.WtrjKpiPlanJiaoyanzuMapper" >
+  <resultMap id="BaseResultMap" type="cn.com.wtrj.jx.web.portal.model.entities.WtrjKpiPlanJiaoyanzu" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="KPI_INS" property="kpiIns" jdbcType="DECIMAL" />
+    <result column="CODE" property="code" jdbcType="VARCHAR" />
+    <result column="KPI_PLAN_YOU" property="kpiPlanYou" jdbcType="DECIMAL" />
+    <result column="KPI_PLAN_YOU_UB" property="kpiPlanYouUb" jdbcType="DECIMAL" />
+    <result column="KPI_PLAN_YOU_LB" property="kpiPlanYouLb" jdbcType="DECIMAL" />
+    <result column="KPI_PLAN_LIANG" property="kpiPlanLiang" jdbcType="DECIMAL" />
+    <result column="KPI_PLAN_LIANG_UB" property="kpiPlanLiangUb" jdbcType="DECIMAL" />
+    <result column="KPI_PLAN_LIANG_LB" property="kpiPlanLiangLb" jdbcType="DECIMAL" />
+    <result column="KPI_PLAN_ZHONG" property="kpiPlanZhong" jdbcType="DECIMAL" />
+    <result column="KPI_PLAN_ZHONG_UB" property="kpiPlanZhongUb" jdbcType="DECIMAL" />
+    <result column="KPI_PLAN_ZHONG_LB" property="kpiPlanZhongLb" jdbcType="DECIMAL" />
+    <result column="KPI_PLAN_CHA" property="kpiPlanCha" jdbcType="DECIMAL" />
+    <result column="KPI_PLAN_CHA_UB" property="kpiPlanChaUb" jdbcType="DECIMAL" />
+    <result column="KPI_PLAN_CHA_LB" property="kpiPlanChaLb" jdbcType="DECIMAL" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, KPI_INS, CODE, KPI_PLAN_YOU, KPI_PLAN_YOU_UB, KPI_PLAN_YOU_LB, KPI_PLAN_LIANG, 
+    KPI_PLAN_LIANG_UB, KPI_PLAN_LIANG_LB, KPI_PLAN_ZHONG, KPI_PLAN_ZHONG_UB, KPI_PLAN_ZHONG_LB, 
+    KPI_PLAN_CHA, KPI_PLAN_CHA_UB, KPI_PLAN_CHA_LB, REMARK
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="cn.com.wtrj.jx.web.portal.model.entities.WtrjKpiPlanJiaoyanzuExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from WTRJ_KPI_PLAN_JIAOYANZU
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from WTRJ_KPI_PLAN_JIAOYANZU
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from WTRJ_KPI_PLAN_JIAOYANZU
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <delete id="deleteByExample" parameterType="cn.com.wtrj.jx.web.portal.model.entities.WtrjKpiPlanJiaoyanzuExample" >
+    delete from WTRJ_KPI_PLAN_JIAOYANZU
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="cn.com.wtrj.jx.web.portal.model.entities.WtrjKpiPlanJiaoyanzu" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      select Sequence_KPI_PLAN_JIAOYANZU.NEXTVAL from dual
+    </selectKey>
+    insert into WTRJ_KPI_PLAN_JIAOYANZU (KPI_INS, CODE, KPI_PLAN_YOU, 
+      KPI_PLAN_YOU_UB, KPI_PLAN_YOU_LB, KPI_PLAN_LIANG, 
+      KPI_PLAN_LIANG_UB, KPI_PLAN_LIANG_LB, KPI_PLAN_ZHONG, 
+      KPI_PLAN_ZHONG_UB, KPI_PLAN_ZHONG_LB, KPI_PLAN_CHA, 
+      KPI_PLAN_CHA_UB, KPI_PLAN_CHA_LB, REMARK
+      )
+    values (#{kpiIns,jdbcType=DECIMAL}, #{code,jdbcType=VARCHAR}, #{kpiPlanYou,jdbcType=DECIMAL}, 
+      #{kpiPlanYouUb,jdbcType=DECIMAL}, #{kpiPlanYouLb,jdbcType=DECIMAL}, #{kpiPlanLiang,jdbcType=DECIMAL}, 
+      #{kpiPlanLiangUb,jdbcType=DECIMAL}, #{kpiPlanLiangLb,jdbcType=DECIMAL}, #{kpiPlanZhong,jdbcType=DECIMAL}, 
+      #{kpiPlanZhongUb,jdbcType=DECIMAL}, #{kpiPlanZhongLb,jdbcType=DECIMAL}, #{kpiPlanCha,jdbcType=DECIMAL}, 
+      #{kpiPlanChaUb,jdbcType=DECIMAL}, #{kpiPlanChaLb,jdbcType=DECIMAL}, #{remark,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="cn.com.wtrj.jx.web.portal.model.entities.WtrjKpiPlanJiaoyanzu" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      select Sequence_KPI_PLAN_JIAOYANZU.NEXTVAL from dual
+    </selectKey>
+    insert into WTRJ_KPI_PLAN_JIAOYANZU
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="kpiIns != null" >
+        KPI_INS,
+      </if>
+      <if test="code != null" >
+        CODE,
+      </if>
+      <if test="kpiPlanYou != null" >
+        KPI_PLAN_YOU,
+      </if>
+      <if test="kpiPlanYouUb != null" >
+        KPI_PLAN_YOU_UB,
+      </if>
+      <if test="kpiPlanYouLb != null" >
+        KPI_PLAN_YOU_LB,
+      </if>
+      <if test="kpiPlanLiang != null" >
+        KPI_PLAN_LIANG,
+      </if>
+      <if test="kpiPlanLiangUb != null" >
+        KPI_PLAN_LIANG_UB,
+      </if>
+      <if test="kpiPlanLiangLb != null" >
+        KPI_PLAN_LIANG_LB,
+      </if>
+      <if test="kpiPlanZhong != null" >
+        KPI_PLAN_ZHONG,
+      </if>
+      <if test="kpiPlanZhongUb != null" >
+        KPI_PLAN_ZHONG_UB,
+      </if>
+      <if test="kpiPlanZhongLb != null" >
+        KPI_PLAN_ZHONG_LB,
+      </if>
+      <if test="kpiPlanCha != null" >
+        KPI_PLAN_CHA,
+      </if>
+      <if test="kpiPlanChaUb != null" >
+        KPI_PLAN_CHA_UB,
+      </if>
+      <if test="kpiPlanChaLb != null" >
+        KPI_PLAN_CHA_LB,
+      </if>
+      <if test="remark != null" >
+        REMARK,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="kpiIns != null" >
+        #{kpiIns,jdbcType=DECIMAL},
+      </if>
+      <if test="code != null" >
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="kpiPlanYou != null" >
+        #{kpiPlanYou,jdbcType=DECIMAL},
+      </if>
+      <if test="kpiPlanYouUb != null" >
+        #{kpiPlanYouUb,jdbcType=DECIMAL},
+      </if>
+      <if test="kpiPlanYouLb != null" >
+        #{kpiPlanYouLb,jdbcType=DECIMAL},
+      </if>
+      <if test="kpiPlanLiang != null" >
+        #{kpiPlanLiang,jdbcType=DECIMAL},
+      </if>
+      <if test="kpiPlanLiangUb != null" >
+        #{kpiPlanLiangUb,jdbcType=DECIMAL},
+      </if>
+      <if test="kpiPlanLiangLb != null" >
+        #{kpiPlanLiangLb,jdbcType=DECIMAL},
+      </if>
+      <if test="kpiPlanZhong != null" >
+        #{kpiPlanZhong,jdbcType=DECIMAL},
+      </if>
+      <if test="kpiPlanZhongUb != null" >
+        #{kpiPlanZhongUb,jdbcType=DECIMAL},
+      </if>
+      <if test="kpiPlanZhongLb != null" >
+        #{kpiPlanZhongLb,jdbcType=DECIMAL},
+      </if>
+      <if test="kpiPlanCha != null" >
+        #{kpiPlanCha,jdbcType=DECIMAL},
+      </if>
+      <if test="kpiPlanChaUb != null" >
+        #{kpiPlanChaUb,jdbcType=DECIMAL},
+      </if>
+      <if test="kpiPlanChaLb != null" >
+        #{kpiPlanChaLb,jdbcType=DECIMAL},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="cn.com.wtrj.jx.web.portal.model.entities.WtrjKpiPlanJiaoyanzuExample" resultType="java.lang.Integer" >
+    select count(*) from WTRJ_KPI_PLAN_JIAOYANZU
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update WTRJ_KPI_PLAN_JIAOYANZU
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=DECIMAL},
+      </if>
+      <if test="record.kpiIns != null" >
+        KPI_INS = #{record.kpiIns,jdbcType=DECIMAL},
+      </if>
+      <if test="record.code != null" >
+        CODE = #{record.code,jdbcType=VARCHAR},
+      </if>
+      <if test="record.kpiPlanYou != null" >
+        KPI_PLAN_YOU = #{record.kpiPlanYou,jdbcType=DECIMAL},
+      </if>
+      <if test="record.kpiPlanYouUb != null" >
+        KPI_PLAN_YOU_UB = #{record.kpiPlanYouUb,jdbcType=DECIMAL},
+      </if>
+      <if test="record.kpiPlanYouLb != null" >
+        KPI_PLAN_YOU_LB = #{record.kpiPlanYouLb,jdbcType=DECIMAL},
+      </if>
+      <if test="record.kpiPlanLiang != null" >
+        KPI_PLAN_LIANG = #{record.kpiPlanLiang,jdbcType=DECIMAL},
+      </if>
+      <if test="record.kpiPlanLiangUb != null" >
+        KPI_PLAN_LIANG_UB = #{record.kpiPlanLiangUb,jdbcType=DECIMAL},
+      </if>
+      <if test="record.kpiPlanLiangLb != null" >
+        KPI_PLAN_LIANG_LB = #{record.kpiPlanLiangLb,jdbcType=DECIMAL},
+      </if>
+      <if test="record.kpiPlanZhong != null" >
+        KPI_PLAN_ZHONG = #{record.kpiPlanZhong,jdbcType=DECIMAL},
+      </if>
+      <if test="record.kpiPlanZhongUb != null" >
+        KPI_PLAN_ZHONG_UB = #{record.kpiPlanZhongUb,jdbcType=DECIMAL},
+      </if>
+      <if test="record.kpiPlanZhongLb != null" >
+        KPI_PLAN_ZHONG_LB = #{record.kpiPlanZhongLb,jdbcType=DECIMAL},
+      </if>
+      <if test="record.kpiPlanCha != null" >
+        KPI_PLAN_CHA = #{record.kpiPlanCha,jdbcType=DECIMAL},
+      </if>
+      <if test="record.kpiPlanChaUb != null" >
+        KPI_PLAN_CHA_UB = #{record.kpiPlanChaUb,jdbcType=DECIMAL},
+      </if>
+      <if test="record.kpiPlanChaLb != null" >
+        KPI_PLAN_CHA_LB = #{record.kpiPlanChaLb,jdbcType=DECIMAL},
+      </if>
+      <if test="record.remark != null" >
+        REMARK = #{record.remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update WTRJ_KPI_PLAN_JIAOYANZU
+    set ID = #{record.id,jdbcType=DECIMAL},
+      KPI_INS = #{record.kpiIns,jdbcType=DECIMAL},
+      CODE = #{record.code,jdbcType=VARCHAR},
+      KPI_PLAN_YOU = #{record.kpiPlanYou,jdbcType=DECIMAL},
+      KPI_PLAN_YOU_UB = #{record.kpiPlanYouUb,jdbcType=DECIMAL},
+      KPI_PLAN_YOU_LB = #{record.kpiPlanYouLb,jdbcType=DECIMAL},
+      KPI_PLAN_LIANG = #{record.kpiPlanLiang,jdbcType=DECIMAL},
+      KPI_PLAN_LIANG_UB = #{record.kpiPlanLiangUb,jdbcType=DECIMAL},
+      KPI_PLAN_LIANG_LB = #{record.kpiPlanLiangLb,jdbcType=DECIMAL},
+      KPI_PLAN_ZHONG = #{record.kpiPlanZhong,jdbcType=DECIMAL},
+      KPI_PLAN_ZHONG_UB = #{record.kpiPlanZhongUb,jdbcType=DECIMAL},
+      KPI_PLAN_ZHONG_LB = #{record.kpiPlanZhongLb,jdbcType=DECIMAL},
+      KPI_PLAN_CHA = #{record.kpiPlanCha,jdbcType=DECIMAL},
+      KPI_PLAN_CHA_UB = #{record.kpiPlanChaUb,jdbcType=DECIMAL},
+      KPI_PLAN_CHA_LB = #{record.kpiPlanChaLb,jdbcType=DECIMAL},
+      REMARK = #{record.remark,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.com.wtrj.jx.web.portal.model.entities.WtrjKpiPlanJiaoyanzu" >
+    update WTRJ_KPI_PLAN_JIAOYANZU
+    <set >
+      <if test="kpiIns != null" >
+        KPI_INS = #{kpiIns,jdbcType=DECIMAL},
+      </if>
+      <if test="code != null" >
+        CODE = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="kpiPlanYou != null" >
+        KPI_PLAN_YOU = #{kpiPlanYou,jdbcType=DECIMAL},
+      </if>
+      <if test="kpiPlanYouUb != null" >
+        KPI_PLAN_YOU_UB = #{kpiPlanYouUb,jdbcType=DECIMAL},
+      </if>
+      <if test="kpiPlanYouLb != null" >
+        KPI_PLAN_YOU_LB = #{kpiPlanYouLb,jdbcType=DECIMAL},
+      </if>
+      <if test="kpiPlanLiang != null" >
+        KPI_PLAN_LIANG = #{kpiPlanLiang,jdbcType=DECIMAL},
+      </if>
+      <if test="kpiPlanLiangUb != null" >
+        KPI_PLAN_LIANG_UB = #{kpiPlanLiangUb,jdbcType=DECIMAL},
+      </if>
+      <if test="kpiPlanLiangLb != null" >
+        KPI_PLAN_LIANG_LB = #{kpiPlanLiangLb,jdbcType=DECIMAL},
+      </if>
+      <if test="kpiPlanZhong != null" >
+        KPI_PLAN_ZHONG = #{kpiPlanZhong,jdbcType=DECIMAL},
+      </if>
+      <if test="kpiPlanZhongUb != null" >
+        KPI_PLAN_ZHONG_UB = #{kpiPlanZhongUb,jdbcType=DECIMAL},
+      </if>
+      <if test="kpiPlanZhongLb != null" >
+        KPI_PLAN_ZHONG_LB = #{kpiPlanZhongLb,jdbcType=DECIMAL},
+      </if>
+      <if test="kpiPlanCha != null" >
+        KPI_PLAN_CHA = #{kpiPlanCha,jdbcType=DECIMAL},
+      </if>
+      <if test="kpiPlanChaUb != null" >
+        KPI_PLAN_CHA_UB = #{kpiPlanChaUb,jdbcType=DECIMAL},
+      </if>
+      <if test="kpiPlanChaLb != null" >
+        KPI_PLAN_CHA_LB = #{kpiPlanChaLb,jdbcType=DECIMAL},
+      </if>
+      <if test="remark != null" >
+        REMARK = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.com.wtrj.jx.web.portal.model.entities.WtrjKpiPlanJiaoyanzu" >
+    update WTRJ_KPI_PLAN_JIAOYANZU
+    set KPI_INS = #{kpiIns,jdbcType=DECIMAL},
+      CODE = #{code,jdbcType=VARCHAR},
+      KPI_PLAN_YOU = #{kpiPlanYou,jdbcType=DECIMAL},
+      KPI_PLAN_YOU_UB = #{kpiPlanYouUb,jdbcType=DECIMAL},
+      KPI_PLAN_YOU_LB = #{kpiPlanYouLb,jdbcType=DECIMAL},
+      KPI_PLAN_LIANG = #{kpiPlanLiang,jdbcType=DECIMAL},
+      KPI_PLAN_LIANG_UB = #{kpiPlanLiangUb,jdbcType=DECIMAL},
+      KPI_PLAN_LIANG_LB = #{kpiPlanLiangLb,jdbcType=DECIMAL},
+      KPI_PLAN_ZHONG = #{kpiPlanZhong,jdbcType=DECIMAL},
+      KPI_PLAN_ZHONG_UB = #{kpiPlanZhongUb,jdbcType=DECIMAL},
+      KPI_PLAN_ZHONG_LB = #{kpiPlanZhongLb,jdbcType=DECIMAL},
+      KPI_PLAN_CHA = #{kpiPlanCha,jdbcType=DECIMAL},
+      KPI_PLAN_CHA_UB = #{kpiPlanChaUb,jdbcType=DECIMAL},
+      KPI_PLAN_CHA_LB = #{kpiPlanChaLb,jdbcType=DECIMAL},
+      REMARK = #{remark,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

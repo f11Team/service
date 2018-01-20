@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.wtrj.jx.web.portal.model.mt.dao.MtNoticeMapper">
+  	<select id="selectClassParents" resultType="cn.com.wtrj.jx.web.portal.model.mt.entities.MtClassParentDto">
+  	select distinct c.class_no       as classNo,
+	           c.school_code    as schoolCode,
+	           c.stage          as stage,
+	           c.grade          as grade,
+	           s.name           as studentName,
+	           s.id_card_number as studentIdCardNo,
+	           p.name           as parentName,
+	           p.phone          as parentPhone,
+	           c.class_name     as className,
+	           s.student_code as studentCode
+	      from wtrj_ecom_class c
+		      left join wtrj_ecom_permission tc on c.id = tc.class_id
+		      left join wtrj_student s on s.class_id = c.id
+		      left join wtrj_stu_parent_relationship sp on sp.student_id = s.id
+		      left join wtrj_parent p on p.id = sp.parent_id
+	     where p.id is not null
+		   and c.school_code = #{schoolCode}
+		   and c.stage = #{stage}
+		   and c.grade = #{grade}
+		   and c.class_no = #{classNo}
+		   ORDER BY cast(s.student_code as int) ASC
+  	</select>
+  	
+  	<select id="selectCourseParents" resultType="cn.com.wtrj.jx.web.portal.model.mt.entities.MtClassParentDto">
+  		select distinct c.class_no       as classNo,
+	           c.school_code    as schoolCode,
+	           c.stage          as stage,
+	           c.grade          as grade,
+	           s.name           as studentName,
+	           s.id_card_number as studentIdCardNo,
+	           p.name           as parentName,
+	           p.phone          as parentPhone
+	      from wtrj_ecom_class c
+		      left join wtrj_ecom_permission tc on c.id = tc.class_id
+		      left join wtrj_student s on s.class_id = c.id
+		      left join wtrj_stu_parent_relationship sp on sp.student_id = s.id
+		      left join wtrj_parent p on p.id = sp.parent_id
+	     where p.id is not null
+		   and c.school_code = #{schoolCode}
+		   and c.stage = #{stage}
+		   and c.grade = #{grade}
+		   and c.class_no = #{classNo}
+		   and tc.course_code = #{course}
+  	</select>
+  	
+  	<select id="selectCourseClasses" resultType="cn.com.wtrj.jx.web.portal.model.mt.entities.MtCourseClassDto">
+		select distinct c.class_no    as classNo,
+		                    c.school_code as schoolCode,
+		                    c.stage       as stage,
+		                    c.grade       as grade,
+		                    c.class_name as className,
+		                    c.id as classId
+		      from wtrj_ecom_class c
+		       left join wtrj_ecom_permission pm on c.id = pm.class_id
+        where pm.id is not null
+		   and c.school_code = #{schoolCode}
+		   and c.stage = #{stage}
+		   and c.grade = #{grade}
+		   and pm.course_code = #{course}
+  	</select>
+  	
+  	<select id="selectClassTeachers" resultType="cn.com.wtrj.jx.web.portal.model.mt.entities.MtClassTeacherDto">
+		select distinct ec.school_code as schoolCode,
+				       ec.stage       as stage,
+				       ec.grade       as grade,
+				       ec.class_no    as classNo,
+				       ec.class_name  as className,
+				       t.name         as teacherName,
+				       t.phone        as teacherPhone,
+				       pm.teacher_id  as teacherId,
+				       pm.course_code as courseCode,
+		               pm.course_name as courseName,
+		               pm.type        as role,
+		               pm.class_id    as classId
+				  from wtrj_ecom_class ec
+				  left join wtrj_ecom_permission pm on ec.id = pm.class_id
+				  left join wtrj_teacher t on t.id = pm.teacher_id
+		 where t.id is not null
+		   and ec.school_code = #{schoolCode}
+		   and ec.stage = #{stage}
+		   and ec.grade = #{grade}
+		   and ec.class_no = #{classNo}
+		   <if test="course!=null">
+		   and pm.course_code = #{course}
+		   </if>
+  	</select>
+  	
+  	<select id="selectSchoolStageTeachers" resultType="cn.com.wtrj.jx.web.portal.model.mt.entities.MtSchoolTeacherInfo">
+		select distinct p.teacher_id  as teacherId,
+		       p.school_code as schoolCode,
+		       p.stage       as stage,
+		       t.name        as teacherName,
+		       t.phone       as mobile
+		  from wtrj_ecom_permission p
+		  left join wtrj_teacher t on p.teacher_id = t.id
+		 where p.school_code = #{schoolCode}
+			and p.stage = #{stage}
+		    and p.type in ('4', '5', '6', '7', '99', '101')
+  	</select>
+  	
+  	<select id="selectSchoolTeachers" resultType="cn.com.wtrj.jx.web.portal.model.mt.entities.MtSchoolTeacherInfo">
+		select distinct p.teacher_id  as teacherId,
+		       p.school_code as schoolCode,
+		       p.stage       as stage,
+		       t.name        as teacherName,
+		       t.phone       as mobile
+		  from wtrj_ecom_permission p
+		  left join wtrj_teacher t on p.teacher_id = t.id
+		 where p.school_code = #{schoolCode}
+		    and p.type in ('4', '5', '6', '7', '99', '101')
+  	</select>
+  	
+  	<select id="selectShortMsgNoticeSendStatus" resultType="cn.com.wtrj.jx.web.portal.model.mt.entities.MtNoticeSendStatus">
+		select t.name         as teacherName,
+		       t.phone        as mobile,
+		       t.job_number   as jobNo,
+		       m.success_flag as status
+		  from wtrj_rpt_msg m
+		  left join wtrj_teacher t on m.to_user = t.phone
+		 where m.msg_code = #{msgCode} and m.msg_type = '2'
+  	</select>
+  	
+  	<select id="selectWxNoticeSendStatus" resultType="cn.com.wtrj.jx.web.portal.model.mt.entities.MtNoticeSendStatus">
+		select t.name         as teacherName,
+		       t.phone        as mobile,
+		       t.job_number   as jobNo,
+		       m.success_flag as status
+		  from wtrj_rpt_msg m
+		  left join wtrj_teacher t on m.to_user = t.job_number
+		 where m.msg_code = #{msgCode} and m.msg_type = '1'
+  	</select>
+  	
+    <select id="selectParentNoticeSendStatus" resultType="cn.com.wtrj.jx.web.portal.model.mt.entities.MtParentNoticeSendStatus">
+		select p.name         as parentName,
+		       s.name         as studentName,
+		       p.phone        as mobile,
+		       m.success_flag as status,
+		       m.msg_type as msgType
+		  from wtrj_rpt_msg m
+		  left join wtrj_parent p on m.to_user = p.phone
+		  left join wtrj_stu_parent_relationship spr on spr.parent_id = p.id
+		  left join wtrj_student s on s.id = spr.student_id
+		 where m.msg_code = #{msgCode}
+  	</select>
+</mapper>

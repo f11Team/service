@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.wtrj.jx.web.portal.model.dao.WtrjEcomSwipeCardSettingMapper" >
+  <resultMap id="BaseResultMap" type="cn.com.wtrj.jx.web.portal.model.entities.WtrjEcomSwipeCardSetting" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="IP" property="ip" jdbcType="VARCHAR" />
+    <result column="PORT" property="port" jdbcType="VARCHAR" />
+    <result column="PLACE" property="place" jdbcType="VARCHAR" />
+    <result column="MARK" property="mark" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="BL_SEND_PARENT" property="blSendParent" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, IP, PORT, PLACE, MARK, CREATE_TIME, UPDATE_TIME, BL_SEND_PARENT
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="cn.com.wtrj.jx.web.portal.model.entities.WtrjEcomSwipeCardSettingExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from WTRJ_ECOM_SWIPE_CARD_SETTING
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from WTRJ_ECOM_SWIPE_CARD_SETTING
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from WTRJ_ECOM_SWIPE_CARD_SETTING
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <delete id="deleteByExample" parameterType="cn.com.wtrj.jx.web.portal.model.entities.WtrjEcomSwipeCardSettingExample" >
+    delete from WTRJ_ECOM_SWIPE_CARD_SETTING
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="cn.com.wtrj.jx.web.portal.model.entities.WtrjEcomSwipeCardSetting" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      select SQ_ECOM_SWIPE_CARD_SETTING.NEXTVAL from dual
+    </selectKey>
+    insert into WTRJ_ECOM_SWIPE_CARD_SETTING (IP, PORT, PLACE, 
+      MARK, CREATE_TIME, UPDATE_TIME, 
+      BL_SEND_PARENT)
+    values (#{ip,jdbcType=VARCHAR}, #{port,jdbcType=VARCHAR}, #{place,jdbcType=VARCHAR}, 
+      #{mark,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{blSendParent,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.com.wtrj.jx.web.portal.model.entities.WtrjEcomSwipeCardSetting" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      select SQ_ECOM_SWIPE_CARD_SETTING.NEXTVAL from dual
+    </selectKey>
+    insert into WTRJ_ECOM_SWIPE_CARD_SETTING
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="ip != null" >
+        IP,
+      </if>
+      <if test="port != null" >
+        PORT,
+      </if>
+      <if test="place != null" >
+        PLACE,
+      </if>
+      <if test="mark != null" >
+        MARK,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME,
+      </if>
+      <if test="blSendParent != null" >
+        BL_SEND_PARENT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="ip != null" >
+        #{ip,jdbcType=VARCHAR},
+      </if>
+      <if test="port != null" >
+        #{port,jdbcType=VARCHAR},
+      </if>
+      <if test="place != null" >
+        #{place,jdbcType=VARCHAR},
+      </if>
+      <if test="mark != null" >
+        #{mark,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="blSendParent != null" >
+        #{blSendParent,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="cn.com.wtrj.jx.web.portal.model.entities.WtrjEcomSwipeCardSettingExample" resultType="java.lang.Integer" >
+    select count(*) from WTRJ_ECOM_SWIPE_CARD_SETTING
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update WTRJ_ECOM_SWIPE_CARD_SETTING
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=DECIMAL},
+      </if>
+      <if test="record.ip != null" >
+        IP = #{record.ip,jdbcType=VARCHAR},
+      </if>
+      <if test="record.port != null" >
+        PORT = #{record.port,jdbcType=VARCHAR},
+      </if>
+      <if test="record.place != null" >
+        PLACE = #{record.place,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mark != null" >
+        MARK = #{record.mark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null" >
+        CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateTime != null" >
+        UPDATE_TIME = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.blSendParent != null" >
+        BL_SEND_PARENT = #{record.blSendParent,jdbcType=CHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update WTRJ_ECOM_SWIPE_CARD_SETTING
+    set ID = #{record.id,jdbcType=DECIMAL},
+      IP = #{record.ip,jdbcType=VARCHAR},
+      PORT = #{record.port,jdbcType=VARCHAR},
+      PLACE = #{record.place,jdbcType=VARCHAR},
+      MARK = #{record.mark,jdbcType=VARCHAR},
+      CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      UPDATE_TIME = #{record.updateTime,jdbcType=TIMESTAMP},
+      BL_SEND_PARENT = #{record.blSendParent,jdbcType=CHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.com.wtrj.jx.web.portal.model.entities.WtrjEcomSwipeCardSetting" >
+    update WTRJ_ECOM_SWIPE_CARD_SETTING
+    <set >
+      <if test="ip != null" >
+        IP = #{ip,jdbcType=VARCHAR},
+      </if>
+      <if test="port != null" >
+        PORT = #{port,jdbcType=VARCHAR},
+      </if>
+      <if test="place != null" >
+        PLACE = #{place,jdbcType=VARCHAR},
+      </if>
+      <if test="mark != null" >
+        MARK = #{mark,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="blSendParent != null" >
+        BL_SEND_PARENT = #{blSendParent,jdbcType=CHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.com.wtrj.jx.web.portal.model.entities.WtrjEcomSwipeCardSetting" >
+    update WTRJ_ECOM_SWIPE_CARD_SETTING
+    set IP = #{ip,jdbcType=VARCHAR},
+      PORT = #{port,jdbcType=VARCHAR},
+      PLACE = #{place,jdbcType=VARCHAR},
+      MARK = #{mark,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      BL_SEND_PARENT = #{blSendParent,jdbcType=CHAR}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

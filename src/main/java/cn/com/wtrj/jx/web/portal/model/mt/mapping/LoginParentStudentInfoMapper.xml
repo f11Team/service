@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.wtrj.jx.web.portal.model.mt.dao.LoginParentStudentInfoMapper">
+	<select id="searchLoginParentStudentInfo" resultType="cn.com.wtrj.jx.web.portal.model.mt.entities.LoginParentStudentInfoBean">
+		select t.APPELLATION as APPELLATION,
+		       s.NAME as stuName,
+		       s.SEX as stuSex,
+		       s.ID as stuId,
+		       s.ID_CARD_NUMBER as stuIdCard,
+		       s.GRADE_NO  as stuGrade,
+		       p.NAME as parentName,
+		       p.PHONE as parentPhone,
+		       P.ID as parentId
+		  from WTRJ_STU_PARENT_RELATIONSHIP t
+		  left join WTRJ_STUDENT s on t.STUDENT_ID = s.ID
+		  left join WTRJ_PARENT p on p.ID = t.PARENT_ID
+		  where p.PHONE=#{parentPhone}
+  
+	</select>
+	
+</mapper>

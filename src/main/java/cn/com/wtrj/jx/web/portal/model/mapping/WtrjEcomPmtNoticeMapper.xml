@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.wtrj.jx.web.portal.model.dao.WtrjEcomPmtNoticeMapper" >
+  <resultMap id="BaseResultMap" type="cn.com.wtrj.jx.web.portal.model.entities.WtrjEcomPmtNotice" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="METTING_ID" property="mettingId" jdbcType="DECIMAL" />
+    <result column="STUDENT_NO" property="studentNo" jdbcType="VARCHAR" />
+    <result column="STUDENT_NAME" property="studentName" jdbcType="VARCHAR" />
+    <result column="NOTICE_STATUS" property="noticeStatus" jdbcType="VARCHAR" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, METTING_ID, STUDENT_NO, STUDENT_NAME, NOTICE_STATUS, REMARK, CREATE_TIME, UPDATE_TIME
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="cn.com.wtrj.jx.web.portal.model.entities.WtrjEcomPmtNoticeExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from WTRJ_ECOM_PMT_NOTICE
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from WTRJ_ECOM_PMT_NOTICE
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from WTRJ_ECOM_PMT_NOTICE
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <delete id="deleteByExample" parameterType="cn.com.wtrj.jx.web.portal.model.entities.WtrjEcomPmtNoticeExample" >
+    delete from WTRJ_ECOM_PMT_NOTICE
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="cn.com.wtrj.jx.web.portal.model.entities.WtrjEcomPmtNotice" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      select SQ_ECOM_PM_NOTICE.NEXTVAL from dual
+    </selectKey>
+    insert into WTRJ_ECOM_PMT_NOTICE (METTING_ID, STUDENT_NO, STUDENT_NAME, 
+      NOTICE_STATUS, REMARK, CREATE_TIME, 
+      UPDATE_TIME)
+    values (#{mettingId,jdbcType=DECIMAL}, #{studentNo,jdbcType=VARCHAR}, #{studentName,jdbcType=VARCHAR}, 
+      #{noticeStatus,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.com.wtrj.jx.web.portal.model.entities.WtrjEcomPmtNotice" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      select SQ_ECOM_PM_NOTICE.NEXTVAL from dual
+    </selectKey>
+    insert into WTRJ_ECOM_PMT_NOTICE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="mettingId != null" >
+        METTING_ID,
+      </if>
+      <if test="studentNo != null" >
+        STUDENT_NO,
+      </if>
+      <if test="studentName != null" >
+        STUDENT_NAME,
+      </if>
+      <if test="noticeStatus != null" >
+        NOTICE_STATUS,
+      </if>
+      <if test="remark != null" >
+        REMARK,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="mettingId != null" >
+        #{mettingId,jdbcType=DECIMAL},
+      </if>
+      <if test="studentNo != null" >
+        #{studentNo,jdbcType=VARCHAR},
+      </if>
+      <if test="studentName != null" >
+        #{studentName,jdbcType=VARCHAR},
+      </if>
+      <if test="noticeStatus != null" >
+        #{noticeStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="cn.com.wtrj.jx.web.portal.model.entities.WtrjEcomPmtNoticeExample" resultType="java.lang.Integer" >
+    select count(*) from WTRJ_ECOM_PMT_NOTICE
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update WTRJ_ECOM_PMT_NOTICE
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=DECIMAL},
+      </if>
+      <if test="record.mettingId != null" >
+        METTING_ID = #{record.mettingId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.studentNo != null" >
+        STUDENT_NO = #{record.studentNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.studentName != null" >
+        STUDENT_NAME = #{record.studentName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.noticeStatus != null" >
+        NOTICE_STATUS = #{record.noticeStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="record.remark != null" >
+        REMARK = #{record.remark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null" >
+        CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateTime != null" >
+        UPDATE_TIME = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update WTRJ_ECOM_PMT_NOTICE
+    set ID = #{record.id,jdbcType=DECIMAL},
+      METTING_ID = #{record.mettingId,jdbcType=DECIMAL},
+      STUDENT_NO = #{record.studentNo,jdbcType=VARCHAR},
+      STUDENT_NAME = #{record.studentName,jdbcType=VARCHAR},
+      NOTICE_STATUS = #{record.noticeStatus,jdbcType=VARCHAR},
+      REMARK = #{record.remark,jdbcType=VARCHAR},
+      CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      UPDATE_TIME = #{record.updateTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.com.wtrj.jx.web.portal.model.entities.WtrjEcomPmtNotice" >
+    update WTRJ_ECOM_PMT_NOTICE
+    <set >
+      <if test="mettingId != null" >
+        METTING_ID = #{mettingId,jdbcType=DECIMAL},
+      </if>
+      <if test="studentNo != null" >
+        STUDENT_NO = #{studentNo,jdbcType=VARCHAR},
+      </if>
+      <if test="studentName != null" >
+        STUDENT_NAME = #{studentName,jdbcType=VARCHAR},
+      </if>
+      <if test="noticeStatus != null" >
+        NOTICE_STATUS = #{noticeStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        REMARK = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.com.wtrj.jx.web.portal.model.entities.WtrjEcomPmtNotice" >
+    update WTRJ_ECOM_PMT_NOTICE
+    set METTING_ID = #{mettingId,jdbcType=DECIMAL},
+      STUDENT_NO = #{studentNo,jdbcType=VARCHAR},
+      STUDENT_NAME = #{studentName,jdbcType=VARCHAR},
+      NOTICE_STATUS = #{noticeStatus,jdbcType=VARCHAR},
+      REMARK = #{remark,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

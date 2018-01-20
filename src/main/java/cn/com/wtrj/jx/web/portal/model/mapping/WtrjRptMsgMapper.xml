@@ -1,0 +1,303 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.wtrj.jx.web.portal.model.dao.WtrjRptMsgMapper" >
+  <resultMap id="BaseResultMap" type="cn.com.wtrj.jx.web.portal.model.entities.WtrjRptMsg" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="TYPE" property="type" jdbcType="VARCHAR" />
+    <result column="MSG_TYPE" property="msgType" jdbcType="VARCHAR" />
+    <result column="TO_USER" property="toUser" jdbcType="VARCHAR" />
+    <result column="SEND_UESR" property="sendUesr" jdbcType="VARCHAR" />
+    <result column="CONTENT" property="content" jdbcType="VARCHAR" />
+    <result column="SEND_TIME" property="sendTime" jdbcType="TIMESTAMP" />
+    <result column="SEND_RESULT" property="sendResult" jdbcType="VARCHAR" />
+    <result column="SUCCESS_FLAG" property="successFlag" jdbcType="CHAR" />
+    <result column="MSG_CODE" property="msgCode" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, TYPE, MSG_TYPE, TO_USER, SEND_UESR, CONTENT, SEND_TIME, SEND_RESULT, SUCCESS_FLAG, 
+    MSG_CODE
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="cn.com.wtrj.jx.web.portal.model.entities.WtrjRptMsgExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from WTRJ_RPT_MSG
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from WTRJ_RPT_MSG
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <select id="selectMsgByMsgCode" resultMap="BaseResultMap" parameterType="java.lang.String">
+  	select 
+    <include refid="Base_Column_List" />
+    from WTRJ_RPT_MSG
+    where MSG_CODE = #{msgCode,jdbcType=VARCHAR}
+    <if test="type == 1">
+    	and MSG_TYPE=1
+    </if>
+    <if test="type == 2">
+    	and MSG_TYPE=2
+    </if> 
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from WTRJ_RPT_MSG
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="cn.com.wtrj.jx.web.portal.model.entities.WtrjRptMsgExample" >
+    delete from WTRJ_RPT_MSG
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="cn.com.wtrj.jx.web.portal.model.entities.WtrjRptMsg" >
+    insert into WTRJ_RPT_MSG (ID, TYPE, MSG_TYPE, 
+      TO_USER, SEND_UESR, CONTENT, 
+      SEND_TIME, SEND_RESULT, SUCCESS_FLAG, 
+      MSG_CODE)
+    values (#{id,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{msgType,jdbcType=VARCHAR}, 
+      #{toUser,jdbcType=VARCHAR}, #{sendUesr,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, 
+      #{sendTime,jdbcType=TIMESTAMP}, #{sendResult,jdbcType=VARCHAR}, #{successFlag,jdbcType=CHAR}, 
+      #{msgCode,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.com.wtrj.jx.web.portal.model.entities.WtrjRptMsg" >
+    insert into WTRJ_RPT_MSG
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="type != null" >
+        TYPE,
+      </if>
+      <if test="msgType != null" >
+        MSG_TYPE,
+      </if>
+      <if test="toUser != null" >
+        TO_USER,
+      </if>
+      <if test="sendUesr != null" >
+        SEND_UESR,
+      </if>
+      <if test="content != null" >
+        CONTENT,
+      </if>
+      <if test="sendTime != null" >
+        SEND_TIME,
+      </if>
+      <if test="sendResult != null" >
+        SEND_RESULT,
+      </if>
+      <if test="successFlag != null" >
+        SUCCESS_FLAG,
+      </if>
+      <if test="msgCode != null" >
+        MSG_CODE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="msgType != null" >
+        #{msgType,jdbcType=VARCHAR},
+      </if>
+      <if test="toUser != null" >
+        #{toUser,jdbcType=VARCHAR},
+      </if>
+      <if test="sendUesr != null" >
+        #{sendUesr,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="sendTime != null" >
+        #{sendTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sendResult != null" >
+        #{sendResult,jdbcType=VARCHAR},
+      </if>
+      <if test="successFlag != null" >
+        #{successFlag,jdbcType=CHAR},
+      </if>
+      <if test="msgCode != null" >
+        #{msgCode,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="cn.com.wtrj.jx.web.portal.model.entities.WtrjRptMsgExample" resultType="java.lang.Integer" >
+    select count(*) from WTRJ_RPT_MSG
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update WTRJ_RPT_MSG
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.type != null" >
+        TYPE = #{record.type,jdbcType=VARCHAR},
+      </if>
+      <if test="record.msgType != null" >
+        MSG_TYPE = #{record.msgType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.toUser != null" >
+        TO_USER = #{record.toUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sendUesr != null" >
+        SEND_UESR = #{record.sendUesr,jdbcType=VARCHAR},
+      </if>
+      <if test="record.content != null" >
+        CONTENT = #{record.content,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sendTime != null" >
+        SEND_TIME = #{record.sendTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.sendResult != null" >
+        SEND_RESULT = #{record.sendResult,jdbcType=VARCHAR},
+      </if>
+      <if test="record.successFlag != null" >
+        SUCCESS_FLAG = #{record.successFlag,jdbcType=CHAR},
+      </if>
+      <if test="record.msgCode != null" >
+        MSG_CODE = #{record.msgCode,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update WTRJ_RPT_MSG
+    set ID = #{record.id,jdbcType=VARCHAR},
+      TYPE = #{record.type,jdbcType=VARCHAR},
+      MSG_TYPE = #{record.msgType,jdbcType=VARCHAR},
+      TO_USER = #{record.toUser,jdbcType=VARCHAR},
+      SEND_UESR = #{record.sendUesr,jdbcType=VARCHAR},
+      CONTENT = #{record.content,jdbcType=VARCHAR},
+      SEND_TIME = #{record.sendTime,jdbcType=TIMESTAMP},
+      SEND_RESULT = #{record.sendResult,jdbcType=VARCHAR},
+      SUCCESS_FLAG = #{record.successFlag,jdbcType=CHAR},
+      MSG_CODE = #{record.msgCode,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.com.wtrj.jx.web.portal.model.entities.WtrjRptMsg" >
+    update WTRJ_RPT_MSG
+    <set >
+      <if test="type != null" >
+        TYPE = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="msgType != null" >
+        MSG_TYPE = #{msgType,jdbcType=VARCHAR},
+      </if>
+      <if test="toUser != null" >
+        TO_USER = #{toUser,jdbcType=VARCHAR},
+      </if>
+      <if test="sendUesr != null" >
+        SEND_UESR = #{sendUesr,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        CONTENT = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="sendTime != null" >
+        SEND_TIME = #{sendTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sendResult != null" >
+        SEND_RESULT = #{sendResult,jdbcType=VARCHAR},
+      </if>
+      <if test="successFlag != null" >
+        SUCCESS_FLAG = #{successFlag,jdbcType=CHAR},
+      </if>
+      <if test="msgCode != null" >
+        MSG_CODE = #{msgCode,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.com.wtrj.jx.web.portal.model.entities.WtrjRptMsg" >
+    update WTRJ_RPT_MSG
+    set TYPE = #{type,jdbcType=VARCHAR},
+      MSG_TYPE = #{msgType,jdbcType=VARCHAR},
+      TO_USER = #{toUser,jdbcType=VARCHAR},
+      SEND_UESR = #{sendUesr,jdbcType=VARCHAR},
+      CONTENT = #{content,jdbcType=VARCHAR},
+      SEND_TIME = #{sendTime,jdbcType=TIMESTAMP},
+      SEND_RESULT = #{sendResult,jdbcType=VARCHAR},
+      SUCCESS_FLAG = #{successFlag,jdbcType=CHAR},
+      MSG_CODE = #{msgCode,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

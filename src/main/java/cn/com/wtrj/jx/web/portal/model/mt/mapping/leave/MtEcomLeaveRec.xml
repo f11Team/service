@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper
+	namespace="cn.com.wtrj.jx.web.portal.model.mt.dao.leave.MtEcomLeaveRecMapper">
+	<select id="findLeaveRecordsByParentId" resultMap="BaseResultMap">
+		select wl.*
+		from wtrj_ecom_leave_rec wl where wl.student_id
+		in (select
+		se.student_id from wtrj_stu_parent_relationship se where
+		se.parent_id = #{parentId}) order by wl.CONFIRM_TEACHER_TIME  DESC
+	</select>
+	<resultMap id="BaseResultMap" type="cn.com.wtrj.jx.web.portal.model.entities.WtrjEcomLeaveRec">
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="STUDENT_ID" jdbcType="DECIMAL" property="studentId" />
+    <result column="STUDENT_NAME" jdbcType="VARCHAR" property="studentName" />
+    <result column="SCHOOL_CODE" jdbcType="VARCHAR" property="schoolCode" />
+    <result column="SCHOOL_NAME" jdbcType="VARCHAR" property="schoolName" />
+    <result column="STAGE" jdbcType="DECIMAL" property="stage" />
+    <result column="GRADE" jdbcType="DECIMAL" property="grade" />
+    <result column="CLASS_NO" jdbcType="DECIMAL" property="classNo" />
+    <result column="CLASS_ID" jdbcType="DECIMAL" property="classId" />
+    <result column="STATER_TYPE" jdbcType="CHAR" property="staterType" />
+    <result column="TYPE" jdbcType="VARCHAR" property="type" />
+    <result column="START_TIME" jdbcType="TIMESTAMP" property="startTime" />
+    <result column="END_TIME" jdbcType="TIMESTAMP" property="endTime" />
+    <result column="REASON" jdbcType="VARCHAR" property="reason" />
+    <result column="STARTER_PARENT_ID" jdbcType="DECIMAL" property="starterParentId" />
+    <result column="STARTER_PARENT_MOBILE" jdbcType="VARCHAR" property="starterParentMobile" />
+    <result column="STARTER_PARENT_NAME" jdbcType="VARCHAR" property="starterParentName" />
+    <result column="STARTER_TEACHER_ID" jdbcType="DECIMAL" property="starterTeacherId" />
+    <result column="STARTER_TEACHER_NAME" jdbcType="VARCHAR" property="starterTeacherName" />
+    <result column="STARTER_TEACHER_MOBILE" jdbcType="VARCHAR" property="starterTeacherMobile" />
+    <result column="STARTER_TEACHER_JOBNO" jdbcType="VARCHAR" property="starterTeacherJobno" />
+    <result column="CONFIRM_TEACHER_ID" jdbcType="DECIMAL" property="confirmTeacherId" />
+    <result column="CONFIRM_TEACHER_NAME" jdbcType="VARCHAR" property="confirmTeacherName" />
+    <result column="CONFIRM_TEACHER_MOBILE" jdbcType="CHAR" property="confirmTeacherMobile" />
+    <result column="CONFIRM_TEACHER_JOBNO" jdbcType="VARCHAR" property="confirmTeacherJobno" />
+    <result column="CONFIRM_TEACHER_STATUS" jdbcType="VARCHAR" property="confirmTeacherStatus" />
+    <result column="CONFIRM_TEACHER_TIME" jdbcType="CHAR" property="confirmTeacherTime" />
+    <result column="CONFIRM_PARENT_ID" jdbcType="DECIMAL" property="confirmParentId" />
+    <result column="CONFIRM_PARENT_NAME" jdbcType="VARCHAR" property="confirmParentName" />
+    <result column="CONFIRM_PARENT_MOBILE" jdbcType="VARCHAR" property="confirmParentMobile" />
+    <result column="CONFIRM_PARENT_STATUS" jdbcType="VARCHAR" property="confirmParentStatus" />
+    <result column="CONFIRM_PARENT_TIME" jdbcType="VARCHAR" property="confirmParentTime" />
+    <result column="MSG_CODE" jdbcType="VARCHAR" property="msgCode" />
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="FLAG" jdbcType="CHAR" property="flag" />
+  </resultMap>
+  
+  <select id="findLeaveRecordsByStarterParentId" resultMap="BaseResultMap">
+		select wl.*
+		from wtrj_ecom_leave_rec wl where wl.flag=1 and wl.stater_type=1 and wl.student_id
+		in (select
+		se.student_id from wtrj_stu_parent_relationship se where
+		se.parent_id = #{parentId}) order by wl.UPDATE_TIME DESC
+	</select>
+	<select id="findLeaveRecordsByConfirmParentId" resultMap="BaseResultMap">
+		select wl.*
+		from wtrj_ecom_leave_rec wl where wl.flag=1 and wl.stater_type=0 and wl.student_id
+		in (select
+		se.student_id from wtrj_stu_parent_relationship se where
+		se.parent_id = #{parentId}) order by wl.UPDATE_TIME  DESC
+	</select>
+</mapper>

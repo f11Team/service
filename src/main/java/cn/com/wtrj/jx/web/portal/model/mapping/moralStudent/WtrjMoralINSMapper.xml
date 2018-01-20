@@ -1,0 +1,528 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.wtrj.jx.web.portal.model.dao.moralStudent.WtrjMoralINSMapper" >
+  <resultMap id="BaseResultMap" type="cn.com.wtrj.jx.web.portal.model.entities.moralStudent.WtrjMoralINS" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="REC_TYPE" property="recType" jdbcType="VARCHAR" />
+    <result column="REC_USER" property="recUser" jdbcType="DECIMAL" />
+    <result column="STUDENT_ID" property="studentId" jdbcType="DECIMAL" />
+    <result column="REC_DATE" property="recDate" jdbcType="TIMESTAMP" />
+    <result column="STD_CODE" property="stdCode" jdbcType="VARCHAR" />
+    <result column="STD_NAME" property="stdName" jdbcType="VARCHAR" />
+    <result column="CONTENT" property="content" jdbcType="VARCHAR" />
+    <result column="ATTACH_FILE" property="attachFile" jdbcType="VARCHAR" />
+    <result column="BL_TEACHER_AUTH" property="blTeacherAuth" jdbcType="CHAR" />
+    <result column="AUTH_TEACHER_ID" property="authTeacherId" jdbcType="DECIMAL" />
+    <result column="AUTH_RESULT" property="authResult" jdbcType="VARCHAR" />
+    <result column="ACT_SCORE" property="actScore" jdbcType="DECIMAL" />
+    <result column="AUTH_DATE" property="authDate" jdbcType="TIMESTAMP" />
+    <result column="AUTH_CONTENT" property="authContent" jdbcType="VARCHAR" />
+    <result column="ALTER_CONTENT" property="alterContent" jdbcType="VARCHAR" />
+    <result column="AUTH_ATTACH_FILE" property="authAttachFile" jdbcType="VARCHAR" />
+    <result column="rec_date_text" property="recDateText" jdbcType="VARCHAR" />
+    <result column="BLD_DEL_FLG" property="bldDelFlg" jdbcType="CHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+	<result column="TEACHER_TYPE" property="teacherType" jdbcType="VARCHAR"/>
+    <result column="SCHOOL_NAME" property="schoolName" jdbcType="VARCHAR" />
+	<result column="STUDENT_NAME" property="stuName" jdbcType="VARCHAR" />
+	<result column="COURSE_NAME" property="courseName" jdbcType="VARCHAR" />
+	<result column="COURSE_CODE" property="courseCode" jdbcType="VARCHAR" />
+	<result column="CLASS_NAME" property="className" jdbcType="VARCHAR" />   
+
+
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, REC_TYPE, REC_USER, STUDENT_ID, REC_DATE, STD_CODE, CONTENT, ATTACH_FILE, BL_TEACHER_AUTH, 
+    AUTH_TEACHER_ID, AUTH_RESULT, ACT_SCORE, AUTH_DATE, AUTH_CONTENT, ALTER_CONTENT, TEACHER_TYPE,STD_NAME,
+    AUTH_ATTACH_FILE, BLD_DEL_FLG, CREATE_TIME, UPDATE_TIME
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="cn.com.wtrj.jx.web.portal.model.entities.moralStudent.WtrjMoralINSExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from WTRJ_MORAL_INS
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from WTRJ_MORAL_INS
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from WTRJ_MORAL_INS
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <delete id="deleteByExample" parameterType="cn.com.wtrj.jx.web.portal.model.entities.moralStudent.WtrjMoralINSExample" >
+    delete from WTRJ_MORAL_INS
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="cn.com.wtrj.jx.web.portal.model.entities.moralStudent.WtrjMoralINS" >
+     <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      select SQ_MORAL_INS.NEXTVAL from dual
+    </selectKey>
+    insert into WTRJ_MORAL_INS (REC_TYPE, REC_USER, STUDENT_ID, 
+      REC_DATE, STD_CODE, CONTENT, 
+      ATTACH_FILE, BL_TEACHER_AUTH, AUTH_TEACHER_ID, 
+      AUTH_RESULT, ACT_SCORE, AUTH_DATE, 
+      AUTH_CONTENT, ALTER_CONTENT, AUTH_ATTACH_FILE, 
+      BLD_DEL_FLG, CREATE_TIME, UPDATE_TIME,SCHOOL_CODE,SCHOOL_NAME,
+      CLASS_ID,CLASS_NAME,TEACHER_TYPE,COURSE_CODE,COURSE_NAME,STUDENT_NAME,STD_NAME,AUTH_TEACHER_NAME
+      )
+    values (#{recType,jdbcType=VARCHAR}, #{recUser,jdbcType=DECIMAL}, #{studentId,jdbcType=DECIMAL}, 
+      #{recDate,jdbcType=TIMESTAMP}, #{stdCode,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, 
+      #{attachFile,jdbcType=VARCHAR}, #{blTeacherAuth,jdbcType=CHAR}, #{authTeacherId,jdbcType=DECIMAL}, 
+      #{authResult,jdbcType=VARCHAR}, #{actScore,jdbcType=DECIMAL}, #{authDate,jdbcType=TIMESTAMP}, 
+      #{authContent,jdbcType=VARCHAR}, #{alterContent,jdbcType=VARCHAR}, #{authAttachFile,jdbcType=VARCHAR}, 
+      #{bldDelFlg,jdbcType=CHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{schoolCode,jdbcType=VARCHAR},#{schoolName,jdbcType=VARCHAR},#{classId,jdbcType=DECIMAL},
+      #{className,jdbcType=VARCHAR},#{teacherType,jdbcType=VARCHAR},#{courseCode,jdbcType=VARCHAR},
+      #{courseName,jdbcType=VARCHAR},#{stuName,jdbcType=VARCHAR},#{stdName,jdbcType=VARCHAR},#{authTeacherName,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="cn.com.wtrj.jx.web.portal.model.entities.moralStudent.WtrjMoralINS" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      select SQ_MORAL_INS.NEXTVAL from dual
+    </selectKey>
+    insert into WTRJ_MORAL_INS
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="recType != null" >
+        REC_TYPE,
+      </if>
+      <if test="recUser != null" >
+        REC_USER,
+      </if>
+      <if test="studentId != null" >
+        STUDENT_ID,
+      </if>
+      <if test="recDate != null" >
+        REC_DATE,
+      </if>
+      <if test="stdCode != null" >
+        STD_CODE,
+      </if>
+      <if test="content != null" >
+        CONTENT,
+      </if>
+      <if test="attachFile != null" >
+        ATTACH_FILE,
+      </if>
+      <if test="blTeacherAuth != null" >
+        BL_TEACHER_AUTH,
+      </if>
+      <if test="authTeacherId != null" >
+        AUTH_TEACHER_ID,
+      </if>
+      <if test="authResult != null" >
+        AUTH_RESULT,
+      </if>
+      <if test="actScore != null" >
+        ACT_SCORE,
+      </if>
+      <if test="authDate != null" >
+        AUTH_DATE,
+      </if>
+      <if test="authContent != null" >
+        AUTH_CONTENT,
+      </if>
+      <if test="alterContent != null" >
+        ALTER_CONTENT,
+      </if>
+      <if test="authAttachFile != null" >
+        AUTH_ATTACH_FILE,
+      </if>
+      <if test="bldDelFlg != null" >
+        BLD_DEL_FLG,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="recType != null" >
+        #{recType,jdbcType=VARCHAR},
+      </if>
+      <if test="recUser != null" >
+        #{recUser,jdbcType=DECIMAL},
+      </if>
+      <if test="studentId != null" >
+        #{studentId,jdbcType=DECIMAL},
+      </if>
+      <if test="recDate != null" >
+        #{recDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="stdCode != null" >
+        #{stdCode,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="attachFile != null" >
+        #{attachFile,jdbcType=VARCHAR},
+      </if>
+      <if test="blTeacherAuth != null" >
+        #{blTeacherAuth,jdbcType=CHAR},
+      </if>
+      <if test="authTeacherId != null" >
+        #{authTeacherId,jdbcType=DECIMAL},
+      </if>
+      <if test="authResult != null" >
+        #{authResult,jdbcType=VARCHAR},
+      </if>
+      <if test="actScore != null" >
+        #{actScore,jdbcType=DECIMAL},
+      </if>
+      <if test="authDate != null" >
+        #{authDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="authContent != null" >
+        #{authContent,jdbcType=VARCHAR},
+      </if>
+      <if test="alterContent != null" >
+        #{alterContent,jdbcType=VARCHAR},
+      </if>
+      <if test="authAttachFile != null" >
+        #{authAttachFile,jdbcType=VARCHAR},
+      </if>
+      <if test="bldDelFlg != null" >
+        #{bldDelFlg,jdbcType=CHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="cn.com.wtrj.jx.web.portal.model.entities.moralStudent.WtrjMoralINSExample" resultType="java.lang.Integer" >
+    select count(*) from WTRJ_MORAL_INS
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update WTRJ_MORAL_INS
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=DECIMAL},
+      </if>
+      <if test="record.recType != null" >
+        REC_TYPE = #{record.recType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.recUser != null" >
+        REC_USER = #{record.recUser,jdbcType=DECIMAL},
+      </if>
+      <if test="record.studentId != null" >
+        STUDENT_ID = #{record.studentId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.recDate != null" >
+        REC_DATE = #{record.recDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.stdCode != null" >
+        STD_CODE = #{record.stdCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.content != null" >
+        CONTENT = #{record.content,jdbcType=VARCHAR},
+      </if>
+      <if test="record.attachFile != null" >
+        ATTACH_FILE = #{record.attachFile,jdbcType=VARCHAR},
+      </if>
+      <if test="record.blTeacherAuth != null" >
+        BL_TEACHER_AUTH = #{record.blTeacherAuth,jdbcType=CHAR},
+      </if>
+      <if test="record.authTeacherId != null" >
+        AUTH_TEACHER_ID = #{record.authTeacherId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.authResult != null" >
+        AUTH_RESULT = #{record.authResult,jdbcType=VARCHAR},
+      </if>
+      <if test="record.actScore != null" >
+        ACT_SCORE = #{record.actScore,jdbcType=DECIMAL},
+      </if>
+      <if test="record.authDate != null" >
+        AUTH_DATE = #{record.authDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.authContent != null" >
+        AUTH_CONTENT = #{record.authContent,jdbcType=VARCHAR},
+      </if>
+      <if test="record.alterContent != null" >
+        ALTER_CONTENT = #{record.alterContent,jdbcType=VARCHAR},
+      </if>
+      <if test="record.authAttachFile != null" >
+        AUTH_ATTACH_FILE = #{record.authAttachFile,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bldDelFlg != null" >
+        BLD_DEL_FLG = #{record.bldDelFlg,jdbcType=CHAR},
+      </if>
+      <if test="record.createTime != null" >
+        CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateTime != null" >
+        UPDATE_TIME = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update WTRJ_MORAL_INS
+    set ID = #{record.id,jdbcType=DECIMAL},
+      REC_TYPE = #{record.recType,jdbcType=VARCHAR},
+      REC_USER = #{record.recUser,jdbcType=DECIMAL},
+      STUDENT_ID = #{record.studentId,jdbcType=DECIMAL},
+      REC_DATE = #{record.recDate,jdbcType=TIMESTAMP},
+      STD_CODE = #{record.stdCode,jdbcType=VARCHAR},
+      CONTENT = #{record.content,jdbcType=VARCHAR},
+      ATTACH_FILE = #{record.attachFile,jdbcType=VARCHAR},
+      BL_TEACHER_AUTH = #{record.blTeacherAuth,jdbcType=CHAR},
+      AUTH_TEACHER_ID = #{record.authTeacherId,jdbcType=DECIMAL},
+      AUTH_RESULT = #{record.authResult,jdbcType=VARCHAR},
+      ACT_SCORE = #{record.actScore,jdbcType=DECIMAL},
+      AUTH_DATE = #{record.authDate,jdbcType=TIMESTAMP},
+      AUTH_CONTENT = #{record.authContent,jdbcType=VARCHAR},
+      ALTER_CONTENT = #{record.alterContent,jdbcType=VARCHAR},
+      AUTH_ATTACH_FILE = #{record.authAttachFile,jdbcType=VARCHAR},
+      BLD_DEL_FLG = #{record.bldDelFlg,jdbcType=CHAR},
+      CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      UPDATE_TIME = #{record.updateTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.com.wtrj.jx.web.portal.model.entities.moralStudent.WtrjMoralINS" >
+    update WTRJ_MORAL_INS
+    <set >
+      <if test="recType != null" >
+        REC_TYPE = #{recType,jdbcType=VARCHAR},
+      </if>
+      <if test="recUser != null" >
+        REC_USER = #{recUser,jdbcType=DECIMAL},
+      </if>
+      <if test="studentId != null" >
+        STUDENT_ID = #{studentId,jdbcType=DECIMAL},
+      </if>
+      <if test="recDate != null" >
+        REC_DATE = #{recDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="stdCode != null" >
+        STD_CODE = #{stdCode,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        CONTENT = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="attachFile != null" >
+        ATTACH_FILE = #{attachFile,jdbcType=VARCHAR},
+      </if>
+      <if test="blTeacherAuth != null" >
+        BL_TEACHER_AUTH = #{blTeacherAuth,jdbcType=CHAR},
+      </if>
+      <if test="authTeacherId != null" >
+        AUTH_TEACHER_ID = #{authTeacherId,jdbcType=DECIMAL},
+      </if>
+      <if test="authTeacherName != null">
+      	AUTH_TEACHER_NAME = #{authTeacherName,jdbcType=VARCHAR},
+      </if>
+      <if test="authResult != null" >
+        AUTH_RESULT = #{authResult,jdbcType=VARCHAR},
+      </if>
+      <if test="actScore != null" >
+        ACT_SCORE = #{actScore,jdbcType=DECIMAL},
+      </if>
+      <if test="authDate != null" >
+        AUTH_DATE = #{authDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="authContent != null" >
+        AUTH_CONTENT = #{authContent,jdbcType=VARCHAR},
+      </if>
+      <if test="alterContent != null" >
+        ALTER_CONTENT = #{alterContent,jdbcType=VARCHAR},
+      </if>
+      <if test="authAttachFile != null" >
+        AUTH_ATTACH_FILE = #{authAttachFile,jdbcType=VARCHAR},
+      </if>
+      <if test="bldDelFlg != null" >
+        BLD_DEL_FLG = #{bldDelFlg,jdbcType=CHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="stdName != null">
+      	STD_NAME = #{stdName,jdbcType=VARCHAR},
+      </if>
+      <if test="teacherType != null">
+      	TEACHER_TYPE = #{teacherType,jdbcType=VARCHAR},
+      </if>
+      <if test="courseName != null">
+      	COURSE_NAME = #{courseName,jdbcType=VARCHAR},
+      </if>
+      <if test="courseCode != null">
+      	COURSE_CODE = #{courseCode,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.com.wtrj.jx.web.portal.model.entities.moralStudent.WtrjMoralINS" >
+    update WTRJ_MORAL_INS
+    set REC_TYPE = #{recType,jdbcType=VARCHAR},
+      REC_USER = #{recUser,jdbcType=DECIMAL},
+      STUDENT_ID = #{studentId,jdbcType=DECIMAL},
+      REC_DATE = #{recDate,jdbcType=TIMESTAMP},
+      STD_CODE = #{stdCode,jdbcType=VARCHAR},
+      CONTENT = #{content,jdbcType=VARCHAR},
+      ATTACH_FILE = #{attachFile,jdbcType=VARCHAR},
+      BL_TEACHER_AUTH = #{blTeacherAuth,jdbcType=CHAR},
+      AUTH_TEACHER_ID = #{authTeacherId,jdbcType=DECIMAL},
+      AUTH_RESULT = #{authResult,jdbcType=VARCHAR},
+      ACT_SCORE = #{actScore,jdbcType=DECIMAL},
+      AUTH_DATE = #{authDate,jdbcType=TIMESTAMP},
+      AUTH_CONTENT = #{authContent,jdbcType=VARCHAR},
+      ALTER_CONTENT = #{alterContent,jdbcType=VARCHAR},
+      AUTH_ATTACH_FILE = #{authAttachFile,jdbcType=VARCHAR},
+      BLD_DEL_FLG = #{bldDelFlg,jdbcType=CHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  
+   <resultMap id="studentResultMap" type="cn.com.wtrj.jx.web.portal.model.entities.WtrjStudent" >
+    <result column="school_code" property="schoolCode" jdbcType="VARCHAR" />
+    <result column="school_name" property="schoolName" jdbcType="VARCHAR" />
+    <result column="class_id" property="classId" jdbcType="VARCHAR" />
+    <result column="class_name" property="className" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <select id="findStudentInfoById" resultMap="studentResultMap">
+      select s.name, s.school_code,si.name school_name,s.class_id,c.class_name 
+      	from wtrj_school_info si,wtrj_ecom_class c,wtrj_student s 
+      		where si.code = s.school_code and c.id = s.class_id and s.id = #{studentId}
+  </select>
+  
+  <select id="countIns" resultType="int">
+  		<!-- 德育 -->
+  		<if test="role == 8">
+  			select count(*) from wtrj_moral_ins mi where mi.school_code = #{schoolCode} and mi.class_id = #{classId} and mi.BLD_DEL_FLG = 0
+  		</if>
+  		
+  		<!-- 班主任，任课，生辅 -->
+  		<if test="role != 8">
+  		select count(*) from (
+  			select distinct(mi.id) from wtrj_moral_ins mi,wtrj_ecom_permission p where mi.class_id = p.class_id and p.teacher_id = #{teacherId} and mi.school_code = #{schoolCode}  and mi.class_id = #{classId} 
+  			and mi.BLD_DEL_FLG = 0 and p.type=mi.teacher_type
+  			<!-- 任课 -->
+  			<if test="role == 1">
+  				 and p.course_code = mi.course_code
+  			</if>
+  			)
+  		</if>
+  </select>
+  
+    <select id="pageIns" resultMap="BaseResultMap">
+  		<!-- 德育 -->
+  		<if test="role == 8">
+  			select * from (select rownum rn,mi.id,mi.student_name,mi.rec_type,mi.std_code,mi.std_name,mi.school_name,mi.class_name,mi.course_name,  to_char(mi.rec_date,'yyyy-MM-dd') rec_date_text,mi.act_score,mi.bl_teacher_auth,mi.auth_result from wtrj_moral_ins mi where mi.school_code = #{schoolCode}  and mi.class_id = #{classId} and mi.BLD_DEL_FLG = 0 order by mi.update_time desc
+  			) m
+  			
+  			where rn between #{start} and #{end}
+  		</if>
+  		
+  		<!-- 班主任，任课，生辅 -->
+  		<if test="role != 8">
+  		select * from (
+  		select rownum rn ,n.* from (
+  			select distinct m.* from (
+  				select mi.id,mi.student_name,mi.rec_type,mi.std_code,mi.std_name,mi.school_name,mi.class_name,mi.course_name , to_char(mi.rec_date,'yyyy-MM-dd') rec_date_text,mi.act_score,mi.bl_teacher_auth,mi.auth_result,mi.update_time
+  				from wtrj_moral_ins mi,wtrj_ecom_permission p 
+  				where mi.class_id = p.class_id 
+  				and p.teacher_id = #{teacherId} 
+  				and mi.school_code = #{schoolCode} 
+  				and mi.class_id = #{classId} 
+  				and mi.BLD_DEL_FLG = 0 and p.type=mi.teacher_type 
+  			<!-- 任课 -->
+  			<if test="role == 1">
+  				 and p.course_code = mi.course_code
+  			</if>
+  			
+  			) m order by m.update_time desc
+  			) n
+  			) u
+  			where u.rn between #{start} and #{end}
+  		</if>
+  </select>
+  
+</mapper>

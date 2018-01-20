@@ -1,0 +1,640 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.wtrj.jx.web.portal.model.mt.dao.MtStudentMapper">
+	<resultMap id="BaseResultMap" type="cn.com.wtrj.jx.web.portal.model.entities.WtrjStudent" >
+	     <id column="ID" property="id" jdbcType="DECIMAL" />
+	     <result column="SCHOOL_CODE" property="schoolCode" jdbcType="VARCHAR" />
+	     <result column="NAME" property="name" jdbcType="VARCHAR" />
+	     <result column="SEX" property="sex" jdbcType="VARCHAR" />
+	     <result column="ID_CARD_NUMBER" property="idCardNumber" jdbcType="VARCHAR" />
+	     <result column="STUDENT_NO" property="studentNo" jdbcType="VARCHAR" />
+	     <result column="CUREENT_SCHOOL_CODE" property="cureentSchoolCode" jdbcType="VARCHAR" />
+	     <result column="REGISTER_YEAR" property="registerYear" jdbcType="VARCHAR" />
+	     <result column="GRADE_NO" property="gradeNo" jdbcType="DECIMAL" />
+	     <result column="CLASS_NO" property="classNo" jdbcType="DECIMAL" />
+	     <result column="ENTRANCE_SERIAL_NUM" property="entranceSerialNum" jdbcType="VARCHAR" />
+	     <result column="ENTRANCE_SCHOLARSHIP_LEVEL" property="entranceScholarshipLevel" jdbcType="VARCHAR" />
+	     <result column="ENTRANCE_SERIAL_IMG" property="entranceSerialImg" jdbcType="VARCHAR" />
+	     <result column="RUXUE_FENBAN" property="ruxueFenban" jdbcType="VARCHAR" />
+	     <result column="BAOMING_KAHAO" property="baomingKahao" jdbcType="VARCHAR" />
+  	</resultMap>
+  	
+  	<resultMap id="studentResultMap" type="cn.com.wtrj.jx.web.portal.model.mt.entities.MtStudent" >
+	    <id column="ID" property="id" jdbcType="DECIMAL" />
+	     <result column="SCHOOL_CODE" property="schoolCode" jdbcType="VARCHAR" />
+	     <result column="NAME" property="name" jdbcType="VARCHAR" />
+	     <result column="SEX" property="sex" jdbcType="VARCHAR" />
+	     <result column="ID_CARD_NUMBER" property="idCardNumber" jdbcType="VARCHAR" />
+	     <result column="STUDENT_NO" property="studentNo" jdbcType="VARCHAR" />
+	     <result column="CUREENT_SCHOOL_CODE" property="cureentSchoolCode" jdbcType="VARCHAR" />
+	     <result column="REGISTER_YEAR" property="registerYear" jdbcType="VARCHAR" />
+	     <result column="GRADE_NO" property="gradeNo" jdbcType="DECIMAL" />
+	     <result column="CLASS_NO" property="classNo" jdbcType="DECIMAL" />
+	     <result column="ENTRANCE_SERIAL_NUM" property="entranceSerialNum" jdbcType="VARCHAR" />
+	     <result column="ENTRANCE_SCHOLARSHIP_LEVEL" property="entranceScholarshipLevel" jdbcType="VARCHAR" />
+	     <result column="ENTRANCE_SERIAL_IMG" property="entranceSerialImg" jdbcType="VARCHAR" />
+	     <result column="RUXUE_FENBAN" property="ruxueFenban" jdbcType="VARCHAR" />
+	     <result column="BAOMING_KAHAO" property="baomingKahao" jdbcType="VARCHAR" />
+	     <association property="scoreList" column="id" 
+	     select="cn.com.wtrj.jx.web.portal.model.mt.dao.MtStuEntranceScoreMapper.searchByStudent">
+	     </association>
+  	</resultMap>
+  	
+  	<resultMap id="BaseResultMap2"
+	type="cn.com.wtrj.jx.web.portal.model.mt.entities.MtStudent">
+	<id column="ID" property="id" jdbcType="DECIMAL" />
+	<result column="SCHOOL_CODE" property="schoolCode" jdbcType="VARCHAR" />
+	<result column="NAME" property="name" jdbcType="VARCHAR" />
+	<result column="SEX" property="sex" jdbcType="DECIMAL" />
+	<result column="ID_CARD_NUMBER" property="idCardNumber"
+		jdbcType="VARCHAR" />
+	<result column="STUDENT_NO" property="studentNo" jdbcType="VARCHAR" />
+	<result column="CUREENT_SCHOOL_CODE" property="cureentSchoolCode"
+		jdbcType="VARCHAR" />
+	<result column="REGISTER_YEAR" property="registerYear" jdbcType="VARCHAR" />
+	<result column="GRADE_NO" property="gradeNo" jdbcType="DECIMAL" />
+	<result column="CLASS_NO" property="classNo" jdbcType="DECIMAL" />
+	<result column="ENTRANCE_SERIAL_NUM" property="entranceSerialNum"
+		jdbcType="VARCHAR" />
+	<result column="ENTRANCE_SCHOLARSHIP_LEVEL" property="entranceScholarshipLevel"
+		jdbcType="VARCHAR" />
+	<result column="ENTRANCE_SERIAL_IMG" property="entranceSerialImg"
+		jdbcType="VARCHAR" />
+	<result column="RUXUE_FENBAN" property="ruxueFenban" jdbcType="VARCHAR" />
+	<result column="BAOMING_KAHAO" property="baomingKahao" jdbcType="VARCHAR" />
+	<result column="CLASS_ID" property="classId" jdbcType="DECIMAL" />
+	<result column="CARD_NO" property="cardNo" jdbcType="VARCHAR" />
+	<result column="CARD_COLOR" property="cardColor" jdbcType="VARCHAR" />
+	<result column="PHOTO" property="photo" jdbcType="VARCHAR" />
+	<result column="FLAG" property="flag" jdbcType="VARCHAR" />
+	<result column="PAY_STATUS" property="payStatus" jdbcType="VARCHAR" />
+	<result column="STUDENT_STATUS" property="studentStatus"
+		jdbcType="VARCHAR" />
+	<result column="STUDENT_CODE" property="studentCode" jdbcType="VARCHAR" />
+</resultMap>
+  
+  <sql id="Base_Column_List" >
+    ID, 
+    SCHOOL_CODE, 
+    NAME, 
+    SEX, 
+    ID_CARD_NUMBER, 
+    STUDENT_NO, 
+    CUREENT_SCHOOL_CODE, 
+    REGISTER_YEAR, 
+    GRADE_NO, 
+    CLASS_NO, 
+    ENTRANCE_SERIAL_NUM, 
+    ENTRANCE_SCHOLARSHIP_LEVEL, 
+    ENTRANCE_SERIAL_IMG, 
+    RUXUE_FENBAN, 
+    BAOMING_KAHAO, 
+    CLASS_ID,
+    CARD_NO, 
+    CARD_COLOR, 
+    PHOTO, 
+    FLAG,
+    PAY_STATUS,
+    STUDENT_STATUS,
+    STUDENT_CODE
+  </sql>
+  	
+  	
+  	<sql id="dynaSql">
+  		<if test="name!=null and name!=''">and name like '%${name}%'</if>
+		<if test="idCardNumber!=null and idCardNumber!=''">and ID_CARD_NUMBER like '%${idCardNumber}%'</if>
+		and name not like '%测试%'
+  	</sql>
+  	
+	<select id="selectById" resultMap="studentResultMap" parameterType="Integer">
+		SELECT * FROM WTRJ_STUDENT WHERE ID=#{id}
+	</select>
+	<select id="searchStudentUrl" resultType="String" parameterType="Integer">
+		SELECT photo FROM WTRJ_STUDENT WHERE ID=#{id}
+	</select>
+	
+	<select id="searchByItem" resultMap="BaseResultMap">
+		select * from(SELECT A.*, ROWNUM RN FROM (SELECT * FROM wtrj_student where SCHOOL_CODE=#{schoolCode} AND ENTRANCE_SERIAL_NUM is not null
+		<include refid="dynaSql"/> order by ID
+		)A) where RN between #{startRow} and #{endRow}
+	</select>
+	
+	<select id="selectCountByItem" resultType="Integer">	
+		SELECT count(*) FROM wtrj_student where SCHOOL_CODE=#{schoolCode}  AND ENTRANCE_SERIAL_NUM is not null
+		<include refid="dynaSql"/>
+	</select>
+	
+	<select id="searchByParent" parameterType="String" resultType="cn.com.wtrj.jx.web.portal.model.mt.entities.StudentDto">
+		select 
+	    s.id,
+	    s.name,
+	    s.id_card_number idCardNumber,
+	    s.grade_no as gradeNo,
+	    s.class_no as classNo,
+	    s.photo as photo,
+	    s.student_no as studentNo,
+	    sch.name as schoolName
+	    from 
+	    wtrj_parent p join wtrj_stu_parent_relationship sp on p.id=sp.parent_id
+	    join wtrj_student s on sp.student_id=s.id 
+	    join wtrj_school_info sch on s.school_code=sch.code 
+	    where p.phone=#{phone}
+	</select>
+	
+	<select id="findStudentsByHeadTeacher" parameterType="Integer" resultMap="BaseResultMap">
+		select s.*
+		  from wtrj_ecom_permission p
+		  left join wtrj_student s on p.class_id = s.class_id
+		 where p.type = 1
+		   and p.teacher_id=#{headTeacherId}
+	</select>
+	
+	
+	<select id="findStudentAndClassInfoById" parameterType="Integer" resultType="cn.com.wtrj.jx.web.portal.model.mt.entities.MtStudentIncludesClassInfo">
+		select
+		s.id studentId,
+		s.name studentName,
+		s.id_card_number idCardNo,
+		c.stage,
+		c.grade,
+		s.class_id classId
+		from wtrj_student s join wtrj_ecom_class c on s.class_id=c.id 
+		where s.id=#{studentId}
+	</select>
+	
+	
+	<select id="searchByParentAndSchoolCodes" resultType="cn.com.wtrj.jx.web.portal.model.mt.entities.StudentDto">
+		select 
+	    s.id,
+	    s.name,
+	    s.id_card_number idCardNumber,
+	    s.grade_no as gradeNo,
+	    s.class_no as classNo,
+	    s.student_no as studentNo,
+	    sch.name as schoolName
+	    from 
+	    wtrj_parent p join wtrj_stu_parent_relationship sp on p.id=sp.parent_id
+	    join wtrj_student s on sp.student_id=s.id 
+	    join wtrj_school_info sch on s.school_code=sch.code 
+	    where p.phone=#{phone} and s.school_code in (
+	    <foreach collection="codes" item="code" separator=",">
+	    	#{code}
+	    </foreach>
+	    )  
+	</select>
+	
+	<select id="searchStudentsByName" resultType="cn.com.wtrj.jx.web.portal.model.mt.entities.StudentDto">
+		select s.id,s.name,c.class_name className from wtrj_student s,wtrj_ecom_class c 
+		where s.class_id = c.id 
+		and s.name like '%${name}%' 
+		and s.school_code = #{schoolCode}
+		and s.class_id = #{classId}
+	</select>
+	
+	<select id="selectStudentsByPage" resultType="cn.com.wtrj.jx.web.portal.model.mt.entities.MtStudent">
+		SELECT M.*
+	    FROM (
+	            SELECT L.*, row_number() over(ORDER BY L.id ASC) rn
+	              FROM (
+	                    select
+	                    	   id,
+	                           student_no studentNo, --学籍号 
+	                           name,
+	                           sex,
+	                           (select name from wtrj_school_info school  where student.school_code=school.code) as schoolName,  --学生所在校区
+	                           (select grade_stage from wtrj_school_info school  where student.school_code=school.code) as gradeStage,--学部
+	                           school_code schoolCode,--学校编码
+	                           grade_no gradeNo,--年级
+	                           class_no classNo,--班级
+	                           id_card_number idCardNumber, --身份证号
+	                           card_no cardNo, --一卡通卡号
+	                           card_color cardColor, --一卡通颜色
+	                           pay_status payStatus 
+	                     from wtrj_student student
+	                     <if test="name != null">
+	                     	where 
+	                     		student.name like CONCAT(CONCAT('%','${name}'), '%') 
+	                     		or  student.id_card_number like CONCAT(CONCAT('%','${name}'), '%')
+	                     </if>
+	                    ) L
+	              ) M
+	    
+	     where M.rn between #{start} and #{end}
+	</select>
+	
+	<select id="selectStudentsByTeacherPage" resultType="cn.com.wtrj.jx.web.portal.model.mt.entities.MtStudent" 
+	>
+		SELECT M.*
+	    FROM (
+	            SELECT L.*, row_number() over(ORDER BY L.studentCode ASC) rn
+	              FROM (
+	                    select
+	                    	   distinct(s.id) id,
+	                           student_no studentNo,  
+	                           s.name name,
+	                           s.sex sex,
+	                           p.school_name as schoolName,  
+	                           p.stage  as gradeStage,
+	                           s.school_code schoolCode,
+	                           s.grade_no gradeNo,
+	                           s.class_no classNo,
+	                           id_card_number idCardNumber, 
+	                           card_no cardNo, 
+	                           card_color cardColor,
+	                           pay_status payStatus,
+	                           s.student_code studentCode  
+	                     from wtrj_student s,wtrj_ecom_permission p
+						where
+    					s.school_code = p.school_code and s.class_id = p.class_id 
+	        			and p.school_code =#{schoolCode,jdbcType=VARCHAR} 
+	        			and p.grade = #{grade,jdbcType=VARCHAR} 
+	        			and s.cureent_school_code = #{stage,jdbcType=VARCHAR} 
+	        			and p.class_id = #{classId,jdbcType=VARCHAR} 
+	        			and p.teacher_id = #{teacherId,jdbcType=VARCHAR}
+	        			and p.type = 1 
+	                     <if test="search != null">
+	                     	and 
+	                     		(s.name like CONCAT(CONCAT('%','${search}'), '%') 
+	                     		or  s.id_card_number like CONCAT(CONCAT('%','${search}'), '%'))
+	                     </if>
+	                    ) L
+	              ) M
+	    
+	     where M.rn between #{start} and #{end}
+	</select>
+	
+	<select id="countStudents" parameterType="java.lang.String"  resultType="java.lang.Integer" >
+		select 
+			count(*) 
+		from 
+			WTRJ_STUDENT s
+		where 
+			s.name like CONCAT(CONCAT('%','${name}'), '%') 
+	        or  s.id_card_number like CONCAT(CONCAT('%','${name}'), '%')
+	</select>
+	<select id="countStudentsByTeacherId" parameterType="cn.com.wtrj.jx.web.portal.model.entities.WtrjEcomPermission"  resultType="java.lang.Integer" >
+		select 
+		count(distinct s.name) num 
+		from 
+			WTRJ_STUDENT s,wtrj_ecom_permission p	
+		where
+    s.school_code = p.school_code and s.class_id = p.class_id and
+			(s.name like CONCAT(CONCAT('%','${stuName}'), '%') 
+	        or  s.id_card_number like CONCAT(CONCAT('%','${stuName}'), '%')) 
+	        and p.school_code =#{schoolCode,jdbcType=VARCHAR} 
+	        and p.grade = #{grade,jdbcType=VARCHAR} 
+	        and p.stage = #{stage,jdbcType=VARCHAR} 
+	        and p.class_id = #{classId,jdbcType=VARCHAR} 
+	        and p.teacher_id = #{teacherId,jdbcType=VARCHAR}
+	</select>
+	
+
+<insert id="insert" parameterType="cn.com.wtrj.jx.web.portal.model.mt.entities.MtStudent" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      select SQ_STUDENT.NEXTVAL from dual
+    </selectKey>
+    insert into WTRJ_STUDENT (
+	      SCHOOL_CODE, 
+	      NAME, 
+	      SEX, 
+	      ID_CARD_NUMBER, 
+	      STUDENT_NO, 
+	      CUREENT_SCHOOL_CODE, 
+	      REGISTER_YEAR, 
+	      GRADE_NO, 
+	      CLASS_NO, 
+	      ENTRANCE_SERIAL_NUM, 
+	      ENTRANCE_SCHOLARSHIP_LEVEL, 
+	      ENTRANCE_SERIAL_IMG, 
+	      RUXUE_FENBAN, 
+	      BAOMING_KAHAO, 
+	      CLASS_ID, 
+	      CARD_COLOR, 
+	      PHOTO, 
+	      FLAG,
+	      PAY_STATUS,
+	      CARD_NO,
+	      STUDENT_STATUS,
+	      STUDENT_CODE)
+    values (
+    	#{schoolCode,jdbcType=VARCHAR}, 
+    	#{name,jdbcType=VARCHAR}, 
+    	#{sex,jdbcType=DECIMAL}, 
+        #{idCardNumber,jdbcType=VARCHAR}, 
+        #{studentNo,jdbcType=VARCHAR}, 
+        #{cureentSchoolCode,jdbcType=VARCHAR}, 
+        #{registerYear,jdbcType=VARCHAR}, 
+        #{gradeNo,jdbcType=DECIMAL}, 
+        #{classNo,jdbcType=DECIMAL}, 
+        #{entranceSerialNum,jdbcType=VARCHAR}, 
+        #{entranceScholarshipLevel,jdbcType=VARCHAR}, 
+        #{entranceSerialImg,jdbcType=VARCHAR}, 
+        #{ruxueFenban,jdbcType=VARCHAR}, 
+        #{baomingKahao,jdbcType=VARCHAR}, 
+        #{classId,jdbcType=DECIMAL}, 
+        #{cardColor,jdbcType=VARCHAR}, 
+        #{photo,jdbcType=VARCHAR}, 
+        #{flag,jdbcType=VARCHAR}, 
+        #{payStatus,jdbcType=VARCHAR}, 
+        #{cardNo,jdbcType=VARCHAR}, 
+        #{studentStatus,jdbcType=VARCHAR},
+        #{studentCode,jdbcType=VARCHAR})
+  </insert>
+  
+  <select id="selectCascadeSchool" resultType="cn.com.wtrj.jx.web.portal.model.entities.WtrjEcomPermission">
+  	select 
+  		distinct(p.school_code) schoolCode,
+  		p.school_name schoolName
+  	from 
+  		wtrj_ecom_permission p
+  	where 
+  	p.teacher_id=#{teacherId,jdbcType=VARCHAR}
+  	and p.type=1 
+  	and	p.stage is not null   
+  </select>
+  
+  <select id="selectCascadeStage" resultType="cn.com.wtrj.jx.web.portal.model.entities.WtrjEcomPermission">
+  	select distinct  
+      p.stage stage
+  	from 
+  		wtrj_ecom_permission p
+  	where school_code=#{schoolCode,jdbcType=VARCHAR} and p.teacher_id=#{teacherId,jdbcType=VARCHAR}
+  	and p.type=1 
+  	and p.stage is not null
+  </select>
+  
+  <select id="selectCascadeGrade" resultType="java.lang.String">
+  	select distinct p.grade grade from wtrj_ecom_permission p where school_code = #{schoolCode} and stage=#{stage} and teacher_id=#{teacherId,jdbcType=VARCHAR}
+  	and p.type=1 
+  	and p.grade is not null
+  </select>
+  
+  <select id="selectCascadeClasses" resultType="cn.com.wtrj.jx.web.portal.model.entities.WtrjEcomPermission">
+  	select 
+  	distinct
+  		s.id classId,
+  		s.class_no classNo,
+  		 p.class_name className 
+  	from wtrj_ecom_permission p,wtrj_ecom_class s 
+  	where 
+  	s.school_code = p.school_code and s.id = p.class_id
+  	and p.type=1 
+  	and
+  		p.school_code=#{schoolCode} and s.stage=#{stage} and s.grade=#{grade} and p.teacher_id=#{teacherId}
+  		and p.class_id is not null
+  </select>
+  
+  
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap2" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from WTRJ_STUDENT
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  
+  <update id="update" parameterType="cn.com.wtrj.jx.web.portal.model.mt.entities.MtStudent">
+  	update 
+  		wtrj_student 
+  	set 
+  		name=#{name},
+  		sex=#{sex},
+  		student_no=#{studentNo},
+  		id_card_number=#{idCardNumber},
+  		card_no = #{cardNo},
+  		card_color = #{cardColor},
+  		student_status = #{studentStatus},
+  		school_code = #{schoolCode},
+  		cureent_school_code = #{cureentSchoolCode},
+  		grade_no = #{gradeNo, jdbcType=DECIMAL},
+  		class_id = #{classId, jdbcType=DECIMAL},
+  		class_no = #{classNo, jdbcType=DECIMAL},
+  		student_code = #{studentCode}
+  		<!-- <choose>
+  			<when test="gradeNo == null">
+  				grade_no=null,
+  			</when>
+  			<otherwise>
+  				grade_no = #{gradeNo},
+  			</otherwise>
+  		</choose>
+  		
+  		<choose>
+  			<when test="classId == null">
+  				class_id = null,
+  			</when>
+  			<otherwise>
+  				class_id = #{classId},
+  			</otherwise>
+  		</choose>
+  		
+  		<choose>
+  			<when test="classNo == null">
+  				class_no = null
+  			</when>
+  			<otherwise>
+  				class_no = #{classNo}
+  			</otherwise>
+  		</choose> -->
+  	where 
+  		id = ${id}
+  </update>
+  
+  
+  <select id="selectStudentParents" resultType="cn.com.wtrj.jx.web.portal.model.mt.entities.MtParent">
+  	select p.id,
+  		p.name,
+  		p.sex,
+  		p.phone,
+  		p.wx_open_id wxOpenId
+  	from 
+  		wtrj_parent p inner join wtrj_stu_parent_relationship r on p.id=r.parent_id 
+  	where  
+  		r.student_id=#{studentId}
+  </select>
+  
+  <select id="selectStudentsByPhone" resultMap="BaseResultMap2" parameterType="java.lang.String">
+   	 	select 
+   	 		<include refid="Base_Column_List" />
+   	 	from wtrj_student s inner join (
+		  select student_id from wtrj_stu_parent_relationship where parent_id=(select id from wtrj_parent p where p.phone=#{phone,jdbcType=VARCHAR})
+		) t on s.id=t.student_id
+  </select>
+  
+  <select id="selectStudentsByParentId" resultMap="BaseResultMap2" parameterType="java.lang.Integer">
+  	select 
+  		<include refid="Base_Column_List" />
+  	from wtrj_student s inner join ( 
+  		select student_id from  wtrj_stu_parent_relationship r where r.parent_id=#{parentId} 
+  	) x on s.id=x.student_id
+  </select>
+  
+  <update id="updateStudentPhoto">
+  	update 
+  		wtrj_student 
+  	set 
+  		photo=#{photo}
+  	where id=${studentId}
+  </update>
+  
+  <select id="existIdCardNumber" resultType="java.lang.Integer">
+  	select 
+  		count(*) 
+  	from 
+  		wtrj_student
+  	where
+  		id_card_number=#{idCardNumber,jdbcType=VARCHAR}
+  		<if test="studentId != null">
+  			and id != #{studentId}
+  		</if>
+  </select>
+  
+  <select id="existStudentNo" resultType="java.lang.Integer">
+  	select 
+  		count(*) 
+  	from 
+  		wtrj_student
+  	where
+  		student_no=#{studentNo,jdbcType=VARCHAR}
+  		<if test="studentId != null">
+  			and id != #{studentId}
+  		</if>
+  </select>
+  
+  <select id="existCardNo" resultType="java.lang.Integer">
+  	select 
+  		count(*) 
+  	from 
+  		wtrj_student
+  	where
+  		card_no=#{cardNo,jdbcType=VARCHAR}
+  		<if test="studentId != null">
+  			and id != #{studentId}
+  		</if>
+  </select>
+  <select id="selectAllSchool" resultType="cn.com.wtrj.jx.web.portal.model.mt.entities.MtSchoolInfo">
+  	select 
+  		code,
+  		name
+  	from 
+  		WTRJ_SCHOOL_INFO
+  	where 
+  		grade_stage is not null
+  </select>
+  
+  <select id="selectAllStage" resultType="cn.com.wtrj.jx.web.portal.model.mt.entities.MtStage">
+  	select distinct  
+      stage code,
+  	  decode(stage,1,'小学',2,'初中',3,'高中') name
+  	from 
+  		WTRJ_SCHOOL_GRADE 
+  		where 1=1
+  		<if test="schoolCode != 0">
+  		and school_code=#{schoolCode,jdbcType=VARCHAR}
+  		</if>
+  	
+  </select>
+  
+  <select id="selectAllGrade" resultType="java.lang.String">
+  	select distinct(grade) grade from WTRJ_SCHOOL_GRADE where 1=1  
+  	<if test="schoolCode != 0">
+  		and school_code = #{schoolCode}
+  	</if>
+  	<if test="stage != 0">
+  		and stage=#{stage}
+  	</if>
+  	order by grade
+  </select>
+  
+  <select id="selectAllClasses" resultType="cn.com.wtrj.jx.web.portal.model.mt.entities.MtEcomClass">
+  	select 
+  		id,
+  		class_no classNo,
+  		class_name className 
+  	from wtrj_ecom_class 
+  	where 1=1
+  	<if test="schoolCode != 0">
+  		and school_code = #{schoolCode}
+  	</if>
+  	<if test="stage != 0">
+  		and stage=#{stage}
+  	</if>
+  	<if test="grade != 0">
+  		and grade=#{grade}
+  	</if>
+  </select>
+  
+  <select id="selectAllStudents" resultType="cn.com.wtrj.jx.web.portal.model.mt.entities.MtStudent">
+  	SELECT M.*
+	    FROM (
+	            SELECT L.*, row_number() over(ORDER BY L.studentCode ASC) rn
+	              FROM (
+	                    select
+	                    	   id,
+	                           student_no studentNo,  
+	                           name,
+	                           sex,
+	                           (select name from wtrj_school_info school  where student.school_code=school.code) as schoolName,  
+	                           cureent_school_code as gradeStage,
+	                           school_code schoolCode,
+	                           grade_no gradeNo,
+	                           class_no classNo,
+	                           id_card_number idCardNumber,
+	                           card_no cardNo, 
+	                           card_color cardColor,
+	                           pay_status payStatus,
+	                           student.student_code studentCode   
+	                     from wtrj_student student
+	                     where 1=1
+	                     <if test="schoolCode != 0">
+	                     	and student.school_code=#{schoolCode,jdbcType=VARCHAR} 
+	                     </if>
+	                     <if test="stage != 0">
+	                     	and student.cureent_school_code=#{stage,jdbcType=VARCHAR} 
+	                     </if>
+	                     <if test="grade != 0">
+	                     	and student.grade_no=#{grade,jdbcType=VARCHAR}
+	                     </if>
+						 <if test="classId != 0">
+						 	and student.class_id=#{classId,jdbcType=VARCHAR}
+						 </if>
+	                     <if test="search != null">
+	                     	and
+	                     		(student.name like CONCAT(CONCAT('%','${search}'), '%') 
+	                     		or  student.id_card_number like CONCAT(CONCAT('%','${search}'), '%'))
+	                     </if>
+	                     
+	                    ) L
+	              ) M
+	    
+	     where M.rn between #{start} and #{end}
+  </select>
+  
+  <select id="countStudentByYw" resultType="java.lang.Integer" parameterType="cn.com.wtrj.jx.web.portal.model.entities.WtrjEcomPermission">
+  	select 
+		count(s.name) num 
+		from 
+			WTRJ_STUDENT s
+		where
+			(s.name like CONCAT(CONCAT('%','${stuName}'), '%') 
+	        or  s.id_card_number like CONCAT(CONCAT('%','${stuName}'), '%')) 
+	        <if test="schoolCode != 0">
+	        	and s.school_code =#{schoolCode,jdbcType=VARCHAR} 
+	        </if>
+	        <if test="grade != 0">
+	        	and s.grade_no = #{grade,jdbcType=VARCHAR}
+	        </if>
+	         <if test="stage != 0">
+	         	and s.cureent_school_code = #{stage,jdbcType=VARCHAR} 
+	         </if>
+	        <if test="classId != 0">
+	        	and s.class_id = #{classId,jdbcType=VARCHAR}
+	        </if>
+  </select>
+  
+  <select id="selectRoleIdByUserId" resultType="java.lang.String">
+  	select r.role_id from wtrj_user_role r,wtrj_user u where r.user_id = u.id and r.user_id = '${userId}'
+  </select>
+  
+  
+</mapper>

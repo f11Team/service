@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper
+	namespace="cn.com.wtrj.jx.web.portal.model.mt.dao.attendance.MtAttendanceMapper">
+	<select id="searchAttByStNoAndAttTime" resultMap="attendance-resultMap">
+		select
+		att.id,
+		att.student_no,
+		att.student_name,
+		to_char(att.attendance_time, 'yyyy-mm-dd hh24:mi') ATTTIME,
+		att.attendance_place,
+		att.attendance_kind,
+		att.attendance_status
+		from
+		wtrj_rpt_attendance att
+		where
+		att.student_no = #{studentNo}
+		and to_char(attendance_time, 'yyyy-mm-dd') = #{attendanceTime}
+	</select>
+
+	<resultMap id="attendance-resultMap"
+		type="cn.com.wtrj.jx.web.portal.model.mt.entities.attendance.MtAttendance">
+		<id column="id" property="id" />
+		<result column="STUDENT_NO" property="studentNo" />
+		<result column="STUDENT_NAME" property="studentName" />
+		<result column="ATTTIME" property="attendanceTime" />
+		<result column="ATTENDANCE_PLACE" property="attendancePlace" />
+		<result column="ATTENDANCE_KIND" property="attendanceKind" />
+		<result column="ATTENDANCE_STATUS" property="attendanceStatus" />
+	</resultMap>
+</mapper>

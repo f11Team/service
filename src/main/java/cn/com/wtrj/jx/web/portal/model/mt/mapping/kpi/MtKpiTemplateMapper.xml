@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.wtrj.jx.web.portal.model.mt.dao.kpi.MtKpiTemplateMapper">
+	<select id="findByType" resultType="cn.com.wtrj.jx.web.portal.model.mt.entities.kpi.MtKpiTemplate">
+		select 
+			a.school_code as schoolCode, 
+			b.name as schoolName, 
+			a.tmpl_code as tmplCode, 
+			a.tmpl_name as tmplName,
+			a.tmpl_type as tmplType,
+			a.tmpl_year as tmplYear,
+			a.tmpl_seq as tmplSeq
+		  from WTRJ_KPI_TEMPLATE a 
+		  left join WTRJ_SCHOOL_INFO b on a.school_code=b.code
+		 where 1=1
+		<if test="schoolCode != null and schoolCode != ''">
+	   		and a.school_code = #{schoolCode}
+		</if>
+		<if test="tmplType != null and tmplType != ''">
+	   		and a.tmpl_type = #{tmplType}
+		</if>
+		 group by a.school_code,
+		          b.name,
+		          a.tmpl_code,
+		          a.tmpl_name,
+		          a.tmpl_type,
+		          a.tmpl_year,
+		          a.tmpl_seq
+		  order by a.tmpl_seq   
+	</select>
+	<select id="findMaxSeq" resultType="Integer">
+		select max(tmpl_seq) as seq
+		  from WTRJ_KPI_TEMPLATE a
+		 where a.tmpl_year = #{year}
+	</select>
+</mapper>

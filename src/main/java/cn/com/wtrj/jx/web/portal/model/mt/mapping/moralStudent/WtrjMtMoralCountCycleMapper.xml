@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.wtrj.jx.web.portal.model.mt.dao.moralStudent.WtrjMtMoralCountCycleMapper" >
+    <resultMap id="BaseResultMap" type="cn.com.wtrj.jx.web.portal.model.entities.moralStudent.WtrjMoralCountCycle" >
+        <id column="ID" property="id" jdbcType="DECIMAL" />
+        <result column="SCHOOL_CODE" property="schoolCode" jdbcType="VARCHAR" />
+        <result column="STAGE" property="stage" jdbcType="DECIMAL" />
+        <result column="GRADE" property="grade" jdbcType="DECIMAL" />
+        <result column="COUNT_NAME" property="countName" jdbcType="VARCHAR" />
+        <result column="CYCLE_START" property="cycleStart" jdbcType="TIMESTAMP" />
+        <result column="CYCLE_END" property="cycleEnd" jdbcType="TIMESTAMP" />
+        <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+        <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+        <result column="BL_DEL_FLG" property="blDelFlg" jdbcType="CHAR" />
+    </resultMap>
+
+    <sql id="Base_Column_List" >
+        ID, SCHOOL_CODE, STAGE, GRADE, COUNT_NAME, CYCLE_START, CYCLE_END, CREATE_TIME, UPDATE_TIME,
+        BL_DEL_FLG
+    </sql>
+
+    <select id="selectCountCycleByPage"  resultType="cn.com.wtrj.jx.web.portal.model.entities.moralStudent.WtrjMoralCountCycle" resultMap="BaseResultMap">
+
+       select M.* from
+        (select wmcc.*,s.name name ,rownum  as rn from
+         WTRJ_MORAL_COUNT_CYCLE wmcc,wtrj_school_info s 
+         where wmcc.school_code=s.code and wmcc.bl_del_flg = 0 ) M
+        WHERE M.rn between #{start} and #{end}
+
+    </select>
+
+    <select id="getstudentScoreCountById" resultType="cn.com.wtrj.jx.web.portal.model.mt.entities.moral.CountScoreDto">
+        select sum(act_score) as actScore,count_name as countName,cycle_start as cycleStart,cycle_end cycleEnd from
+   (select wmi.act_score as act_score ,wmcc.count_name ,wmcc.cycle_start,wmcc.cycle_end ,wmcc.id from
+          wtrj_ecom_class wec,
+          wtrj_student ws,
+          wtrj_moral_count_cycle wmcc,
+          wtrj_moral_ins wmi
+          where
+          wec.id=ws.class_id
+          and wmi.student_id=ws.id
+          and wmcc.school_code=wec.school_code
+          and wmcc.stage=wec.stage
+          and wmcc.grade=wec.grade
+          and wmi.act_score>0
+	      and ws.id=#{stuId}
+	      and wmi.auth_result!='03'
+	      and wmcc.bl_del_flg = '0' 
+          and wmi.CREATE_TIME between wmcc.cycle_start and wmcc.cycle_end)
+          group by id,count_name,cycle_start,cycle_end
+
+    </select>
+
+
+</mapper>

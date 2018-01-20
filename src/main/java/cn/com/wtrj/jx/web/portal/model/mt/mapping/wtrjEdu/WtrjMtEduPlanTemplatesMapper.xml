@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper
+	namespace="cn.com.wtrj.jx.web.portal.model.mt.dao.wtrjEdu.WtrjMtEduPlanTemplatesMapper">
+	<resultMap id="BaseResultMap"
+		type="cn.com.wtrj.jx.web.portal.model.entities.wtrjEdu.WtrjEduPlanTemplates">
+		<id column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="YEAR" property="year" jdbcType="VARCHAR" />
+		<result column="TERM" property="term" jdbcType="VARCHAR" />
+		<result column="TYPE" property="type" jdbcType="VARCHAR" />
+		<result column="SCHOOL_NAME" property="schoolName" jdbcType="VARCHAR" />
+		<result column="SCHOOL_CODE" property="schoolCode" jdbcType="VARCHAR" />
+		<result column="STAGE" property="stage" jdbcType="VARCHAR" />
+		<result column="GRADE" property="grade" jdbcType="VARCHAR" />
+		<result column="COURSE" property="course" jdbcType="VARCHAR" />
+		<result column="URL" property="url" jdbcType="VARCHAR" />
+		<result column="DEL_FLAG" property="delFlag" jdbcType="VARCHAR" />
+		<result column="TERM_NAME" property="termName" jdbcType="VARCHAR" />
+		<result column="COURSE_NAME" property="courseName" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		ID, YEAR, TERM, TYPE, SCHOOL_NAME, SCHOOL_CODE, STAGE, GRADE, COURSE,
+		URL, DEL_FLAG,TERM_NAME,COURSE_NAME
+	</sql>
+
+	<select id="getEduPlanTemplatesByPage"
+		resultType="cn.com.wtrj.jx.web.portal.model.entities.wtrjEdu.WtrjEduPlanTemplates" resultMap="BaseResultMap">
+		select * from (select rownum rn,M.* from (select *
+		from wtrj_edu_plan_templates wept where del_flag='0'
+
+		<if test="type != null  and type !='' ">
+			and type=#{type}
+		</if>
+		 order by id desc)M)
+		where rn between #{start} and #{end}
+
+	</select>
+	<select id="countGetEduPlanTemplatesByPage" resultType="int">
+		select COUNT (*)
+		from wtrj_edu_plan_templates wept where del_flag='0'
+		<if test="type != null  and type !='' ">
+			and type=#{type}
+		</if>
+
+	</select>
+</mapper>

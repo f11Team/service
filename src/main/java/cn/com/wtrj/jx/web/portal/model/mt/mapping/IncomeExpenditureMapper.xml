@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.wtrj.jx.web.portal.model.mt.dao.IncomeExpenditureMapper">
+	<resultMap id="BaseResultMap" type="cn.com.wtrj.jx.web.portal.model.mt.entities.IncomeExpenditureBean" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="YEAR" property="year" jdbcType="DECIMAL" />
+    <result column="MONTH" property="month" jdbcType="DECIMAL" />
+    <result column="PROJECT" property="project" jdbcType="VARCHAR" />
+    <result column="SCHOOL" property="school" jdbcType="VARCHAR" />
+    <result column="INCOME" property="income" jdbcType="DECIMAL" />
+    <result column="EXPENDITURE" property="expenditure" jdbcType="DECIMAL" />
+  </resultMap>
+
+	<select id="searchAllYears" resultType="Integer">
+		select distinct YEAR from WTRJ_RPT_NC_INCOME_EXPENSE order by YEAR 
+	</select>
+	
+	<select id="searchInfoByYear" resultMap="BaseResultMap"  >
+    select  year, month,NVL(sum(income),0) as income,NVL(sum(EXPENDITURE),0) as EXPENDITURE 
+    	from WTRJ_RPT_NC_INCOME_EXPENSE  
+    	where 1=1
+    	and "MONTH" &gt; 0
+    	<if test="year != null">
+    	and "YEAR"=#{year}
+    	</if>
+    	<if test="startDate != '' and startDate != null ">
+		and TO_DATE("YEAR" || '-' || "MONTH" || '-01','yyyy-mm-dd') &gt;=TO_DATE(#{startDate}, 'yyyy-mm-dd')
+    	</if>
+    	<if test="endDate != '' and endDate != null ">
+		and TO_DATE("YEAR" || '-' || "MONTH" || '-01','yyyy-mm-dd') &lt;=TO_DATE(#{endDate}, 'yyyy-mm-dd')
+    	</if>
+    	and org_code in (
+		   select distinct nr.org_code
+		                      from wtrj_user u
+		                      left join wtrj_user_role ur on u.id = ur.user_id
+		                      left join wtrj_role_nc_relationship nr on ur.role_id = nr.role_id
+				        	  left join wtrj_org org on nr.org_code = org.code
+				                 where nr.org_code is not null 
+		                     and u.id= #{userId}
+							<if test="segementCode != null and segementCode != ''">
+		                     and org.segement_code = #{segementCode}
+							</if>
+							<if test="orgCode != null and orgCode != ''">
+		                     and org.code = #{orgCode}
+							</if>
+		   )
+    	group by year, month 
+    	order by year, month asc
+  </select>
+	
+	
+	<select id="searchInfoByProject" resultMap="BaseResultMap"  >
+	select sum(t.income) as income,
+       sum(t.expenditure) as expenditure,
+       b.name as project
+		 from wtrj_org o
+		 left join WTRJ_RPT_NC_INCOME_EXPENSE  t on o.code = t.org_code
+		 left join wtrj_business_segment b on o.SEGEMENT_CODE = b.code
+		 where t.year = #{year}
+		   and t.month = #{month}
+		   and o.code in (
+		   select distinct nr.org_code
+		                      from wtrj_user u
+		                      left join wtrj_user_role ur on u.id = ur.user_id
+		                      left join wtrj_role_nc_relationship nr on ur.role_id =
+		                                                                nr.role_id
+				        
+				                 where nr.org_code is not null 
+		                     and u.id= #{userId}
+		   )
+ group by b.name
+  </select>
+	
+	<select id="searchInfoBySchool" resultMap="BaseResultMap"  >
+	  select t.income as income, t.expenditure as expenditure, o.nick_name as school
+		  from wtrj_org o
+		 left join WTRJ_RPT_NC_INCOME_EXPENSE  t on o.code = t.org_code
+		 left join wtrj_business_segment b on o.SEGEMENT_CODE = b.code
+		 where b.name = #{project}
+		   and t.year = #{year}
+		   and t.month = #{month}
+		   and o.code in (
+		   select distinct nr.org_code
+		                      from wtrj_user u
+		                      left join wtrj_user_role ur on u.id = ur.user_id
+		                      left join wtrj_role_nc_relationship nr on ur.role_id =
+		                                                                nr.role_id
+				        
+				                 where nr.org_code is not null 
+		                     and u.id= #{userId}
+		   )
+  </select>
+	
+	
+<select id="searchInfoByProject2" resultMap="BaseResultMap"  >
+	select sum(t.income) as income,
+       sum(t.expenditure) as expenditure,
+       b.name as project
+	  from wtrj_org o
+		 left join WTRJ_RPT_NC_INCOME_EXPENSE  t on o.code = t.org_code
+		 left join wtrj_business_segment b on o.SEGEMENT_CODE = b.code
+		 where t.year = #{year}
+		 and o.code in (
+		   select distinct nr.org_code
+		                      from wtrj_user u
+		                      left join wtrj_user_role ur on u.id = ur.user_id
+		                      left join wtrj_role_nc_relationship nr on ur.role_id =
+		                                                                nr.role_id
+				        
+				                 where nr.org_code is not null 
+		                     and u.id= #{userId}
+		   )
+		 group by b.name
+  </select>
+	
+	<select id="searchInfoByProjectAndYear" resultMap="BaseResultMap"  >
+		select sum(t.income) as income,
+		       sum(t.expenditure) as expenditure,
+		       t.month
+		  from wtrj_org o
+		 left join WTRJ_RPT_NC_INCOME_EXPENSE  t on o.code = t.org_code
+		 left join wtrj_business_segment b on o.SEGEMENT_CODE = b.code
+		 where t.year =#{year}
+		 and  b.name=#{project}
+		 and o.code in (
+		   select distinct nr.org_code
+		                      from wtrj_user u
+		                      left join wtrj_user_role ur on u.id = ur.user_id
+		                      left join wtrj_role_nc_relationship nr on ur.role_id =
+		                                                                nr.role_id
+				        
+				                 where nr.org_code is not null 
+		                     and u.id= #{userId}
+		   )
+		 group by t.month
+		  order by t.month
+  </select>
+	
+	<select id="searchInfoByProjectAndYearAndMonth" resultMap="BaseResultMap"  >
+select t.income as income,
+       t.expenditure as expenditure,
+       o.nick_name as school
+  from wtrj_org o
+ left join WTRJ_RPT_NC_INCOME_EXPENSE  t on o.code = t.org_code
+ left join wtrj_business_segment b on o.SEGEMENT_CODE = b.code
+ where t.year =#{year}
+  and  t.month=#{month}
+ and  b.name=#{project}
+ and o.code in (
+		   select distinct nr.org_code
+		                      from wtrj_user u
+		                      left join wtrj_user_role ur on u.id = ur.user_id
+		                      left join wtrj_role_nc_relationship nr on ur.role_id =
+		                                                                nr.role_id
+				        
+				                 where nr.org_code is not null 
+		                     and u.id= #{userId}
+		   )
+  </select>
+	
+<select id="selectProjectDataByMonth" resultType="cn.com.wtrj.jx.web.portal.model.mt.entities.report.MtProjectMothShouzhiDto" >
+	select sum(t.income) as shouru,
+	       sum(t.expenditure) as zhichu,
+	       b.name as projectName,
+	       b.code as projectCode,
+	       t.month as month
+	  from wtrj_org o
+	  left join WTRJ_RPT_NC_INCOME_EXPENSE  t on o.code = t.org_code
+	  left join wtrj_business_segment b on o.SEGEMENT_CODE = b.code
+	 where t.year = #{year}
+	 and o.code in (
+		   select distinct nr.org_code
+		                      from wtrj_user u
+		                      left join wtrj_user_role ur on u.id = ur.user_id
+		                      left join wtrj_role_nc_relationship nr on ur.role_id =
+		                                                                nr.role_id
+				        
+				                 where nr.org_code is not null 
+		                     and u.id= #{userId}
+		   )
+	 group by b.name, b.code, t.month
+	 order by t.month asc
+  </select>
+  
+  <select id="selectShouruByProject" resultType="cn.com.wtrj.jx.web.portal.model.mt.entities.report.MtProjectShouzhiValueDto"  >
+		select sum(t.income) as value,
+		       b.name as projectName
+		  from WTRJ_RPT_NC_INCOME_EXPENSE  t
+		  left join wtrj_org o on o.code = t.org_code
+		  left join wtrj_business_segment b on o.SEGEMENT_CODE = b.code
+		 where t.year = #{year}
+		   and t.month = #{month}
+		   and t.org_code in (
+		   select distinct nr.org_code
+		                      from wtrj_user u
+		                      left join wtrj_user_role ur on u.id = ur.user_id
+		                      left join wtrj_role_nc_relationship nr on ur.role_id =
+		                                                                nr.role_id
+				        
+				                 where nr.org_code is not null 
+		                     and u.id= #{userId}
+		   )
+		 group by b.name
+		 order by value DESC
+  </select>
+
+  <select id="selectZhichuByProject" resultType="cn.com.wtrj.jx.web.portal.model.mt.entities.report.MtProjectShouzhiValueDto"  >
+		select sum(t.expenditure) as value,
+		       b.name as projectName
+		  from WTRJ_RPT_NC_INCOME_EXPENSE  t
+		  left join wtrj_org o on o.code = t.org_code
+		  left join wtrj_business_segment b on o.SEGEMENT_CODE = b.code
+		 where t.year = #{year}
+		   and t.month = #{month}
+		   and t.org_code in (
+		   select distinct nr.org_code
+		                      from wtrj_user u
+		                      left join wtrj_user_role ur on u.id = ur.user_id
+		                      left join wtrj_role_nc_relationship nr on ur.role_id =
+		                                                                nr.role_id
+				        
+				                 where nr.org_code is not null 
+		                     and u.id= #{userId}
+		   )
+		 group by b.name
+		 order by value DESC
+  </select>
+  
+  <select id="selectOrgShouruData" resultType="cn.com.wtrj.jx.web.portal.model.mt.entities.report.MtOrgShouzhiValueDto"  >
+	  select t.income as value, o.nick_name as orgName
+		  from wtrj_org o
+		 left join WTRJ_RPT_NC_INCOME_EXPENSE  t on o.code = t.org_code
+		 left join wtrj_business_segment b on o.SEGEMENT_CODE = b.code
+		 where b.name = #{project}
+		   and t.year = #{year}
+		   and t.month = #{month}
+		   and o.code in (
+		   select distinct nr.org_code
+		                      from wtrj_user u
+		                      left join wtrj_user_role ur on u.id = ur.user_id
+		                      left join wtrj_role_nc_relationship nr on ur.role_id =
+		                                                                nr.role_id
+				        
+				                 where nr.org_code is not null 
+		                     and u.id= #{userId}
+		   )
+		 order by value DESC
+  </select>
+  
+    <select id="selectOrgZhichuData" resultType="cn.com.wtrj.jx.web.portal.model.mt.entities.report.MtOrgShouzhiValueDto"  >
+	  select t.expenditure as value, o.nick_name as orgName
+		  from wtrj_org o
+		 left join WTRJ_RPT_NC_INCOME_EXPENSE  t on o.code = t.org_code
+		 left join wtrj_business_segment b on o.SEGEMENT_CODE = b.code
+		 where b.name = #{project}
+		   and t.year = #{year}
+		   and t.month = #{month}
+		   and o.code in (
+		   select distinct nr.org_code
+		                      from wtrj_user u
+		                      left join wtrj_user_role ur on u.id = ur.user_id
+		                      left join wtrj_role_nc_relationship nr on ur.role_id =
+		                                                                nr.role_id
+				        
+				                 where nr.org_code is not null 
+		                     and u.id= #{userId}
+		   )
+		   order by value DESC
+  </select>
+</mapper>

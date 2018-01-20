@@ -1,0 +1,441 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.wtrj.jx.web.portal.model.dao.ScoreUploadMapper" >
+  
+  <resultMap id="schoolResultMap" type="cn.com.wtrj.jx.web.portal.service.dto.School" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="school_code" property="code" jdbcType="VARCHAR" />
+    <result column="school_name" property="name" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <resultMap id="gradeResultMap" type="cn.com.wtrj.jx.web.portal.service.dto.Grade" >
+    <result column="school_code" property="schoolCode" jdbcType="VARCHAR" />
+    <result column="school_name" property="schoolName" jdbcType="VARCHAR" />
+     <result column="grade" property="grade" jdbcType="VARCHAR" />
+      <result column="stage" property="stage" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <resultMap id="classResultMap" type="cn.com.wtrj.jx.web.portal.service.dto.SchoolClass" >
+    <result column="school_code" property="schoolCode" jdbcType="VARCHAR" />
+    <result column="school_name" property="schoolName" jdbcType="VARCHAR" />
+     <result column="grade" property="grade" jdbcType="VARCHAR" />
+      <result column="stage" property="stage" jdbcType="VARCHAR" />
+      <result column="id" property="classId" jdbcType="VARCHAR" />
+      <result column="class_name" property="className" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <resultMap id="studentResultMap" type="cn.com.wtrj.jx.web.portal.service.dto.Student" >
+     <result column="name" property="name" jdbcType="VARCHAR" />
+      <result column="id_card_number" property="idCardNumber" jdbcType="VARCHAR" />
+       <result column="student_code" property="studentCode" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="dictResultMap" type="cn.com.wtrj.jx.web.portal.model.entities.DictItem">
+  	<result column="CODE" property="code" jdbcType="VARCHAR"/>
+  	<result column="NAME" property="name" jdbcType="VARCHAR"/>
+  </resultMap>
+  
+  <resultMap id="scoreResultMap" type="cn.com.wtrj.jx.web.portal.service.dto.Score" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="exam_ins_id" property="examInsId" jdbcType="VARCHAR" />
+    <result column="exam_ins_name" property="examInsName" jdbcType="VARCHAR" />
+    <result column="score" property="score" jdbcType="VARCHAR" />
+     <result column="sum_number" property="sumNumber" jdbcType="VARCHAR" />
+    <result column="id_card_number" property="idCardNumber" jdbcType="VARCHAR" />
+    <result column="student_id_card_no" property="idCardNumber" jdbcType="VARCHAR" />
+     <result column="student_name" property="studentName" jdbcType="VARCHAR" />
+    <result column="year_name" property="yearName" jdbcType="VARCHAR" />
+    <result column="term_name" property="termName" jdbcType="VARCHAR" />
+    <result column="school_code" property="schoolCode" jdbcType="VARCHAR" />
+    <result column="school_name" property="schoolName" jdbcType="VARCHAR" />
+    <result column="course_code" property="courseCode" jdbcType="VARCHAR" />
+    <result column="course_name" property="courseName" jdbcType="VARCHAR" />
+    <result column="class_id" property="classId" jdbcType="VARCHAR" />
+    <result column="class_name" property="className" jdbcType="VARCHAR" />
+    <result column="grade" property="grade" jdbcType="VARCHAR" />
+    <result column="type_name" property="typeName" jdbcType="VARCHAR" />
+    <result column="upload_file" property="filePath" jdbcType="VARCHAR" />
+    <result column="upload_time_str" property="uploadTimeStr" jdbcType="VARCHAR" />
+    <result column="upload_user_name" property="uploadUserName" jdbcType="VARCHAR" />
+    <result column="full_score" property="fullScore" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="student_code" property="studentCode" jdbcType="VARCHAR" />
+    <result column="science_score" property="scienceScore" jdbcType="DECIMAL"/>
+	<result column="arts_score" property="artsScore" jdbcType="DECIMAL"/>
+  </resultMap>
+  
+  <select id="findGradesBySchoolCode" resultMap="gradeResultMap">
+  	  select * from wtrj_school_grade g where g.school_code = #{schoolCode}
+  </select>
+  
+  <select id="findClassesByGrade" resultMap="classResultMap">
+  	  select * from wtrj_ecom_class c where c.grade = #{grade} and c.school_code = #{schoolCode} order by c.id asc
+  </select>
+  
+  <select id="findClassesBySchoolCode" resultMap="classResultMap">
+  	 select * from wtrj_ecom_class c where c.school_code = #{schoolCode} order by c.id asc
+  </select>
+  
+  <select id="findAllSchool" resultMap="schoolResultMap">
+  	select s.code,s.name from wtrj_school_info s	
+  	 where s.grade_stage is not null order by s.create_time desc
+  </select>
+  
+  <select id="findStudents" resultMap="studentResultMap">
+  	select * from wtrj_student st where st.class_id = #{classId}
+  </select>
+  
+  <select id="countScoreUploaByPage" resultType="int" >
+  	select count(*) from WTRJ_RPT_SCORE_UPLOAD u where u.flag = '1' and u.upload_user_id = #{teacherId} order by u.update_time desc
+  </select>
+  
+  <select id="getScoreUploadByPage" resultMap="scoreResultMap"  >
+  	SELECT * FROM (SELECT rownum rn, u.ID, 
+					u.EXAM_INS_ID, 
+					u.EXAM_INS_NAME,
+					u.SCHOOL_CODE, 
+					u.SCHOOL_NAME, 
+					u.GRADE, 
+					u.CLASS_ID, 
+					u.CLASS_NAME,
+					u.TYPE_CODE, 
+					u.TYPE_NAME, 
+					u.COURSE_CODE, 
+					u.COURSE_NAME, 
+					u.YEAR_NAME,
+					u.YEAR_CODE,
+					u.TERM_CODE,
+					u.TERM_NAME,
+					u.UPLOAD_USER_ID,
+					u.UPLOAD_USER_NAME,
+					u.upload_time,
+					TO_CHAR(u.upload_time,'YYYY-MM-DD HH24:MI:SS') upload_time_str 
+                      from WTRJ_RPT_SCORE_UPLOAD u
+                      where u.flag = '1' and u.upload_user_id = #{teacherId}  order by u.upload_time desc
+		                  ) M 
+		
+		 where M.rn between #{start} and #{end}
+  </select>
+  
+  <select id="checkScoreUpload" parameterType="cn.com.wtrj.jx.web.portal.service.dto.Score" resultType="int">
+  select count(*) 
+	  from WTRJ_RPT_SCORE_UPLOAD u
+	 where u.exam_ins_id =  #{examInsId}
+	   and u.school_code = #{schoolCode}
+	   and u.grade = #{grade}
+	   and u.class_id = #{classId}
+	   and u.type_code = #{typeCode}
+	   and u.course_code = #{courseCode}
+	    and u.year_code = #{yearCode}
+   		and u.term_code = #{termCode}
+  </select>
+  
+  <select id="findScoreUploadInsByClassId" resultMap="scoreResultMap">
+  	    select distinct su.exam_ins_id,su.exam_ins_name from wtrj_rpt_score_upload su where su.class_id = #{classId} and su.flag = '1'
+  </select>
+  
+    <select id="findScoreMultiInsByClassId" resultMap="scoreResultMap">
+  	    select distinct su.exam_ins_id,su.exam_ins_name from wtrj_rpt_score_upload su,WTRJ_RPT_SCORE_EXAM_INS ex where ex.id = su.EXAM_INS_ID and ex.EXAM_TYPE != '0' 
+  	    and su.class_id = #{classId} and su.flag = '1'
+  </select>
+  
+  
+  <select id="findScoreUploadInsByClassIdArray" resultMap="scoreResultMap">
+  	    select distinct su.exam_ins_id,su.exam_ins_name from wtrj_rpt_score_upload su where su.class_id in <foreach item="item" index="index" collection="classIds" open="(" separator="," close=")"> 
+                                #{item} 
+                         </foreach>   and su.flag = '1'
+  </select>
+  
+  <select id="findScoreUploadCountByClassAndIns" resultType="int">
+  	select  count(*)  from wtrj_rpt_score_upload su,WTRJ_RPT_SCORE_EXAM_INS ex
+					 where 
+					   ex.ID = su.exam_ins_id
+                     and ex.EXAM_TYPE != '0' 
+                     and su.class_id = #{classId} and su.exam_ins_id = #{ins} and exam_type != '0' and su.flag = '1'
+  </select>
+  
+  <select id="findScoreUploadInfosByClassAndIns" resultMap="scoreResultMap">
+  	SELECT * FROM (SELECT rownum rn, su.ID, 
+					su.EXAM_INS_ID, 
+					su.EXAM_INS_NAME,
+					su.SCHOOL_CODE, 
+					su.SCHOOL_NAME, 
+					su.GRADE, 
+					su.CLASS_ID, 
+					su.CLASS_NAME,
+					su.TYPE_CODE, 
+					su.TYPE_NAME, 
+					su.COURSE_CODE, 
+					su.COURSE_NAME, 
+					su.YEAR_NAME,
+					su.YEAR_CODE,
+					su.TERM_CODE,
+					su.TERM_NAME,
+					su.UPLOAD_USER_ID,
+					su.UPLOAD_USER_NAME,
+					su.upload_time,
+					su.upload_file,
+					ex.REMARK,
+					TO_CHAR(su.upload_time,'YYYY-MM-DD HH24:MI:SS') upload_time_str  from wtrj_rpt_score_upload su,WTRJ_RPT_SCORE_EXAM_INS ex
+					 where 
+					   ex.ID = su.exam_ins_id
+                     and ex.EXAM_TYPE != '0' 
+                     and su.class_id = #{classId} and su.exam_ins_id = #{ins} and exam_type != '0' and su.flag = '1' 
+                     
+                     order by su.upload_time desc
+                      ) M 
+		
+		 where M.rn between #{start} and #{end}
+  </select>
+  
+  <select id="findScoreUploadInfosByClass" resultMap="scoreResultMap">
+  	select  su.ID, 
+					su.EXAM_INS_ID, 
+					su.EXAM_INS_NAME,
+					su.SCHOOL_CODE, 
+					su.SCHOOL_NAME, 
+					su.GRADE, 
+					su.CLASS_ID, 
+					su.CLASS_NAME,
+					su.TYPE_CODE, 
+					su.TYPE_NAME, 
+					su.COURSE_CODE, 
+					su.COURSE_NAME, 
+					su.YEAR_NAME,
+					su.YEAR_CODE,
+					su.TERM_CODE,
+					su.TERM_NAME,
+					su.UPLOAD_USER_ID,
+					su.UPLOAD_USER_NAME,
+					su.upload_time,
+					su.upload_file,
+					ex.REMARK,
+					TO_CHAR(su.upload_time,'YYYY-MM-DD HH24:MI:SS') upload_time_str  from wtrj_rpt_score_upload su  ,WTRJ_RPT_SCORE_EXAM_INS ex 
+					where 
+					  ex.ID = su.exam_ins_id
+                     and ex.EXAM_TYPE = '0' 
+                     and su.class_id=#{classId} and su.flag='1' and su.upload_user_id = #{teacherId}
+  </select>
+  
+  <update id="deleteScoreUploadFile">
+  	update WTRJ_RPT_SCORE_UPLOAD u set flag = '0' 
+  	   where u.exam_ins_id =  #{examInsId}
+	   and u.school_code = #{schoolCode}
+	   and u.grade = #{grade}
+	   and u.class_id = #{classId}
+	   and u.type_code = #{typeCode}
+	   and u.course_code = #{courseCode}
+	    and u.year_code = #{yearCode}
+   		and u.term_code = #{termCode}
+  </update>
+  
+  <update id="deleteScoreUpload">
+  	update WTRJ_RPT_SCORE_UPLOAD set flag = '0' where id = #{id}
+  </update>
+  
+  <select id="findById" resultMap="scoreResultMap">
+  	select * from WTRJ_RPT_SCORE_UPLOAD where id = #{id} 
+  </select>
+  
+  
+  <update id="deleteStudentScore"  parameterType="cn.com.wtrj.jx.web.portal.service.dto.Score">
+  	update WTRJ_RPT_SCORE_DETAIL d set d.flag = '0' 
+  		where d.exam_ins_id = #{examInsId}
+  		and d.school_code = #{schoolCode} 
+  		and d.course_code = #{courseCode} 
+  		and d.class_id = #{classId}
+  </update>
+  
+  <insert id="saveScoreUploadInfo" parameterType="cn.com.wtrj.jx.web.portal.service.dto.Score">
+	     insert into WTRJ_RPT_SCORE_UPLOAD (ID, EXAM_INS_ID, EXAM_INS_NAME,
+			SCHOOL_CODE, SCHOOL_NAME, GRADE, CLASS_ID, CLASS_NAME,
+			TYPE_CODE, TYPE_NAME, COURSE_CODE, COURSE_NAME, YEAR_NAME,YEAR_CODE,TERM_CODE,TERM_NAME,
+			UPLOAD_USER_ID, UPLOAD_USER_NAME,UPLOAD_TIME, UPLOAD_FILE,FULL_SCORE)
+		values (#{id}, #{examInsId}, #{examInsName}, 
+				#{schoolCode}, #{schoolName}, #{grade}, #{classId}, #{className},
+				#{typeCode}, #{typeName}, #{courseCode}, #{courseName}, #{yearName}, #{yearCode}, #{termCode}, #{termName}, 
+				#{uploadUserId}, #{uploadUserName}, #{uploadTime}, #{filePath},#{fullScore})
+  </insert>
+  
+  <insert id="saveStudentsScore" parameterType="cn.com.wtrj.jx.web.portal.service.dto.Score">
+  insert into WTRJ_RPT_SCORE_DETAIL (EXAM_INS_ID, EXAM_INS_NAME,SCHOOL_CODE, CLASS_NAME, STUDENT_NAME,
+	 SCORE, COURSE_CODE, COURSE_NAME, 
+	 	CLASS_ID, CREATE_USER_ID, CREATE_USER_NAME, CREATE_TIME,FULL_SCORE)
+	values (#{examInsId}, #{examInsName},#{schoolCode},
+	 #{className}, #{studentName},
+		 #{score}, #{courseCode}, 
+		 #{courseName},
+		 #{classId}, #{uploadUserId}, 
+		 #{uploadUserName}, #{uploadTime},#{fullScore})
+  </insert>
+  
+  <select id="findScoreDetailByInsIdAndClassId" resultMap="scoreResultMap">
+  	select d.*,c.grade from WTRJ_RPT_SCORE_DETAIL d,wtrj_ecom_class c where c.id = d.class_id and  d.exam_ins_id = #{examInsId} and d.class_id = #{classId} and d.flag = '1'
+  </select>
+  <select id="findScoreDetailByInsIdAndClassIdAndCourseCode" ></select>
+  
+  <insert id="saveScoreSum" parameterType="cn.com.wtrj.jx.web.portal.service.dto.Score">
+  		insert into WTRJ_RPT_SCORE_SUM (ID, EXAM_INS_ID, EXAM_INS_NAME,SCHOOL_CODE, GRADE,
+					CLASS_ID,  NAME, SUM_NUMBER, FULL_SCORE, STUDENT_CODE, FLAG,CLASS_NAME,SCIENCE_SCORE,ARTS_SCORE,CLASS_REMARK)
+			values (#{id}, #{examInsId},#{examInsName}, #{schoolCode}, #{grade}, 
+				#{classId},  #{studentName}, #{sumNumber}, #{fullScore}, #{studentCode}, #{flag},#{className,jdbcType=VARCHAR},#{scienceScore},#{artsScore},#{classRemark,jdbcType=VARCHAR})
+  </insert>
+  
+  <select id="findScoreSumByClassIdAndInsId" resultMap="scoreResultMap">
+  	   select ID, EXAM_INS_ID, EXAM_INS_NAME,SCHOOL_CODE, GRADE, CLASS_ID, ID_CARD ID_CARD_NUMBER, NAME STUDENT_NAME, SUM_NUMBER from WTRJ_RPT_SCORE_SUM s where s.exam_ins_id = #{examInsId} and s.class_id = #{classId} order by s.sum_number desc
+  </select>
+  <select id="findScienceScoreByClassIdAndInsId" resultMap="scoreResultMap">
+  	   select ID, EXAM_INS_ID, EXAM_INS_NAME,SCHOOL_CODE, GRADE, CLASS_ID, ID_CARD ID_CARD_NUMBER, NAME STUDENT_NAME, SUM_NUMBER,SCIENCE_SCORE 
+  	   from WTRJ_RPT_SCORE_SUM s where s.exam_ins_id = #{examInsId} and s.class_id = #{classId} order by s.science_score desc
+  </select>
+  <select id="findArtsScoreByClassIdAndInsId" resultMap="scoreResultMap">
+  	   select ID, EXAM_INS_ID, EXAM_INS_NAME,SCHOOL_CODE, GRADE, CLASS_ID, ID_CARD ID_CARD_NUMBER, NAME STUDENT_NAME, SUM_NUMBER,ARTS_SCORE 
+  	   from WTRJ_RPT_SCORE_SUM s where s.exam_ins_id = #{examInsId} and s.class_id = #{classId} order by s.arts_score desc
+  </select>
+  
+   <select id="findScoreSumAvgByClassIdAndInsId" resultType="double">
+  	select avg(s.sum_number) from WTRJ_RPT_SCORE_SUM s where s.exam_ins_id = #{examInsId} and s.class_id = #{classId}
+  </select>
+  <select id="findScoreSumBottomByClassIdAndInsId" resultType="double">
+  	select min(s.sum_number) from WTRJ_RPT_SCORE_SUM s where s.exam_ins_id = #{examInsId} and s.class_id = #{classId}
+  </select>
+  <select id="findCourseCodeByClassIdAndInsId" resultMap="dictResultMap">
+  	select distinct(d.course_code) code,d.course_name name from wtrj_rpt_score_detail d 
+  	where d.exam_ins_id=#{examInsId,jdbcType=VARCHAR} and d.class_id=#{classId,jdbcType=VARCHAR} and d.flag=1
+  </select>
+  <select id="findScienceSumScoreByClassAndInsId" resultType="java.lang.Double">
+	select sum(d.score) from wtrj_rpt_score_detail d
+	where d.exam_ins_id=#{examInsId,jdbcType=VARCHAR}
+	and d.class_id=#{classId,jdbcType=VARCHAR}
+	and d.flag=1
+	and d.student_name ='${studentName}'
+	and (d.course_code='edu-subject-wl' or d.course_code='edu-subject-hx' or
+	d.course_code='edu-subject-sw')
+  </select>
+  <select id="findArtsSumScoreByClassAndInsId" resultType="java.lang.Double">
+  	select sum(d.score) from wtrj_rpt_score_detail d
+	where d.exam_ins_id=#{examInsId,jdbcType=VARCHAR}
+	and d.class_id=#{classId,jdbcType=VARCHAR}
+	and d.flag=1
+	and d.student_name ='${studentName}'
+	and (d.course_code='edu-subject-zz' or d.course_code='edu-subject-ls' or
+	d.course_code='edu-subject-dl')
+  </select>
+  <select id="findClassRemarkByClassIdAndInsId" resultType="java.lang.String">
+  	select distinct(s.class_remark) from 
+  	wtrj_rpt_score_sum s where s.exam_ins_id=#{examInsId,jdbcType=VARCHAR} 
+  	and s.class_id=#{classId,jdbcType=VARCHAR}
+  </select>
+  
+  
+  <select id="findsumScoreRangeCount" resultType="java.lang.Integer">
+  	select count(sum_number) from wtrj_rpt_score_sum
+  	where exam_ins_id = #{examInsId,jdbcType=VARCHAR}
+  	and class_id=#{classId,jdbcType=VARCHAR}
+  	and flag=1
+  	and sum_number between #{startScore,jdbcType=DECIMAL} and #{endScore,jdbcType=DECIMAL}
+  </select>
+  <select id="findArtsScoreRangeCount" resultType="java.lang.Integer">
+  	select count(arts_score) from wtrj_rpt_score_sum
+  	where exam_ins_id = #{examInsId,jdbcType=VARCHAR}
+  	and class_id=#{classId,jdbcType=VARCHAR}
+  	and flag=1
+  	and arts_score between #{startScore,jdbcType=DECIMAL} and #{endScore,jdbcType=DECIMAL}
+  </select>
+  <select id="findScienceScoreRangeCount" resultType="java.lang.Integer">
+  	select count(science_score) from wtrj_rpt_score_sum
+  	where exam_ins_id = #{examInsId,jdbcType=VARCHAR}
+  	and class_id=#{classId,jdbcType=VARCHAR}
+  	and flag=1
+  	and science_score between #{startScore,jdbcType=DECIMAL} and #{endScore,jdbcType=DECIMAL}
+  </select>
+  <select id="findCourseScoreRangeCount" resultType="java.lang.Integer">
+  	select count(score) from wtrj_rpt_score_single
+  	where exam_ins_id = #{examInsId,jdbcType=VARCHAR}
+  	and class_id=#{classId,jdbcType=VARCHAR}
+  	and flag=1
+  	and course_code = #{courseCode,jdbcType=VARCHAR}
+  	and score between #{startScore,jdbcType=DECIMAL} and #{endScore,jdbcType=DECIMAL}
+  </select>
+  
+  
+  <update id="updateScoreSumInfos" parameterType="cn.com.wtrj.jx.web.portal.service.dto.Score">
+  	update WTRJ_RPT_SCORE_SUM s set s.average_number = #{averageNumber},s.order_number = #{orderNumber},s.class_top_score = #{classTopScore},s.class_bottom_score=#{classBottomScore} where s.id = #{id}
+  </update>
+  <update id="updateScienceClassNumber" parameterType="cn.com.wtrj.jx.web.portal.service.dto.Score">
+  	update WTRJ_RPT_SCORE_SUM s set s.science_order_class_number = #{scienceOrdClassNum} where s.id = #{id}
+  </update>
+  <update id="updateArtsClassNumber" parameterType="cn.com.wtrj.jx.web.portal.service.dto.Score">
+  	update WTRJ_RPT_SCORE_SUM s set s.arts_order_class_number = #{artsOrdClassNum} where s.id = #{id}
+  </update>
+  
+  <delete id="deleteScoreSumInfosByInsIdAndClassId">
+         delete from WTRJ_RPT_SCORE_SUM s where s.exam_ins_id = #{examInsId} and s.class_id = #{classId}
+  </delete>
+  
+  <!-- 20170910 wusm 从教师表获取教师学校权限 -->
+  <select id="selectSchoolByTeacherId" resultType="cn.com.wtrj.jx.web.portal.model.mt.entities.MtSchoolInfo">
+  	 <!-- select t.school_code as code, i.name as name
+		  from wtrj_user u
+		  left join wtrj_teacher t on u.tel = t.phone
+		  left join wtrj_school_info i on t.school_code = i.code
+		 where u.id = #{userId} -->
+		 select t.school_code as code, i.name as name
+		  from wtrj_teacher t 
+		  left join wtrj_school_info i on t.school_code = i.code
+     		where t.id = #{teacherId}
+  </select>
+  
+  
+  
+  <resultMap id="singleScoreResultMap" type="cn.com.wtrj.jx.web.portal.service.dto.Score" >
+    <result column="exam_ins_name" property="examInsName" jdbcType="VARCHAR" />
+    <result column="score" property="score" jdbcType="VARCHAR" />
+     <result column="student_name" property="studentName" jdbcType="VARCHAR" />
+    <result column="course_name" property="courseName" jdbcType="VARCHAR" />
+    <result column="class_id" property="classId" jdbcType="VARCHAR" />
+    <result column="class_name" property="className" jdbcType="VARCHAR" />
+     <result column="full_score" property="fullScore" jdbcType="VARCHAR" />
+      <result column="create_user_name" property="teacherName" jdbcType="VARCHAR" />
+       <result column="rn" property="orderNumber" jdbcType="VARCHAR" />
+       <result column="id" property="id" jdbcType="VARCHAR" />
+        <result column="type_name" property="typeName" jdbcType="VARCHAR" />
+       <result column="rownum" property="orderNumber" jdbcType="INTEGER"/>
+       <result column="top_score" property="classTopScore" jdbcType="INTEGER"/>
+       <result column="avg_score" property="averageNumber" jdbcType="INTEGER"/>
+        <result column="avg_text" property="avgText" jdbcType="INTEGER"/>
+         <result column="top_text" property="topText" jdbcType="INTEGER"/>
+  </resultMap>
+  
+  <select id="findSingleCourse" resultMap="singleScoreResultMap">
+  select rownum,od.* from(select sd.class_id,sd.class_name, sd.exam_ins_name,
+  			sd.student_name,sd.course_name,
+  			sd.score,sd.full_score,
+  			sd.create_user_name   ,
+  			e.type_name
+  	from WTRJ_RPT_SCORE_DETAIL sd left join WTRJ_RPT_SCORE_EXAM_INS e on sd.EXAM_INS_ID = e.ID  and e.class_id = sd.class_id
+  	where sd.exam_ins_id = #{examInsId} 
+  	and sd.class_id = #{classId} and
+  	 sd.course_code = #{courseCode} and
+  	  sd.create_user_id = #{teacherId}   and
+  	   sd.flag ='1' order by score desc) od 
+  	   
+  </select>
+  <!-- 查询班级最高分 -->
+  <select id="findClassTopScore" resultType="java.lang.Integer">
+  	select max(sd.score) top_score from WTRJ_RPT_SCORE_DETAIL sd 
+  	where sd.exam_ins_id = #{examInsId} 
+  	and sd.class_id = #{classId} and
+  	 sd.course_code = #{courseCode} and
+  	  sd.create_user_id = #{teacherId}   and
+  	   sd.flag ='1'
+  </select>
+  <!-- 查询班级平均分 -->
+  <select id="findClassAvgScore" resultType="java.lang.Integer">
+  	select avg(sd.score) avg_score from WTRJ_RPT_SCORE_DETAIL sd 
+  	where sd.exam_ins_id = #{examInsId} 
+  	and sd.class_id = #{classId} and
+  	 sd.course_code = #{courseCode} and
+  	  sd.create_user_id = #{teacherId}   and
+  	   sd.flag ='1' and sd.score > 0
+  </select>
+</mapper>

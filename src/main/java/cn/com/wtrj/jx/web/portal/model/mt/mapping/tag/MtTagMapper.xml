@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.wtrj.jx.web.portal.model.mt.dao.tag.MtTagMapper">
+  	
+  	<select id="selectTagByPage" resultType="cn.com.wtrj.jx.web.portal.model.entities.WtrjEcomTag">
+		select t.* from (select WTRJ_ECOM_TAG.*,rownum rn from WTRJ_ECOM_TAG) t where 1=1 
+			<if test="search != null">
+         		and t.tagName like CONCAT(CONCAT('%','${search}'), '%') 
+          	</if>
+		
+		and t.rn between #{start} and #{end}
+		
+	
+  	</select>
+  	
+  	<select id="countTag" resultType="Integer">
+	   SELECT count(*)
+	     FROM WTRJ_ECOM_TAG T
+	    <if test="search != null">
+        	where NAME like  CONCAT(CONCAT('%','${search}'), '%')
+         </if>
+  	</select>
+  	
+  	
+  	
+</mapper>

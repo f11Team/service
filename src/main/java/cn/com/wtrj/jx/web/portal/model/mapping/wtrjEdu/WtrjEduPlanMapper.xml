@@ -1,0 +1,415 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.wtrj.jx.web.portal.model.dao.wtrjEdu.WtrjEduPlanMapper" >
+  <resultMap id="BaseResultMap" type="cn.com.wtrj.jx.web.portal.model.entities.wtrjEdu.WtrjEduPlan" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="YEAR" property="year" jdbcType="VARCHAR" />
+    <result column="TERM" property="term" jdbcType="VARCHAR" />
+    <result column="TYPE" property="type" jdbcType="VARCHAR" />
+    <result column="SCHOOL_NAME" property="schoolName" jdbcType="VARCHAR" />
+    <result column="SCHOOL_CODE" property="schoolCode" jdbcType="VARCHAR" />
+    <result column="STAGE" property="stage" jdbcType="VARCHAR" />
+    <result column="GRADE" property="grade" jdbcType="VARCHAR" />
+    <result column="COURSE" property="course" jdbcType="VARCHAR" />
+    <result column="URL" property="url" jdbcType="VARCHAR" />
+    <result column="CREATE_USER_ID" property="createUserId" jdbcType="DECIMAL" />
+    <result column="CREATE_USER_NAME" property="createUserName" jdbcType="VARCHAR" />
+    <result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="DEL_FLAG" property="delFlag" jdbcType="VARCHAR" />
+    <result column="SOCRE" property="socre" jdbcType="VARCHAR" />
+    <result column="TERM_NAME" property="termName" jdbcType="VARCHAR" />
+    <result column="COURSE_NAME" property="courseName" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, YEAR, TERM, TYPE, SCHOOL_NAME, SCHOOL_CODE, STAGE, GRADE, COURSE, URL, CREATE_USER_ID, 
+    CREATE_USER_NAME, CREATE_DATE, STATUS, DEL_FLAG, SOCRE, TERM_NAME, COURSE_NAME
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="cn.com.wtrj.jx.web.portal.model.entities.wtrjEdu.WtrjEduPlanExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from WTRJ_EDU_PLAN
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from WTRJ_EDU_PLAN
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from WTRJ_EDU_PLAN
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <delete id="deleteByExample" parameterType="cn.com.wtrj.jx.web.portal.model.entities.wtrjEdu.WtrjEduPlanExample" >
+    delete from WTRJ_EDU_PLAN
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="cn.com.wtrj.jx.web.portal.model.entities.wtrjEdu.WtrjEduPlan" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      select SEQ_WTRJ_EDU_PLAN.NEXTVAL from dual
+    </selectKey>
+    insert into WTRJ_EDU_PLAN (YEAR, TERM, TYPE, 
+      SCHOOL_NAME, SCHOOL_CODE, STAGE, 
+      GRADE, COURSE, URL, 
+      CREATE_USER_ID, CREATE_USER_NAME, CREATE_DATE, 
+      STATUS, DEL_FLAG, SOCRE, 
+      TERM_NAME, COURSE_NAME)
+    values (#{year,jdbcType=VARCHAR}, #{term,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, 
+      #{schoolName,jdbcType=VARCHAR}, #{schoolCode,jdbcType=VARCHAR}, #{stage,jdbcType=VARCHAR}, 
+      #{grade,jdbcType=VARCHAR}, #{course,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, 
+      #{createUserId,jdbcType=DECIMAL}, #{createUserName,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, 
+      #{status,jdbcType=VARCHAR}, #{delFlag,jdbcType=VARCHAR}, #{socre,jdbcType=VARCHAR}, 
+      #{termName,jdbcType=VARCHAR}, #{courseName,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.com.wtrj.jx.web.portal.model.entities.wtrjEdu.WtrjEduPlan" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      select SEQ_WTRJ_EDU_PLAN.NEXTVAL from dual
+    </selectKey>
+    insert into WTRJ_EDU_PLAN
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="year != null" >
+        YEAR,
+      </if>
+      <if test="term != null" >
+        TERM,
+      </if>
+      <if test="type != null" >
+        TYPE,
+      </if>
+      <if test="schoolName != null" >
+        SCHOOL_NAME,
+      </if>
+      <if test="schoolCode != null" >
+        SCHOOL_CODE,
+      </if>
+      <if test="stage != null" >
+        STAGE,
+      </if>
+      <if test="grade != null" >
+        GRADE,
+      </if>
+      <if test="course != null" >
+        COURSE,
+      </if>
+      <if test="url != null" >
+        URL,
+      </if>
+      <if test="createUserId != null" >
+        CREATE_USER_ID,
+      </if>
+      <if test="createUserName != null" >
+        CREATE_USER_NAME,
+      </if>
+      <if test="createDate != null" >
+        CREATE_DATE,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="delFlag != null" >
+        DEL_FLAG,
+      </if>
+      <if test="socre != null" >
+        SOCRE,
+      </if>
+      <if test="termName != null" >
+        TERM_NAME,
+      </if>
+      <if test="courseName != null" >
+        COURSE_NAME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="year != null" >
+        #{year,jdbcType=VARCHAR},
+      </if>
+      <if test="term != null" >
+        #{term,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="schoolName != null" >
+        #{schoolName,jdbcType=VARCHAR},
+      </if>
+      <if test="schoolCode != null" >
+        #{schoolCode,jdbcType=VARCHAR},
+      </if>
+      <if test="stage != null" >
+        #{stage,jdbcType=VARCHAR},
+      </if>
+      <if test="grade != null" >
+        #{grade,jdbcType=VARCHAR},
+      </if>
+      <if test="course != null" >
+        #{course,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null" >
+        #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="createUserId != null" >
+        #{createUserId,jdbcType=DECIMAL},
+      </if>
+      <if test="createUserName != null" >
+        #{createUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="delFlag != null" >
+        #{delFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="socre != null" >
+        #{socre,jdbcType=VARCHAR},
+      </if>
+      <if test="termName != null" >
+        #{termName,jdbcType=VARCHAR},
+      </if>
+      <if test="courseName != null" >
+        #{courseName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="cn.com.wtrj.jx.web.portal.model.entities.wtrjEdu.WtrjEduPlanExample" resultType="java.lang.Integer" >
+    select count(*) from WTRJ_EDU_PLAN
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update WTRJ_EDU_PLAN
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=DECIMAL},
+      </if>
+      <if test="record.year != null" >
+        YEAR = #{record.year,jdbcType=VARCHAR},
+      </if>
+      <if test="record.term != null" >
+        TERM = #{record.term,jdbcType=VARCHAR},
+      </if>
+      <if test="record.type != null" >
+        TYPE = #{record.type,jdbcType=VARCHAR},
+      </if>
+      <if test="record.schoolName != null" >
+        SCHOOL_NAME = #{record.schoolName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.schoolCode != null" >
+        SCHOOL_CODE = #{record.schoolCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.stage != null" >
+        STAGE = #{record.stage,jdbcType=VARCHAR},
+      </if>
+      <if test="record.grade != null" >
+        GRADE = #{record.grade,jdbcType=VARCHAR},
+      </if>
+      <if test="record.course != null" >
+        COURSE = #{record.course,jdbcType=VARCHAR},
+      </if>
+      <if test="record.url != null" >
+        URL = #{record.url,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createUserId != null" >
+        CREATE_USER_ID = #{record.createUserId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.createUserName != null" >
+        CREATE_USER_NAME = #{record.createUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createDate != null" >
+        CREATE_DATE = #{record.createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.status != null" >
+        STATUS = #{record.status,jdbcType=VARCHAR},
+      </if>
+      <if test="record.delFlag != null" >
+        DEL_FLAG = #{record.delFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="record.socre != null" >
+        SOCRE = #{record.socre,jdbcType=VARCHAR},
+      </if>
+      <if test="record.termName != null" >
+        TERM_NAME = #{record.termName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.courseName != null" >
+        COURSE_NAME = #{record.courseName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update WTRJ_EDU_PLAN
+    set ID = #{record.id,jdbcType=DECIMAL},
+      YEAR = #{record.year,jdbcType=VARCHAR},
+      TERM = #{record.term,jdbcType=VARCHAR},
+      TYPE = #{record.type,jdbcType=VARCHAR},
+      SCHOOL_NAME = #{record.schoolName,jdbcType=VARCHAR},
+      SCHOOL_CODE = #{record.schoolCode,jdbcType=VARCHAR},
+      STAGE = #{record.stage,jdbcType=VARCHAR},
+      GRADE = #{record.grade,jdbcType=VARCHAR},
+      COURSE = #{record.course,jdbcType=VARCHAR},
+      URL = #{record.url,jdbcType=VARCHAR},
+      CREATE_USER_ID = #{record.createUserId,jdbcType=DECIMAL},
+      CREATE_USER_NAME = #{record.createUserName,jdbcType=VARCHAR},
+      CREATE_DATE = #{record.createDate,jdbcType=TIMESTAMP},
+      STATUS = #{record.status,jdbcType=VARCHAR},
+      DEL_FLAG = #{record.delFlag,jdbcType=VARCHAR},
+      SOCRE = #{record.socre,jdbcType=VARCHAR},
+      TERM_NAME = #{record.termName,jdbcType=VARCHAR},
+      COURSE_NAME = #{record.courseName,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.com.wtrj.jx.web.portal.model.entities.wtrjEdu.WtrjEduPlan" >
+    update WTRJ_EDU_PLAN
+    <set >
+      <if test="year != null" >
+        YEAR = #{year,jdbcType=VARCHAR},
+      </if>
+      <if test="term != null" >
+        TERM = #{term,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        TYPE = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="schoolName != null" >
+        SCHOOL_NAME = #{schoolName,jdbcType=VARCHAR},
+      </if>
+      <if test="schoolCode != null" >
+        SCHOOL_CODE = #{schoolCode,jdbcType=VARCHAR},
+      </if>
+      <if test="stage != null" >
+        STAGE = #{stage,jdbcType=VARCHAR},
+      </if>
+      <if test="grade != null" >
+        GRADE = #{grade,jdbcType=VARCHAR},
+      </if>
+      <if test="course != null" >
+        COURSE = #{course,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null" >
+        URL = #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="createUserId != null" >
+        CREATE_USER_ID = #{createUserId,jdbcType=DECIMAL},
+      </if>
+      <if test="createUserName != null" >
+        CREATE_USER_NAME = #{createUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="delFlag != null" >
+        DEL_FLAG = #{delFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="socre != null" >
+        SOCRE = #{socre,jdbcType=VARCHAR},
+      </if>
+      <if test="termName != null" >
+        TERM_NAME = #{termName,jdbcType=VARCHAR},
+      </if>
+      <if test="courseName != null" >
+        COURSE_NAME = #{courseName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.com.wtrj.jx.web.portal.model.entities.wtrjEdu.WtrjEduPlan" >
+    update WTRJ_EDU_PLAN
+    set YEAR = #{year,jdbcType=VARCHAR},
+      TERM = #{term,jdbcType=VARCHAR},
+      TYPE = #{type,jdbcType=VARCHAR},
+      SCHOOL_NAME = #{schoolName,jdbcType=VARCHAR},
+      SCHOOL_CODE = #{schoolCode,jdbcType=VARCHAR},
+      STAGE = #{stage,jdbcType=VARCHAR},
+      GRADE = #{grade,jdbcType=VARCHAR},
+      COURSE = #{course,jdbcType=VARCHAR},
+      URL = #{url,jdbcType=VARCHAR},
+      CREATE_USER_ID = #{createUserId,jdbcType=DECIMAL},
+      CREATE_USER_NAME = #{createUserName,jdbcType=VARCHAR},
+      CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      STATUS = #{status,jdbcType=VARCHAR},
+      DEL_FLAG = #{delFlag,jdbcType=VARCHAR},
+      SOCRE = #{socre,jdbcType=VARCHAR},
+      TERM_NAME = #{termName,jdbcType=VARCHAR},
+      COURSE_NAME = #{courseName,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

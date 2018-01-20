@@ -1,0 +1,349 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.wtrj.jx.web.portal.model.mt.dao.moralStudent.WtrjMtMoralINSMapper" >
+    <resultMap id="BaseResultMap" type="cn.com.wtrj.jx.web.portal.model.entities.moralStudent.WtrjMoralINS" >
+        <id column="ID" property="id" jdbcType="DECIMAL" />
+        <result column="REC_TYPE" property="recType" jdbcType="VARCHAR" />
+        <result column="REC_USER" property="recUser" jdbcType="DECIMAL" />
+        <result column="STUDENT_ID" property="studentId" jdbcType="DECIMAL" />
+        <result column="REC_DATE" property="recDate" jdbcType="TIMESTAMP" />
+        <result column="STD_CODE" property="stdCode" jdbcType="VARCHAR" />
+        <result column="CONTENT" property="content" jdbcType="VARCHAR" />
+        <result column="ATTACH_FILE" property="attachFile" jdbcType="VARCHAR" />
+        <result column="BL_TEACHER_AUTH" property="blTeacherAuth" jdbcType="CHAR" />
+        <result column="AUTH_TEACHER_ID" property="authTeacherId" jdbcType="DECIMAL" />
+        <result column="AUTH_RESULT" property="authResult" jdbcType="VARCHAR" />
+        <result column="ACT_SCORE" property="actScore" jdbcType="DECIMAL" />
+        <result column="AUTH_DATE" property="authDate" jdbcType="TIMESTAMP" />
+        <result column="AUTH_CONTENT" property="authContent" jdbcType="VARCHAR" />
+        <result column="ALTER_CONTENT" property="alterContent" jdbcType="VARCHAR" />
+        <result column="AUTH_ATTACH_FILE" property="authAttachFile" jdbcType="VARCHAR" />
+        <result column="BLD_DEL_FLG" property="bldDelFlg" jdbcType="CHAR" />
+        <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+        <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+    </resultMap>
+    
+    <resultMap id="BaseResultMapDto" type="cn.com.wtrj.jx.web.portal.model.mt.entities.moral.MtInsDto" >
+        <id column="ID" property="id" jdbcType="DECIMAL" />
+        <result column="REC_TYPE" property="recType" jdbcType="VARCHAR" />
+        <result column="REC_USER" property="recUser" jdbcType="DECIMAL" />
+        <result column="STUDENT_ID" property="studentId" jdbcType="DECIMAL" />
+        <result column="REC_DATE" property="recDate" jdbcType="TIMESTAMP" />
+        <result column="STD_CODE" property="stdCode" jdbcType="VARCHAR" />
+        <result column="CONTENT" property="content" jdbcType="VARCHAR" />
+        <result column="ATTACH_FILE" property="attachFile" jdbcType="VARCHAR" />
+        <result column="BL_TEACHER_AUTH" property="blTeacherAuth" jdbcType="CHAR" />
+        <result column="AUTH_TEACHER_ID" property="authTeacherId" jdbcType="DECIMAL" />
+        <result column="AUTH_RESULT" property="authResult" jdbcType="VARCHAR" />
+        <result column="ACT_SCORE" property="actScore" jdbcType="DECIMAL" />
+        <result column="AUTH_DATE" property="authDate" jdbcType="TIMESTAMP" />
+        <result column="AUTH_CONTENT" property="authContent" jdbcType="VARCHAR" />
+        <result column="ALTER_CONTENT" property="alterContent" jdbcType="VARCHAR" />
+        <result column="AUTH_ATTACH_FILE" property="authAttachFile" jdbcType="VARCHAR" />
+        <result column="BLD_DEL_FLG" property="bldDelFlg" jdbcType="CHAR" />
+        <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+        <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+    </resultMap>
+
+    <sql id="Base_Column_List" >
+        ID, REC_TYPE, REC_USER, STUDENT_ID, REC_DATE, STD_CODE, CONTENT, ATTACH_FILE, BL_TEACHER_AUTH,
+        AUTH_TEACHER_ID, AUTH_RESULT, ACT_SCORE, AUTH_DATE, AUTH_CONTENT, ALTER_CONTENT,
+        AUTH_ATTACH_FILE, BLD_DEL_FLG, CREATE_TIME, UPDATE_TIME
+    </sql>
+
+
+
+  <select id="selectINSByPage"  resultType="cn.com.wtrj.jx.web.portal.model.mt.entities.moral.MtInsDto" resultMap="BaseResultMapDto">
+
+         select M.* from (select rownum as rn ,rs.* from (select distinct(wmi.id) as tmpId,wmi.*,wms.name as stdName from
+            wtrj_moral_ins wmi,
+            wtrj_moral_standard wms
+            where
+            wmi.std_code=wms.code
+            and wmi.student_id=#{stuId} and wmi.BLD_DEL_FLG = 0 
+            order by wmi.bl_teacher_auth asc,wmi.create_time desc) rs) M
+         WHERE  M.rn between #{start} and #{end}
+
+  </select>
+
+
+    <select id="selectINSByPageTime"  resultType="cn.com.wtrj.jx.web.portal.model.mt.entities.moral.MtInsDto" resultMap="BaseResultMapDto">
+        select * from (select distinct(wmi.id) as tmpId,wmi.*,wms.name as stdName,rownum  as rn from
+        wtrj_moral_ins wmi,
+        wtrj_moral_standard wms
+        where
+        wmi.std_code=wms.code
+        and wmi.student_id=#{stuId}
+        and wmi.act_score>0
+        and wmi.auth_result!='03'
+        order by wmi.bl_teacher_auth asc,wmi.create_time desc) M
+        WHERE  M.rn between #{start} and #{end}
+        <if test="creatDateStart != null  and creatDateEnd !=null ">
+            and  CREATE_TIME BETWEEN  to_date(#{creatDateStart},'yyyy-MM-dd') and to_date(#{creatDateEnd},'yyyy-MM-dd')
+        </if>
+    </select>
+
+
+    <select id="countSelectINSByTime"  resultType="int">
+        select COUNT (*) from (select distinct(wmi.id) as tmpId,wmi.*,wms.name as stdName,rownum  as rn from
+        wtrj_moral_ins wmi,
+        wtrj_moral_standard wms
+        where
+        wmi.std_code=wms.code
+        and wmi.student_id=#{stuId}
+        and wmi.act_score>0
+        and wmi.auth_result!='03'
+        <if test="creatDateStart != null  and creatDateEnd !=null ">
+            and  CREATE_TIME BETWEEN  to_date(#{creatDateStart},'yyyy-MM-dd') and to_date(#{creatDateEnd},'yyyy-MM-dd')
+        </if>
+        order by wmi.bl_teacher_auth asc,wmi.create_time desc) M
+
+    </select>
+
+
+
+  
+  <select id="selectINSByPageByTeacherId" resultType="cn.com.wtrj.jx.web.portal.model.mt.entities.moral.MtInsDto" resultMap="BaseResultMapDto">
+
+      select * from (select rownum as RN ,rs.* from (select distinct(wmi.id) as tmpId,wmi.*,ws.name as stuName,wms.name as stdName from
+      wtrj_moral_ins wmi,
+      wtrj_student ws,
+      wtrj_moral_stu_user wmsu,
+      wtrj_moral_standard wms,
+      wtrj_ecom_class wec
+      where
+      ws.id = wmsu.stu_id
+      and wms.code=wmi.std_code
+      and wmi.student_id=wmsu.stu_id
+      and wec.id=ws.class_id
+      and wmi.BLD_DEL_FLG='0'
+      and wmi.auth_teacher_id=#{authTeacherId}
+      <if test="classId != null ">
+          and wec.id=#{classId}
+      </if>
+      <if test="stuName != null and stuName!='' ">
+          and ws.name like CONCAT(CONCAT('%','${stuName}'), '%')
+      </if>
+      order by wmi.bl_teacher_auth asc , wmi.create_time desc
+      ) rs) where RN between #{start} and #{end}
+
+
+
+
+
+
+
+
+
+
+  	</select>
+
+    <select id="countSelectINSByTeacherId" resultType="int">
+
+        select COUNT (*) from (select rownum as RN ,rs.* from (select distinct(wmi.id) as tmpId,wmi.*,ws.name as stuName,wms.name as stdName from
+        wtrj_moral_ins wmi,
+        wtrj_student ws,
+        wtrj_moral_stu_user wmsu,
+        wtrj_moral_standard wms,
+        wtrj_ecom_class wec
+        where
+        ws.id = wmsu.stu_id
+        and wms.code=wmi.std_code
+        and wmi.student_id=wmsu.stu_id
+        and wec.id=ws.class_id
+        and wmi.BLD_DEL_FLG='0'
+        and wmi.auth_teacher_id=#{authTeacherId}
+        <if test="classId != null ">
+            and wec.id=#{classId}
+        </if>
+        <if test="stuName != null and stuName!='' ">
+            and ws.name like CONCAT(CONCAT('%','${stuName}'), '%')
+        </if>
+        order by wmi.bl_teacher_auth asc , wmi.create_time desc
+        ) rs)
+
+
+    </select>
+  
+  <select id="countIns" resultType="Integer">
+	   SELECT count(*)
+	     FROM WTRJ_MORAL_INS T where 1=1
+	     <if test="authTeacherId != null">
+        	and AUTH_TEACHER_ID = #{authTeacherId}
+         </if>
+	    <if test="search != null and search!=''">
+        	and STD_CODE like CONCAT(CONCAT('%','${search}'), '%')
+         </if>
+  	</select>
+
+    <select id="teacherCourse" resultType="cn.com.wtrj.jx.web.portal.model.mt.entities.moral.MtTeacherCourceDto" >
+        select wtc.teacher_id as teacherId,wtc.course as course from wtrj_moral_teahcer_role wmtr ,
+          wtrj_moral_auth_role wmar ,
+          wtrj_teacher_course wtc,
+          wtrj_student ws,
+          wtrj_moral_stu_user wmsu
+          where
+          wmtr.role_code=wmar.code
+          and wtc.teacher_id=wmtr.teacher_id
+          and ws.class_id = wtc.class_id
+          and ws.id=wmsu.stu_id
+          and wmsu.stu_id=#{stuId}
+          and wmar.code = #{code}
+    </select>
+
+    <select id="getTeacherInfo" resultType="cn.com.wtrj.jx.web.portal.model.mt.entities.moral.MtTeacherCourceDto">
+    select wht.teacher_id as teacherId,wt.name as teacherName from
+           wtrj_teacher wt,
+           wtrj_head_teacher wht,
+           wtrj_student ms,
+           wtrj_moral_stu_user wmsu
+           where wt.id=wht.teacher_id
+           and wmsu.stu_id=ms.id
+           and ms.class_id=wht.class_id
+           and wmsu.stu_id=#{stuId}
+    </select>
+
+   <!--生活辅导老师查询学生实例 -->
+    <select id="lifeTeacherGetINS" resultType="cn.com.wtrj.jx.web.portal.model.mt.entities.moral.MtInsDto" resultMap="BaseResultMapDto">
+        select * from (select rownum rn,rs.* from (
+        select distinct(wmi.id) as tmpId,wmi.*,ws.name as stuName,wms.name as stdName from
+        wtrj_dorm_teacher_class wdtc,
+        wtrj_moral_auth_role wmar,
+        wtrj_moral_stu_user wmsu,
+        wtrj_student ws,
+        wtrj_moral_ins wmi,
+        wtrj_moral_standard wms,
+        wtrj_ecom_class wec
+        where wmar.code='03'
+        and wms.code=wmi.std_code
+        and ws.id = wmsu.stu_id
+        and wdtc.class_id=ws.class_id
+        and wdtc.student_sex=ws.sex
+        and wmi.student_id=ws.id
+        <if test="classId != null ">
+            and wec.id=#{classId}
+        </if>
+        and wdtc.class_id in
+        <foreach item="item" collection="idsList" separator="," open="(" close=")" index="">
+            #{item, jdbcType=DECIMAL}
+        </foreach>
+
+        <if test="stuName != null and stuName!=''">
+            and ws.name like  CONCAT(CONCAT('%','${stuName}'), '%')
+        </if>
+        order by wmi.BL_TEACHER_AUTH asc  wmi.create_time desc)rs)
+        where rn between #{start} and #{end}
+
+    </select>
+
+
+    <!--德育老师查询学生实例   -->
+    <select id="deYuTeacherGetINS" resultType="cn.com.wtrj.jx.web.portal.model.mt.entities.moral.MtInsDto" resultMap="BaseResultMapDto">
+        select * from (select rownum rn,rs.* from (
+        select distinct(wmi.id) as tmpId,wmi.*,ws.name as stuName,wms.name as stdName from
+       wtrj_moral_auth_role wmar,
+       wtrj_teacher wt,
+       wtrj_student ws,
+       wtrj_moral_stu_user wmsu,
+       wtrj_moral_ins wmi,
+       wtrj_moral_standard wms,
+       wtrj_ecom_class wec
+       where
+       wt.type=wmar.code
+       and wms.code=wmi.std_code
+       and wmsu.stu_id=ws.id
+       and wmi.student_id=ws.id
+       and ws.school_code=wt.school_code
+       and wmar.code='04'
+        <if test="classId != null ">
+            and wec.id=#{classId}
+        </if>
+       and wt.school_code=#{schoolCode}
+        <if test="stuName != null and stuName!=''">
+            and ws.name like  CONCAT(CONCAT('%','${stuName}'), '%')
+        </if>
+       order by wmi.BL_TEACHER_AUTH asc  wmi.create_time desc)rs)
+        where rn between #{start} and #{end}
+
+    </select>
+
+
+
+    <!--生辅老师查询自己管理的学生  传递参数 生辅老师所辖班级  学生名称-->
+    <select id="lifeTeacherGetStudents" resultType="cn.com.wtrj.jx.web.portal.model.entities.WtrjStudent" >
+
+        select distinct(ws.id) as tmpId,ws.* from
+        wtrj_dorm_teacher_class wdtc,
+        wtrj_student ws
+        where
+        ws.class_id=wdtc.class_id
+        and ws.class_id=wdtc.class_id
+        and wdtc.class_id in
+        <foreach item="item" collection="idsList" separator="," open="(" close=")" index="">
+            #{item, jdbcType=DECIMAL}
+        </foreach>
+        <if test="stuName != null and stuName!=''">
+            and ws.name like  CONCAT(CONCAT('%','${stuName}'), '%')
+        </if>
+
+    </select>
+
+
+    <!--德育老师查询自己管理的学生  传递参数 生辅老师所辖班级  学生名称-->
+    <select id="deYuTeacherGetStudents" resultType="cn.com.wtrj.jx.web.portal.model.entities.WtrjStudent" >
+        select distinct(ws.id) as tmpId,ws.* from
+        wtrj_teacher wt,
+        wtrj_student ws
+        where
+        ws.school_code=wt.school_code
+        and wt.school_code=#{schoolCode}
+        <if test="stuName != null and stuName!=''">
+            and ws.name like  CONCAT(CONCAT('%','${stuName}'), '%')
+        </if>
+
+    </select>
+    
+    <select id="getInsDto" resultType="cn.com.wtrj.jx.web.portal.model.mt.entities.moral.MtInsDto"  resultMap="BaseResultMapDto">
+        select distinct(wmi.id) as tmpId,wmi.*,ws.name as stuName,wms.name as stdName from
+       wtrj_moral_ins wmi,
+       wtrj_moral_standard wms,
+       wtrj_student ws
+
+       where wmi.std_code=wms.code
+       and ws.id=wmi.student_id
+       and wmi.id=#{id}
+
+    </select>
+
+    <select id="parentGetStudentById" resultType="cn.com.wtrj.jx.web.portal.model.mt.entities.moral.MtInsDto"  resultMap="BaseResultMapDto">
+
+        select distinct(wmi.id) as tmpId, wmi.*,ws.name as stuName,wms.name as stdName from
+        wtrj_parent wp,
+        wtrj_student ws,
+        wtrj_stu_parent_relationship wspr,
+        wtrj_moral_stu_user wmsu,
+        wtrj_moral_ins wmi,
+        wtrj_moral_standard wms
+        where
+        wp.id=wspr.parent_id
+        and ws.id=wspr.student_id
+        and wmsu.stu_id=ws.id
+        and wmsu.stu_id=wmi.student_id
+        and wmi.std_code=wms.code
+        and wp.id=#{id}
+
+    </select>
+
+
+    <select id="getInsDtoById" resultType="cn.com.wtrj.jx.web.portal.model.mt.entities.moral.MtInsDto"  resultMap="BaseResultMapDto">
+        select distinct(wmi.id),wmi.*,wms.name as stdName ,wms.AUTH_ROLE as authRole from
+        wtrj_moral_ins wmi,
+        wtrj_moral_standard wms
+        where
+        wmi.std_code=wms.code
+        and wmi.id=#{id}
+
+    </select>
+
+
+</mapper>

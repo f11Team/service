@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.wtrj.jx.web.portal.model.mt.dao.TaxMapper" >
+ <resultMap id="BaseResultMap" type="cn.com.wtrj.jx.web.portal.model.mt.entities.TaxBean" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="YEAR" property="year" jdbcType="DECIMAL" />
+    <result column="MONTH" property="month" jdbcType="DECIMAL" />
+    <result column="PROJECT" property="project" jdbcType="VARCHAR" />
+    <result column="SCHOOL" property="school" jdbcType="VARCHAR" />
+    <result column="TAX" property="tax" jdbcType="DECIMAL" />
+  </resultMap>
+ 	<select id="searchTaxAllYears" resultType="Integer">
+		select distinct YEAR from WTRJ_RPT_NC_TAX order by YEAR 
+	</select>
+ 
+ <select id="searchTaxInfoByYear" resultMap="BaseResultMap"  >
+  select  month,sum(Tax) as tax 
+	  	from WTRJ_RPT_NC_TAX 
+	  where YEAR=#{year}
+	  and org_code in (
+		   select distinct nr.org_code
+		                      from wtrj_user u
+		                      left join wtrj_user_role ur on u.id = ur.user_id
+		                      left join wtrj_role_nc_relationship nr on ur.role_id =
+		                                                                nr.role_id
+				        
+				                 where nr.org_code is not null 
+		                     and u.id= #{userId}
+		   )
+	  group by month 
+	  order by month asc
+  </select>
+ 
+ 
+  
+ <select id="searchTaxInfoByProject" resultMap="BaseResultMap"  >
+select sum(t.tax) as tax,
+       b.name as project
+  from wtrj_org o
+ left join WTRJ_RPT_NC_TAX t on o.code = t.org_code
+ left join wtrj_business_segment b on o.SEGEMENT_CODE = b.code
+ where t.year = #{year}
+   and t.month = #{month}
+    and o.code in (
+		   select distinct nr.org_code
+		                      from wtrj_user u
+		                      left join wtrj_user_role ur on u.id = ur.user_id
+		                      left join wtrj_role_nc_relationship nr on ur.role_id =
+		                                                                nr.role_id
+				        
+				                 where nr.org_code is not null 
+		                     and u.id= #{userId}
+		   )
+    group by b.name    
+    ORDER BY tax DESC
+  </select> 
+ 
+
+ <select id="searchTaxInfoBySchool" resultMap="BaseResultMap"  >
+ 	SELECT
+		T ."YEAR",
+		T ."MONTH",
+		NVL(SUM (T .tax),0) AS tax
+	FROM
+		wtrj_org o
+	LEFT JOIN WTRJ_RPT_NC_TAX T ON o.code = T .org_code
+	LEFT JOIN wtrj_business_segment b ON o.SEGEMENT_CODE = b.code
+	WHERE
+		1 = 1
+	AND T ."MONTH" > 0
+   	<if test="year != null">
+    AND t.year = #{year}
+    </if>
+    <if test="startDate != '' and startDate != null ">
+    AND TO_DATE(t."YEAR" || '-' || t."MONTH" || '-01','yyyy-mm-dd') &gt;=TO_DATE(#{startDate}, 'yyyy-mm-dd')
+    </if>
+    <if test="endDate != '' and endDate != null ">
+    AND TO_DATE(t."YEAR" || '-' || t."MONTH" || '-01','yyyy-mm-dd') &lt;=TO_DATE(#{endDate}, 'yyyy-mm-dd')
+    </if>
+	AND o.code IN (
+		SELECT DISTINCT
+			nr.org_code
+		FROM
+			wtrj_user U
+		LEFT JOIN wtrj_user_role ur ON U . ID = ur.user_id
+		LEFT JOIN wtrj_role_nc_relationship nr ON ur.role_id = nr.role_id
+		LEFT JOIN wtrj_org org ON nr.org_code = org.code
+		WHERE
+			nr.org_code IS NOT NULL
+		 and u.id= #{userId}
+		<if test="segementCode != null and segementCode != ''">
+		 and org.segement_code = #{segementCode}
+		</if>
+		<if test="orgCode != null and orgCode != ''">
+		 and org.code = #{orgCode}
+		</if>
+	)
+	GROUP BY
+		T ."YEAR",
+		T ."MONTH"
+	ORDER BY
+		T ."YEAR",
+		T ."MONTH"
+  </select>  
+</mapper>

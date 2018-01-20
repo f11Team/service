@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.wtrj.jx.web.portal.model.dao.TeacherPermissionMapper" >
+  <resultMap id="tpseResultMap" type="cn.com.wtrj.jx.web.portal.model.entities.TeacherPermission" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+	<result column="teacher_id"      property="teacherId" jdbcType="INTEGER" />
+	<result column="teacher_name"      property="teacherName" jdbcType="VARCHAR" />
+	<result column="school_code"     property="schoolCode" jdbcType="VARCHAR" />
+	<result column="grade"           property="grade" jdbcType="INTEGER" />
+	<result column="class_id"        property="classId" jdbcType="INTEGER" />
+	<result column="course_code"     property="courseCode" jdbcType="VARCHAR" />
+	<result column="type"            property="type" jdbcType="VARCHAR" />
+	<result column="school_name"     property="schoolName" jdbcType="VARCHAR" />
+	<result column="class_name"      property="className" jdbcType="VARCHAR" />
+	<result column="stage"           property="stage" jdbcType="VARCHAR" />
+	<result column="course_name"     property="courseName" jdbcType="VARCHAR" />
+   </resultMap>
+   
+  <select id="findTeacherPermissionByTeacherId" parameterType="string" resultMap="tpseResultMap">
+  	select p.*,t.name teacher_name from wtrj_ecom_permission p,wtrj_teacher t where p.teacher_id = t.id and t.id = #{teacherId}
+  </select>
+  
+  <select id="getSchoolReferenceInfoByCode" parameterType="string" resultMap="tpseResultMap">
+  	select p.* from wtrj_ecom_permission p where p.school_code = #{schoolCode}
+  </select>
+  
+  <select id="findSchoolsByTeacherId" resultMap="tpseResultMap">
+  	select distinct p.school_code,p.school_name from wtrj_ecom_permission p where p.teacher_id = #{teacherId}
+  </select>
+
+	<select id="findGrades" resultMap="tpseResultMap">
+		select distinct p.grade,p.stage from wtrj_ecom_permission p where p.school_code = #{schoolCode} and p.teacher_id = #{teacherId} and p.grade is not null and p.stage is not null
+	</select>
+
+	<select id="findClasses" resultMap="tpseResultMap">
+		select distinct p.class_id,p.class_name from wtrj_ecom_permission p where p.stage = #{stage} and  p.grade = #{grade} and p.school_code = #{schoolCode} and p.teacher_id = #{teacherId}
+	</select>
+
+	<select id="findCourses" resultMap="tpseResultMap">
+		select distinct p.course_code,p.course_name from wtrj_ecom_permission p where p.stage = #{stage} and  p.grade = #{grade} and p.school_code = #{schoolCode} and p.teacher_id = #{teacherId} and p.course_code is not null
+	</select>
+	
+	<select id="findCoursesByClassId" resultMap="tpseResultMap">
+		select distinct p.course_code,p.course_name from wtrj_ecom_permission p
+		 where p.stage = #{stage} and  p.grade = #{grade} and p.school_code = #{schoolCode} 
+		 and p.teacher_id = #{teacherId} and p.class_id = #{classId} and p.course_code is not null
+	</select>
+
+</mapper>

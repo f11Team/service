@@ -1,0 +1,543 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.wtrj.jx.web.portal.model.dao.WtrjScoreDetailExptMapper" >
+  <resultMap id="BaseResultMap" type="cn.com.wtrj.jx.web.portal.model.entities.WtrjScoreDetailExpt" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="EXAM_INS_NAME" property="examInsName" jdbcType="VARCHAR" />
+    <result column="EXAM_INS_ID" property="examInsId" jdbcType="DECIMAL" />
+    <result column="SCHOOL_CODE" property="schoolCode" jdbcType="VARCHAR" />
+    <result column="CLASS_NAME" property="className" jdbcType="VARCHAR" />
+    <result column="STUDENT_NAME" property="studentName" jdbcType="VARCHAR" />
+    <result column="SUBJECT" property="subject" jdbcType="VARCHAR" />
+    <result column="FULL_SCORE" property="fullScore" jdbcType="DECIMAL" />
+    <result column="SCORE" property="score" jdbcType="DECIMAL" />
+    <result column="STUDENT_NO" property="studentNo" jdbcType="VARCHAR" />
+    <result column="CLASS_RANK" property="classRank" jdbcType="DECIMAL" />
+    <result column="GRADE_RANK" property="gradeRank" jdbcType="DECIMAL" />
+    <result column="EXAM_NO" property="examNo" jdbcType="VARCHAR" />
+    <result column="COURSE_CODE" property="courseCode" jdbcType="VARCHAR" />
+    <result column="COURSE_NAME" property="courseName" jdbcType="VARCHAR" />
+    <result column="STUDENT_ID_CARD_NO" property="studentIdCardNo" jdbcType="VARCHAR" />
+    <result column="CLASS_ID" property="classId" jdbcType="DECIMAL" />
+    <result column="FLAG" property="flag" jdbcType="VARCHAR" />
+    <result column="SCORE_A" property="scoreA" jdbcType="DECIMAL" />
+    <result column="SCORE_A_EXT" property="scoreAExt" jdbcType="DECIMAL" />
+    <result column="SCORE_B" property="scoreB" jdbcType="DECIMAL" />
+    <result column="SCORE_B_EXT" property="scoreBExt" jdbcType="DECIMAL" />
+    <result column="SOCRE_MULTI" property="socreMulti" jdbcType="CHAR" />
+    <result column="CREATE_USER_ID" property="createUserId" jdbcType="VARCHAR" />
+    <result column="CREATE_USER_NAME" property="createUserName" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, EXAM_INS_NAME, EXAM_INS_ID, SCHOOL_CODE, CLASS_NAME, STUDENT_NAME, SUBJECT, FULL_SCORE, 
+    SCORE, STUDENT_NO, CLASS_RANK, GRADE_RANK, EXAM_NO, COURSE_CODE, COURSE_NAME, STUDENT_ID_CARD_NO, 
+    CLASS_ID, FLAG, SCORE_A, SCORE_A_EXT, SCORE_B, SCORE_B_EXT, SOCRE_MULTI, CREATE_USER_ID, 
+    CREATE_USER_NAME, CREATE_TIME
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="cn.com.wtrj.jx.web.portal.model.entities.WtrjScoreDetailExptExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from WTRJ_SCORE_DETAIL_EXPT
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from WTRJ_SCORE_DETAIL_EXPT
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from WTRJ_SCORE_DETAIL_EXPT
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="cn.com.wtrj.jx.web.portal.model.entities.WtrjScoreDetailExptExample" >
+    delete from WTRJ_SCORE_DETAIL_EXPT
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="cn.com.wtrj.jx.web.portal.model.entities.WtrjScoreDetailExpt" >
+    insert into WTRJ_SCORE_DETAIL_EXPT (ID, EXAM_INS_NAME, EXAM_INS_ID, 
+      SCHOOL_CODE, CLASS_NAME, STUDENT_NAME, 
+      SUBJECT, FULL_SCORE, SCORE, 
+      STUDENT_NO, CLASS_RANK, GRADE_RANK, 
+      EXAM_NO, COURSE_CODE, COURSE_NAME, 
+      STUDENT_ID_CARD_NO, CLASS_ID, FLAG, 
+      SCORE_A, SCORE_A_EXT, SCORE_B, 
+      SCORE_B_EXT, SOCRE_MULTI, CREATE_USER_ID, 
+      CREATE_USER_NAME, CREATE_TIME)
+    values (#{id,jdbcType=VARCHAR}, #{examInsName,jdbcType=VARCHAR}, #{examInsId,jdbcType=DECIMAL}, 
+      #{schoolCode,jdbcType=VARCHAR}, #{className,jdbcType=VARCHAR}, #{studentName,jdbcType=VARCHAR}, 
+      #{subject,jdbcType=VARCHAR}, #{fullScore,jdbcType=DECIMAL}, #{score,jdbcType=DECIMAL}, 
+      #{studentNo,jdbcType=VARCHAR}, #{classRank,jdbcType=DECIMAL}, #{gradeRank,jdbcType=DECIMAL}, 
+      #{examNo,jdbcType=VARCHAR}, #{courseCode,jdbcType=VARCHAR}, #{courseName,jdbcType=VARCHAR}, 
+      #{studentIdCardNo,jdbcType=VARCHAR}, #{classId,jdbcType=DECIMAL}, #{flag,jdbcType=VARCHAR}, 
+      #{scoreA,jdbcType=DECIMAL}, #{scoreAExt,jdbcType=DECIMAL}, #{scoreB,jdbcType=DECIMAL}, 
+      #{scoreBExt,jdbcType=DECIMAL}, #{socreMulti,jdbcType=CHAR}, #{createUserId,jdbcType=VARCHAR}, 
+      #{createUserName,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.com.wtrj.jx.web.portal.model.entities.WtrjScoreDetailExpt" >
+    insert into WTRJ_SCORE_DETAIL_EXPT
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="examInsName != null" >
+        EXAM_INS_NAME,
+      </if>
+      <if test="examInsId != null" >
+        EXAM_INS_ID,
+      </if>
+      <if test="schoolCode != null" >
+        SCHOOL_CODE,
+      </if>
+      <if test="className != null" >
+        CLASS_NAME,
+      </if>
+      <if test="studentName != null" >
+        STUDENT_NAME,
+      </if>
+      <if test="subject != null" >
+        SUBJECT,
+      </if>
+      <if test="fullScore != null" >
+        FULL_SCORE,
+      </if>
+      <if test="score != null" >
+        SCORE,
+      </if>
+      <if test="studentNo != null" >
+        STUDENT_NO,
+      </if>
+      <if test="classRank != null" >
+        CLASS_RANK,
+      </if>
+      <if test="gradeRank != null" >
+        GRADE_RANK,
+      </if>
+      <if test="examNo != null" >
+        EXAM_NO,
+      </if>
+      <if test="courseCode != null" >
+        COURSE_CODE,
+      </if>
+      <if test="courseName != null" >
+        COURSE_NAME,
+      </if>
+      <if test="studentIdCardNo != null" >
+        STUDENT_ID_CARD_NO,
+      </if>
+      <if test="classId != null" >
+        CLASS_ID,
+      </if>
+      <if test="flag != null" >
+        FLAG,
+      </if>
+      <if test="scoreA != null" >
+        SCORE_A,
+      </if>
+      <if test="scoreAExt != null" >
+        SCORE_A_EXT,
+      </if>
+      <if test="scoreB != null" >
+        SCORE_B,
+      </if>
+      <if test="scoreBExt != null" >
+        SCORE_B_EXT,
+      </if>
+      <if test="socreMulti != null" >
+        SOCRE_MULTI,
+      </if>
+      <if test="createUserId != null" >
+        CREATE_USER_ID,
+      </if>
+      <if test="createUserName != null" >
+        CREATE_USER_NAME,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="examInsName != null" >
+        #{examInsName,jdbcType=VARCHAR},
+      </if>
+      <if test="examInsId != null" >
+        #{examInsId,jdbcType=DECIMAL},
+      </if>
+      <if test="schoolCode != null" >
+        #{schoolCode,jdbcType=VARCHAR},
+      </if>
+      <if test="className != null" >
+        #{className,jdbcType=VARCHAR},
+      </if>
+      <if test="studentName != null" >
+        #{studentName,jdbcType=VARCHAR},
+      </if>
+      <if test="subject != null" >
+        #{subject,jdbcType=VARCHAR},
+      </if>
+      <if test="fullScore != null" >
+        #{fullScore,jdbcType=DECIMAL},
+      </if>
+      <if test="score != null" >
+        #{score,jdbcType=DECIMAL},
+      </if>
+      <if test="studentNo != null" >
+        #{studentNo,jdbcType=VARCHAR},
+      </if>
+      <if test="classRank != null" >
+        #{classRank,jdbcType=DECIMAL},
+      </if>
+      <if test="gradeRank != null" >
+        #{gradeRank,jdbcType=DECIMAL},
+      </if>
+      <if test="examNo != null" >
+        #{examNo,jdbcType=VARCHAR},
+      </if>
+      <if test="courseCode != null" >
+        #{courseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="courseName != null" >
+        #{courseName,jdbcType=VARCHAR},
+      </if>
+      <if test="studentIdCardNo != null" >
+        #{studentIdCardNo,jdbcType=VARCHAR},
+      </if>
+      <if test="classId != null" >
+        #{classId,jdbcType=DECIMAL},
+      </if>
+      <if test="flag != null" >
+        #{flag,jdbcType=VARCHAR},
+      </if>
+      <if test="scoreA != null" >
+        #{scoreA,jdbcType=DECIMAL},
+      </if>
+      <if test="scoreAExt != null" >
+        #{scoreAExt,jdbcType=DECIMAL},
+      </if>
+      <if test="scoreB != null" >
+        #{scoreB,jdbcType=DECIMAL},
+      </if>
+      <if test="scoreBExt != null" >
+        #{scoreBExt,jdbcType=DECIMAL},
+      </if>
+      <if test="socreMulti != null" >
+        #{socreMulti,jdbcType=CHAR},
+      </if>
+      <if test="createUserId != null" >
+        #{createUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="createUserName != null" >
+        #{createUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="cn.com.wtrj.jx.web.portal.model.entities.WtrjScoreDetailExptExample" resultType="java.lang.Integer" >
+    select count(*) from WTRJ_SCORE_DETAIL_EXPT
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update WTRJ_SCORE_DETAIL_EXPT
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.examInsName != null" >
+        EXAM_INS_NAME = #{record.examInsName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.examInsId != null" >
+        EXAM_INS_ID = #{record.examInsId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.schoolCode != null" >
+        SCHOOL_CODE = #{record.schoolCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.className != null" >
+        CLASS_NAME = #{record.className,jdbcType=VARCHAR},
+      </if>
+      <if test="record.studentName != null" >
+        STUDENT_NAME = #{record.studentName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.subject != null" >
+        SUBJECT = #{record.subject,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fullScore != null" >
+        FULL_SCORE = #{record.fullScore,jdbcType=DECIMAL},
+      </if>
+      <if test="record.score != null" >
+        SCORE = #{record.score,jdbcType=DECIMAL},
+      </if>
+      <if test="record.studentNo != null" >
+        STUDENT_NO = #{record.studentNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.classRank != null" >
+        CLASS_RANK = #{record.classRank,jdbcType=DECIMAL},
+      </if>
+      <if test="record.gradeRank != null" >
+        GRADE_RANK = #{record.gradeRank,jdbcType=DECIMAL},
+      </if>
+      <if test="record.examNo != null" >
+        EXAM_NO = #{record.examNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.courseCode != null" >
+        COURSE_CODE = #{record.courseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.courseName != null" >
+        COURSE_NAME = #{record.courseName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.studentIdCardNo != null" >
+        STUDENT_ID_CARD_NO = #{record.studentIdCardNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.classId != null" >
+        CLASS_ID = #{record.classId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.flag != null" >
+        FLAG = #{record.flag,jdbcType=VARCHAR},
+      </if>
+      <if test="record.scoreA != null" >
+        SCORE_A = #{record.scoreA,jdbcType=DECIMAL},
+      </if>
+      <if test="record.scoreAExt != null" >
+        SCORE_A_EXT = #{record.scoreAExt,jdbcType=DECIMAL},
+      </if>
+      <if test="record.scoreB != null" >
+        SCORE_B = #{record.scoreB,jdbcType=DECIMAL},
+      </if>
+      <if test="record.scoreBExt != null" >
+        SCORE_B_EXT = #{record.scoreBExt,jdbcType=DECIMAL},
+      </if>
+      <if test="record.socreMulti != null" >
+        SOCRE_MULTI = #{record.socreMulti,jdbcType=CHAR},
+      </if>
+      <if test="record.createUserId != null" >
+        CREATE_USER_ID = #{record.createUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createUserName != null" >
+        CREATE_USER_NAME = #{record.createUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null" >
+        CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update WTRJ_SCORE_DETAIL_EXPT
+    set ID = #{record.id,jdbcType=VARCHAR},
+      EXAM_INS_NAME = #{record.examInsName,jdbcType=VARCHAR},
+      EXAM_INS_ID = #{record.examInsId,jdbcType=DECIMAL},
+      SCHOOL_CODE = #{record.schoolCode,jdbcType=VARCHAR},
+      CLASS_NAME = #{record.className,jdbcType=VARCHAR},
+      STUDENT_NAME = #{record.studentName,jdbcType=VARCHAR},
+      SUBJECT = #{record.subject,jdbcType=VARCHAR},
+      FULL_SCORE = #{record.fullScore,jdbcType=DECIMAL},
+      SCORE = #{record.score,jdbcType=DECIMAL},
+      STUDENT_NO = #{record.studentNo,jdbcType=VARCHAR},
+      CLASS_RANK = #{record.classRank,jdbcType=DECIMAL},
+      GRADE_RANK = #{record.gradeRank,jdbcType=DECIMAL},
+      EXAM_NO = #{record.examNo,jdbcType=VARCHAR},
+      COURSE_CODE = #{record.courseCode,jdbcType=VARCHAR},
+      COURSE_NAME = #{record.courseName,jdbcType=VARCHAR},
+      STUDENT_ID_CARD_NO = #{record.studentIdCardNo,jdbcType=VARCHAR},
+      CLASS_ID = #{record.classId,jdbcType=DECIMAL},
+      FLAG = #{record.flag,jdbcType=VARCHAR},
+      SCORE_A = #{record.scoreA,jdbcType=DECIMAL},
+      SCORE_A_EXT = #{record.scoreAExt,jdbcType=DECIMAL},
+      SCORE_B = #{record.scoreB,jdbcType=DECIMAL},
+      SCORE_B_EXT = #{record.scoreBExt,jdbcType=DECIMAL},
+      SOCRE_MULTI = #{record.socreMulti,jdbcType=CHAR},
+      CREATE_USER_ID = #{record.createUserId,jdbcType=VARCHAR},
+      CREATE_USER_NAME = #{record.createUserName,jdbcType=VARCHAR},
+      CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.com.wtrj.jx.web.portal.model.entities.WtrjScoreDetailExpt" >
+    update WTRJ_SCORE_DETAIL_EXPT
+    <set >
+      <if test="examInsName != null" >
+        EXAM_INS_NAME = #{examInsName,jdbcType=VARCHAR},
+      </if>
+      <if test="examInsId != null" >
+        EXAM_INS_ID = #{examInsId,jdbcType=DECIMAL},
+      </if>
+      <if test="schoolCode != null" >
+        SCHOOL_CODE = #{schoolCode,jdbcType=VARCHAR},
+      </if>
+      <if test="className != null" >
+        CLASS_NAME = #{className,jdbcType=VARCHAR},
+      </if>
+      <if test="studentName != null" >
+        STUDENT_NAME = #{studentName,jdbcType=VARCHAR},
+      </if>
+      <if test="subject != null" >
+        SUBJECT = #{subject,jdbcType=VARCHAR},
+      </if>
+      <if test="fullScore != null" >
+        FULL_SCORE = #{fullScore,jdbcType=DECIMAL},
+      </if>
+      <if test="score != null" >
+        SCORE = #{score,jdbcType=DECIMAL},
+      </if>
+      <if test="studentNo != null" >
+        STUDENT_NO = #{studentNo,jdbcType=VARCHAR},
+      </if>
+      <if test="classRank != null" >
+        CLASS_RANK = #{classRank,jdbcType=DECIMAL},
+      </if>
+      <if test="gradeRank != null" >
+        GRADE_RANK = #{gradeRank,jdbcType=DECIMAL},
+      </if>
+      <if test="examNo != null" >
+        EXAM_NO = #{examNo,jdbcType=VARCHAR},
+      </if>
+      <if test="courseCode != null" >
+        COURSE_CODE = #{courseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="courseName != null" >
+        COURSE_NAME = #{courseName,jdbcType=VARCHAR},
+      </if>
+      <if test="studentIdCardNo != null" >
+        STUDENT_ID_CARD_NO = #{studentIdCardNo,jdbcType=VARCHAR},
+      </if>
+      <if test="classId != null" >
+        CLASS_ID = #{classId,jdbcType=DECIMAL},
+      </if>
+      <if test="flag != null" >
+        FLAG = #{flag,jdbcType=VARCHAR},
+      </if>
+      <if test="scoreA != null" >
+        SCORE_A = #{scoreA,jdbcType=DECIMAL},
+      </if>
+      <if test="scoreAExt != null" >
+        SCORE_A_EXT = #{scoreAExt,jdbcType=DECIMAL},
+      </if>
+      <if test="scoreB != null" >
+        SCORE_B = #{scoreB,jdbcType=DECIMAL},
+      </if>
+      <if test="scoreBExt != null" >
+        SCORE_B_EXT = #{scoreBExt,jdbcType=DECIMAL},
+      </if>
+      <if test="socreMulti != null" >
+        SOCRE_MULTI = #{socreMulti,jdbcType=CHAR},
+      </if>
+      <if test="createUserId != null" >
+        CREATE_USER_ID = #{createUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="createUserName != null" >
+        CREATE_USER_NAME = #{createUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.com.wtrj.jx.web.portal.model.entities.WtrjScoreDetailExpt" >
+    update WTRJ_SCORE_DETAIL_EXPT
+    set EXAM_INS_NAME = #{examInsName,jdbcType=VARCHAR},
+      EXAM_INS_ID = #{examInsId,jdbcType=DECIMAL},
+      SCHOOL_CODE = #{schoolCode,jdbcType=VARCHAR},
+      CLASS_NAME = #{className,jdbcType=VARCHAR},
+      STUDENT_NAME = #{studentName,jdbcType=VARCHAR},
+      SUBJECT = #{subject,jdbcType=VARCHAR},
+      FULL_SCORE = #{fullScore,jdbcType=DECIMAL},
+      SCORE = #{score,jdbcType=DECIMAL},
+      STUDENT_NO = #{studentNo,jdbcType=VARCHAR},
+      CLASS_RANK = #{classRank,jdbcType=DECIMAL},
+      GRADE_RANK = #{gradeRank,jdbcType=DECIMAL},
+      EXAM_NO = #{examNo,jdbcType=VARCHAR},
+      COURSE_CODE = #{courseCode,jdbcType=VARCHAR},
+      COURSE_NAME = #{courseName,jdbcType=VARCHAR},
+      STUDENT_ID_CARD_NO = #{studentIdCardNo,jdbcType=VARCHAR},
+      CLASS_ID = #{classId,jdbcType=DECIMAL},
+      FLAG = #{flag,jdbcType=VARCHAR},
+      SCORE_A = #{scoreA,jdbcType=DECIMAL},
+      SCORE_A_EXT = #{scoreAExt,jdbcType=DECIMAL},
+      SCORE_B = #{scoreB,jdbcType=DECIMAL},
+      SCORE_B_EXT = #{scoreBExt,jdbcType=DECIMAL},
+      SOCRE_MULTI = #{socreMulti,jdbcType=CHAR},
+      CREATE_USER_ID = #{createUserId,jdbcType=VARCHAR},
+      CREATE_USER_NAME = #{createUserName,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

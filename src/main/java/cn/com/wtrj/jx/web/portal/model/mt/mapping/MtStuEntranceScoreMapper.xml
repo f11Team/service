@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.wtrj.jx.web.portal.model.mt.dao.MtStuEntranceScoreMapper">
+	<resultMap id="BaseResultMap" type="cn.com.wtrj.jx.web.portal.model.entities.WtrjStuEntranceScore" >
+	    <id column="ID" property="id" jdbcType="DECIMAL" />
+	    <result column="STUDENT_ID" property="studentId" jdbcType="DECIMAL" />
+	    <result column="EXAM_SUBJECT_NAME" property="examSubjectName" jdbcType="VARCHAR" />
+	    <result column="EXAM_SUBJECT_SCORE" property="examSubjectScore" jdbcType="DECIMAL" />
+	    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+	    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+	    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+  	</resultMap>
+  	
+  	<select id="searchByStudent" parameterType="Integer" resultMap="BaseResultMap">
+  		SELECT * FROM WTRJ_STU_ENTRANCE_SCORE WHERE STUDENT_ID=#{id}
+  	</select>
+</mapper>

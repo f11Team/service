@@ -1,0 +1,369 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.wtrj.jx.web.portal.model.mt.dao.kpi.MtKpiPlanMapper">
+	<select id="selectKpiPlan"  resultType="cn.com.wtrj.jx.web.portal.model.mt.entities.kpi.MtKpiPlan">
+		SELECT 
+			   #{kpiInsId}          AS kpiIns,
+		       gp.code              AS code,
+		       gp.name              AS groupName,
+		       gp.cnt               AS groupPersons,
+		       1                    AS groupType,
+		       pl.id                AS id,
+		       pl.KPI_PLAN_YOU      AS kpiPlanYou,
+		       pl.KPI_PLAN_YOU_UB   AS kpiPlanYouUb,
+		       pl.KPI_PLAN_YOU_LB   AS kpiPlanYouLb,
+		       pl.KPI_PLAN_LIANG    AS kpiPlanLiang,
+		       pl.KPI_PLAN_LIANG_UB AS kpiPlanLiangUb,
+		       pl.KPI_PLAN_LIANG_LB AS kpiPlanLiangLb,
+		       pl.KPI_PLAN_ZHONG    AS kpiPlanZhong,
+		       pl.KPI_PLAN_ZHONG_UB AS kpiPlanZhongUb,
+		       pl.KPI_PLAN_ZHONG_LB AS kpiPlanZhongLb,
+		       pl.KPI_PLAN_CHA      AS kpiPlanCha,
+		       pl.KPI_PLAN_CHA_UB   AS kpiPlanChaUb,
+		       pl.KPI_PLAN_CHA_LB   AS kpiPlanChaLb,
+		       pl.REMARK            AS remark
+		  FROM (SELECT zu.code, zu.name, count(em.EMPLOYEE_ID) AS cnt
+		          FROM WTRJ_KPI_JIAOYANZU zu INNER JOIN WTRJ_KPI_EMPLOYEE em
+		              ON zu.code = EM.BELONG_JIAOYANZU_CODE
+		            AND em.kpi_ins = #{kpiInsId}
+		         GROUP BY zu.code, zu.name) gp
+		  left join WTRJ_KPI_PLAN_JIAOYANZU pl on pl.code = gp.code
+		                                      and pl.kpi_ins = #{kpiInsId}
+		union all
+		SELECT 
+			   #{kpiInsId}          AS kpiIns,
+		       gp.code              AS code,
+		       gp.name              AS groupName,
+		       gp.cnt               AS groupPersons,
+		       2                    AS groupType,
+		       pl.id                AS id,
+		       pl.KPI_PLAN_YOU      AS kpiPlanYou,
+		       pl.KPI_PLAN_YOU_UB   AS kpiPlanYouUb,
+		       pl.KPI_PLAN_YOU_LB   AS kpiPlanYouLb,
+		       pl.KPI_PLAN_LIANG    AS kpiPlanLiang,
+		       pl.KPI_PLAN_LIANG_UB AS kpiPlanLiangUb,
+		       pl.KPI_PLAN_LIANG_LB AS kpiPlanLiangLb,
+		       pl.KPI_PLAN_ZHONG    AS kpiPlanZhong,
+		       pl.KPI_PLAN_ZHONG_UB AS kpiPlanZhongUb,
+		       pl.KPI_PLAN_ZHONG_LB AS kpiPlanZhongLb,
+		       pl.KPI_PLAN_CHA      AS kpiPlanCha,
+		       pl.KPI_PLAN_CHA_UB   AS kpiPlanChaUb,
+		       pl.KPI_PLAN_CHA_LB   AS kpiPlanChaLb,
+		       pl.REMARK            AS remark
+		  FROM (SELECT zu.code, zu.name, count(em.EMPLOYEE_ID) AS cnt
+		          FROM WTRJ_KPI_GRADE_GROUP zu INNER JOIN WTRJ_KPI_EMPLOYEE em
+		              ON zu.CODE = EM.BELONG_NIANJIZU_CODE
+		            AND em.kpi_ins = #{kpiInsId} 
+		         GROUP BY zu.code, zu.name) gp
+		  left join WTRJ_KPI_PLAN_NIANJIZU pl on pl.code = gp.code
+		                                     and pl.kpi_ins = #{kpiInsId}
+	</select>
+
+	<select id="selectKpiPlanJy"  resultType="cn.com.wtrj.jx.web.portal.model.mt.entities.kpi.MtKpiPlanRes">
+		SELECT
+			1 AS NO,
+			A .kpi_plan_you_lb AS lb,
+			A .kpi_plan_you_ub AS ub,
+			A .kpi_plan_you AS psns,
+			NVL (COUNT(b.kpi_ins), 0) AS actPsns
+		FROM
+			WTRJ_KPI_PLAN_JIAOYANZU A
+		LEFT JOIN (
+			SELECT
+				c.kpi_ins,
+				A .code,
+				c.JIAOYANZU_PINGJIA_SCORE_ACT
+			FROM
+				WTRJ_KPI_JIAOYANZU A,
+				WTRJ_KPI_EMPLOYEE b,
+				WTRJ_KPI_INFO c
+			WHERE
+				A .code = #{code}
+			AND A .code = b.BELONG_JIAOYANZU_CODE
+			AND b.kpi_ins = #{kpiInsId}			
+			AND b.kpi_ins = c.kpi_ins
+			AND b.employee_id = c.employee_id			
+			<if test="excludEmployeeId != null">
+				AND c.employee_id != #{excludEmployeeId}
+			</if>
+		) b ON A .kpi_ins = b.kpi_ins
+		AND A .code = b.code
+		AND b.JIAOYANZU_PINGJIA_SCORE_ACT BETWEEN A .kpi_plan_you_lb
+		AND A .kpi_plan_you_ub
+		WHERE
+			A .kpi_ins = #{kpiInsId}
+		AND A .code = #{code}
+		GROUP BY
+			A .kpi_plan_you_lb,
+			A .kpi_plan_you_ub,
+			A .kpi_plan_you
+		UNION ALL
+			SELECT
+				2 AS NO,
+				A .kpi_plan_liang_lb AS lb,
+				A .kpi_plan_liang_ub AS ub,
+				A .kpi_plan_liang AS psns,
+				NVL (COUNT(b.kpi_ins), 0) AS actPsns
+			FROM
+				WTRJ_KPI_PLAN_JIAOYANZU A
+			LEFT JOIN (
+				SELECT
+					c.kpi_ins,
+					A .code,
+					c.JIAOYANZU_PINGJIA_SCORE_ACT
+				FROM
+					WTRJ_KPI_JIAOYANZU A,
+					WTRJ_KPI_EMPLOYEE b,
+					WTRJ_KPI_INFO c
+				WHERE
+					A .code = #{code}
+				AND A .code = b.BELONG_JIAOYANZU_CODE
+				AND b.kpi_ins = #{kpiInsId}			
+				AND b.kpi_ins = c.kpi_ins
+				AND b.employee_id = c.employee_id	
+				<if test="excludEmployeeId != null">
+				AND c.employee_id != #{excludEmployeeId}
+				</if>
+			) b ON A .kpi_ins = b.kpi_ins
+			AND A .code = b.code
+			AND b.JIAOYANZU_PINGJIA_SCORE_ACT BETWEEN A .kpi_plan_liang_lb
+			AND A .kpi_plan_liang_ub
+			WHERE
+				A .kpi_ins = #{kpiInsId}
+			AND A .code = #{code}
+			GROUP BY
+				A .kpi_plan_liang_lb,
+				A .kpi_plan_liang_ub,
+				A .kpi_plan_liang
+			UNION ALL
+				SELECT
+					3 AS NO,
+					A .kpi_plan_zhong_lb AS lb,
+					A .kpi_plan_zhong_ub AS ub,
+					A .kpi_plan_zhong AS psns,
+					NVL (COUNT(b.kpi_ins), 0) AS actPsns
+				FROM
+					WTRJ_KPI_PLAN_JIAOYANZU A
+				LEFT JOIN (
+					SELECT
+						c.kpi_ins,
+						A .code,
+						c.JIAOYANZU_PINGJIA_SCORE_ACT
+					FROM
+						WTRJ_KPI_JIAOYANZU A,
+						WTRJ_KPI_EMPLOYEE b,
+						WTRJ_KPI_INFO c
+					WHERE
+						A .code = #{code}
+					AND A .code = b.BELONG_JIAOYANZU_CODE
+					AND b.kpi_ins = #{kpiInsId}			
+					AND b.kpi_ins = c.kpi_ins
+					AND b.employee_id = c.employee_id	
+					<if test="excludEmployeeId != null">
+					AND c.employee_id != #{excludEmployeeId}
+					</if>					
+				) b ON A .kpi_ins = b.kpi_ins
+				AND A .code = b.code
+				AND b.JIAOYANZU_PINGJIA_SCORE_ACT BETWEEN A .kpi_plan_zhong_lb
+				AND A .kpi_plan_zhong_ub
+				WHERE
+					A .kpi_ins = #{kpiInsId}
+				AND A .code = #{code}
+				GROUP BY
+					A .kpi_plan_zhong_lb,
+					A .kpi_plan_zhong_ub,
+					A .kpi_plan_zhong
+				UNION ALL
+					SELECT
+						4 AS NO,
+						A .kpi_plan_cha_lb AS lb,
+						A .kpi_plan_cha_ub AS ub,
+						A .kpi_plan_cha AS psns,
+						NVL (COUNT(b.kpi_ins), 0) AS actPsns
+					FROM
+						WTRJ_KPI_PLAN_JIAOYANZU A
+					LEFT JOIN (
+						SELECT
+							c.kpi_ins,
+							A .code,
+							c.JIAOYANZU_PINGJIA_SCORE_ACT
+						FROM
+							WTRJ_KPI_JIAOYANZU A,
+							WTRJ_KPI_EMPLOYEE b,
+							WTRJ_KPI_INFO c
+						WHERE
+							A .code = #{code}
+						AND A .code = b.BELONG_JIAOYANZU_CODE
+						AND b.kpi_ins = #{kpiInsId}			
+						AND b.kpi_ins = c.kpi_ins
+						AND b.employee_id = c.employee_id	
+						<if test="excludEmployeeId != null">
+						AND c.employee_id != #{excludEmployeeId}
+						</if>						
+					) b ON A .kpi_ins = b.kpi_ins
+					AND A .code = b.code
+					AND b.JIAOYANZU_PINGJIA_SCORE_ACT BETWEEN A .kpi_plan_cha_lb
+					AND A .kpi_plan_cha_ub
+					WHERE
+						A .kpi_ins = #{kpiInsId}
+					AND A .code = #{code}
+					GROUP BY
+						A .kpi_plan_cha_lb,
+						A .kpi_plan_cha_ub,
+						A .kpi_plan_cha
+	</select>
+
+	<select id="selectKpiPlanNj"  resultType="cn.com.wtrj.jx.web.portal.model.mt.entities.kpi.MtKpiPlanRes">
+		SELECT
+			1 AS NO,
+			A .kpi_plan_you_lb AS lb,
+			A .kpi_plan_you_ub AS ub,
+			A .kpi_plan_you AS psns,
+			NVL (COUNT(b.kpi_ins), 0) AS actPsns
+		FROM
+			WTRJ_KPI_PLAN_NIANJIZU A
+		LEFT JOIN (
+			SELECT
+				c.kpi_ins,
+				A .code,
+				c.NIANJI_PINGJIA_SCORE_ACT
+			FROM
+				WTRJ_KPI_GRADE_GROUP A,
+				WTRJ_KPI_EMPLOYEE b,
+				WTRJ_KPI_INFO c
+			WHERE
+				A .code = #{code}
+			AND A .code = b.BELONG_NIANJIZU_CODE
+			AND b.kpi_ins = #{kpiInsId}			
+			AND b.kpi_ins = c.kpi_ins
+			AND b.employee_id = c.employee_id	
+			<if test="excludEmployeeId != null">
+			AND c.employee_id != #{excludEmployeeId}
+			</if>
+		) b ON A .kpi_ins = b.kpi_ins
+		AND A .code = b.code
+		AND b.NIANJI_PINGJIA_SCORE_ACT BETWEEN A .kpi_plan_you_lb
+		AND A .kpi_plan_you_ub
+		WHERE
+			A .kpi_ins = #{kpiInsId}
+		AND A .code = #{code}
+		GROUP BY
+			A .kpi_plan_you_lb,
+			A .kpi_plan_you_ub,
+			A .kpi_plan_you
+		UNION ALL
+			SELECT
+				2 AS NO,
+				A .kpi_plan_liang_lb AS lb,
+				A .kpi_plan_liang_ub AS ub,
+				A .kpi_plan_liang AS psns,
+				NVL (COUNT(b.kpi_ins), 0) AS actPsns
+			FROM
+				WTRJ_KPI_PLAN_NIANJIZU A
+			LEFT JOIN (
+				SELECT
+					c.kpi_ins,
+					A .code,
+					c.NIANJI_PINGJIA_SCORE_ACT
+				FROM
+					WTRJ_KPI_GRADE_GROUP A,
+					WTRJ_KPI_EMPLOYEE b,
+					WTRJ_KPI_INFO c
+				WHERE
+					A .code = #{code}
+				AND A .code = b.BELONG_NIANJIZU_CODE
+				AND b.kpi_ins = #{kpiInsId}			
+				AND b.kpi_ins = c.kpi_ins
+				AND b.employee_id = c.employee_id	
+				<if test="excludEmployeeId != null">
+				AND c.employee_id != #{excludEmployeeId}
+				</if>				
+			) b ON A .kpi_ins = b.kpi_ins
+			AND A .code = b.code
+			AND b.NIANJI_PINGJIA_SCORE_ACT BETWEEN A .kpi_plan_liang_lb
+			AND A .kpi_plan_liang_ub
+			WHERE
+				A .kpi_ins = #{kpiInsId}
+			AND A .code = #{code}
+			GROUP BY
+				A .kpi_plan_liang_lb,
+				A .kpi_plan_liang_ub,
+				A .kpi_plan_liang
+			UNION ALL
+				SELECT
+					3 AS NO,
+					A .kpi_plan_zhong_lb AS lb,
+					A .kpi_plan_zhong_ub AS ub,
+					A .kpi_plan_zhong AS psns,
+					NVL (COUNT(b.kpi_ins), 0) AS actPsns
+				FROM
+					WTRJ_KPI_PLAN_NIANJIZU A
+				LEFT JOIN (
+					SELECT
+						c.kpi_ins,
+						A .code,
+						c.NIANJI_PINGJIA_SCORE_ACT
+					FROM
+						WTRJ_KPI_GRADE_GROUP A,
+						WTRJ_KPI_EMPLOYEE b,
+						WTRJ_KPI_INFO c
+					WHERE
+						A .code = #{code}
+					AND A .code = b.BELONG_NIANJIZU_CODE
+					AND b.kpi_ins = #{kpiInsId}			
+					AND b.kpi_ins = c.kpi_ins
+					AND b.employee_id = c.employee_id	
+					<if test="excludEmployeeId != null">
+					AND c.employee_id != #{excludEmployeeId}
+					</if>		
+				) b ON A .kpi_ins = b.kpi_ins
+				AND A .code = b.code
+				AND b.NIANJI_PINGJIA_SCORE_ACT BETWEEN A .kpi_plan_zhong_lb
+				AND A .kpi_plan_zhong_ub
+				WHERE
+					A .kpi_ins = #{kpiInsId}
+				AND A .code = #{code}
+				GROUP BY
+					A .kpi_plan_zhong_lb,
+					A .kpi_plan_zhong_ub,
+					A .kpi_plan_zhong
+				UNION ALL
+					SELECT
+						4 AS NO,
+						A .kpi_plan_cha_lb AS lb,
+						A .kpi_plan_cha_ub AS ub,
+						A .kpi_plan_cha AS psns,
+						NVL (COUNT(b.kpi_ins), 0) AS actPsns
+					FROM
+						WTRJ_KPI_PLAN_NIANJIZU A
+					LEFT JOIN (
+						SELECT
+							c.kpi_ins,
+							A .code,
+							c.NIANJI_PINGJIA_SCORE_ACT
+						FROM
+							WTRJ_KPI_GRADE_GROUP A,
+							WTRJ_KPI_EMPLOYEE b,
+							WTRJ_KPI_INFO c
+						WHERE
+							A .code = #{code}
+						AND A .code = b.BELONG_NIANJIZU_CODE
+						AND b.kpi_ins = #{kpiInsId}			
+						AND b.kpi_ins = c.kpi_ins
+						AND b.employee_id = c.employee_id	
+						<if test="excludEmployeeId != null">
+						AND c.employee_id != #{excludEmployeeId}
+						</if>	
+					) b ON A .kpi_ins = b.kpi_ins
+					AND A .code = b.code
+					AND b.NIANJI_PINGJIA_SCORE_ACT BETWEEN A .kpi_plan_cha_lb
+					AND A .kpi_plan_cha_ub
+					WHERE
+						A .kpi_ins = #{kpiInsId}
+					AND A .code = #{code}
+					GROUP BY
+						A .kpi_plan_cha_lb,
+						A .kpi_plan_cha_ub,
+						A .kpi_plan_cha
+	</select>
+</mapper>

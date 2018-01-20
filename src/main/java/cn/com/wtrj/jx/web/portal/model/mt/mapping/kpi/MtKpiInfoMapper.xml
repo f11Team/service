@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.wtrj.jx.web.portal.model.mt.dao.kpi.MtKpiInfoMapper">
+
+  	<select id="selectKpiInfoJy" resultType="cn.com.wtrj.jx.web.portal.model.mt.entities.kpi.MtKpiInfoDto">
+		select * from (select T.*, row_number() over(ORDER BY id asc) rn
+	          from (select gp.name                  as name,
+	                       empl.id                         as employeeId,
+	                       empl.name                       as teacherName,
+	                       empl.employee_number            as employeeNo,
+	                       kpi.id                          as id,
+	                       kpi.kpi_ins                     as kpiIns,
+	                       kpi.jiaoyanzu_pingjia_score_act as score,
+	                       kpi.jiaoyanzu_pingjia_time      as kpiTime
+	                  from wtrj_kpi_jiaoyanzu gp
+	                  inner join wtrj_kpi_employee re on gp.code = re.belong_jiaoyanzu_code
+	                  inner join wtrj_employee empl on re.employee_id = empl.id
+	                  left join wtrj_kpi_info kpi on re.employee_id = kpi.employee_id
+	                                             and kpi.kpi_ins = #{kpiInsId}
+	                 where gp.code = #{jiaoyanzuCode}) T) M
+		 where M.rn between #{start} and #{end}
+  	</select> 	
+  	<select id="countKpiInfoJy" resultType="Integer">
+		select count(*) as cnt
+		  from (select empl.id
+		          from wtrj_kpi_jiaoyanzu gp
+		         inner join wtrj_kpi_employee re on gp.code =re.belong_jiaoyanzu_code
+		         inner join wtrj_employee empl on re.employee_id = empl.id
+		         where gp.code = #{jiaoyanzuCode}) T
+  	</select>
+  	
+  	<select id="selectKpiInfoNj" resultType="cn.com.wtrj.jx.web.portal.model.mt.entities.kpi.MtKpiInfoDto">
+		select * from (select T.*, row_number() over(ORDER BY id asc) rn
+	          from (select gp.name                  as name,
+	                       empl.id                         as employeeId,
+	                       empl.name                       as teacherName,
+	                       empl.employee_number            as employeeNo,
+	                       kpi.id                          as id,
+	                       kpi.kpi_ins                     as kpiIns,
+	                       kpi.nianji_pingjia_score_act as score,
+	                       kpi.nianjizu_pingjia_time      as kpiTime
+	                  from wtrj_kpi_grade_group gp
+	                  inner join wtrj_kpi_employee re on gp.code = re.belong_nianjizu_code
+	                  inner join wtrj_employee empl on re.employee_id = empl.id
+	                  left join wtrj_kpi_info kpi on re.employee_id = kpi.employee_id
+	                                             and kpi.kpi_ins = #{kpiInsId}
+	                 where gp.code = #{nianjizuCode}) T) M
+		 where M.rn between #{start} and #{end}
+  	</select> 	
+  	<select id="countKpiInfoNj" resultType="Integer">
+		select count(*) as cnt
+		  from (select empl.id
+		          from wtrj_kpi_grade_group gp
+		         inner join wtrj_kpi_employee re on gp.code =re.belong_nianjizu_code
+		         inner join wtrj_employee empl on re.employee_id = empl.id
+		         where gp.code = #{nianjizuCode}) T
+  	</select>
+
+  	<select id="selectKpiInfoJw" resultType="cn.com.wtrj.jx.web.portal.model.mt.entities.kpi.MtKpiInfoDto">
+		select *
+		  from (select T.*, row_number() over(ORDER BY id asc) rn
+		          from (select gp.name                  as name,
+		          			   empl.id                      as employeeId,
+		                       empl.name                    as teacherName,
+		                       empl.employee_number         as employeeNo,
+		                       kpi.id                       as id,
+		                       kpi.kpi_ins                  as kpiIns,
+							   kpi.jiaowu_score_act   as score,
+		                       kpi.jiaowu_pingjia_time    as kpiTime
+		                  from wtrj_employee empl
+	                  	  inner join wtrj_kpi_employee re on re.employee_id = empl.id
+	                      left join wtrj_kpi_jiaoyanzu gp on gp.code = re.belong_jiaoyanzu_code		                  
+		                  left join wtrj_kpi_info kpi on re.employee_id = kpi.employee_id
+		                                             and re.kpi_ins = kpi.kpi_ins
+		                 where re.kpi_ins = #{kpiInsId}) T) M
+				 where M.rn between #{start} and #{end}
+  	</select> 	
+  	<select id="countKpiInfoJw" resultType="Integer">
+		select count(*) as cnt
+		  from (select empl.employee_id
+		          from wtrj_kpi_employee empl
+		         where empl.kpi_ins = #{kpiInsId}) T
+  	</select>
+
+  	<select id="selectKpiInfo" resultType="cn.com.wtrj.jx.web.portal.model.mt.entities.kpi.MtKpiInfo">
+		select info.ID as id,
+		       info.KPI_INS as kpiIns,
+		       info.EMPLOYEE_ID as employeeId,
+		       info.REMARK as remark,
+		       info.JIAOWU_SCORE_ACT as jiaowuScoreAct,
+		       info.JIAOYANZU_PINGJIA_SCORE_ACT as jiaoyanzuPingjiaScoreAct,
+		       info.NIANJI_PINGJIA_SCORE_ACT as nianjiPingjiaScoreAct,
+		       info.ZIPING_SCORE as zipingScore,
+		       info.KPI_SCORE as kpiScore,
+		       info.KPI_SCORE_ACT as kpiScoreAct,
+		       info.JIAOXUE_SCORE as jiaoxueScore,
+		       info.STU_PINGJIA_SCORE as stuPingjiaScore,
+		       info.STU_PINGJIA_SCORE_ACT as stuPingjiaScoreAct,
+		       info.TOTAL_SCORE as totalScore,
+		       empl.NAME as employeeName,
+		       empl.EMPLOYEE_NUMBER as employeeNumber,
+		       nvl(gp.NAME, '') as jiaoyanzuName,
+		       row_number() over(ORDER BY info.TOTAL_SCORE desc) as rank
+		  from wtrj_kpi_info info
+		 inner join wtrj_employee empl on info.employee_id = empl.id
+		 inner join wtrj_kpi_employee gpe on info.kpi_ins = gpe.kpi_ins and info.employee_id =gpe.employee_id
+		  left join wtrj_kpi_jiaoyanzu gp on gpe.belong_jiaoyanzu_code = gp.code
+		 where info.kpi_ins = #{kpiInsId}
+  	</select> 
+</mapper>

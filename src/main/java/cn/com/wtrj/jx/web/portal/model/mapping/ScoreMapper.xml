@@ -1,0 +1,1331 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.wtrj.jx.web.portal.model.dao.ScoreManageDao" >
+
+<resultMap id="examInsResultMap" type="cn.com.wtrj.jx.web.portal.model.entities.WtrjRptScoreExamIns">
+    <id column="ID" jdbcType="DECIMAL" property="id" />
+    <result column="NAME" jdbcType="VARCHAR" property="name" />
+    <result column="START_DATE" jdbcType="TIMESTAMP" property="startDate" />
+    <result column="END_DATE" jdbcType="TIMESTAMP" property="endDate" />
+    <result column="SCHOOL_CODE" jdbcType="VARCHAR" property="schoolCode" />
+    <result column="STAGE" jdbcType="VARCHAR" property="stage" />
+    <result column="GRADE" jdbcType="VARCHAR" property="grade" />
+    <result column="EXAM_SEQ_CODE" jdbcType="VARCHAR" property="examSeqCode" />
+    <result column="EXAM_SEQ_NAME" jdbcType="VARCHAR" property="examSeqName" />
+    <result column="TYPE_CODE" jdbcType="VARCHAR" property="typeCode" />
+    <result column="TYPE_NAME" jdbcType="VARCHAR" property="typeName" />
+    <result column="SCHOOL_YEAR_CODE" jdbcType="VARCHAR" property="schoolYearCode" />
+    <result column="SCHOOL_YEAR_NAME" jdbcType="VARCHAR" property="schoolYearName" />
+    <result column="SCHOOL_TERM_CODE" jdbcType="VARCHAR" property="schoolTermCode" />
+    <result column="SCHOOL_TERM_NAME" jdbcType="VARCHAR" property="schoolTermName" />
+    <result column="EXAM_TIME" jdbcType="DECIMAL" property="examTime" />
+    <result column="CREATE_USER_ID" jdbcType="VARCHAR" property="createUserId" />
+    <result column="CREATE_USER_NAME" jdbcType="VARCHAR" property="createUserName" />
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="COURSE_CODE" jdbcType="VARCHAR" property="courseCode" />
+    <result column="COURSE_NAME" jdbcType="VARCHAR" property="courseName" />
+    <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+    <result column="EXAM_TYPE" jdbcType="VARCHAR" property="examType" />
+    <result column="CLASS_ID" jdbcType="DECIMAL" property="classId" />
+    <result column="CLASS_NAME" jdbcType="VARCHAR" property="className" />
+    <result column="UPLOAD_STATE" jdbcType="VARCHAR" property="uploadState" />
+    <result column="SEND_STATE" jdbcType="VARCHAR" property="sendState" />
+    <result column="FLAG" jdbcType="CHAR" property="flag" />
+    <result column="GRADE_ORDER" jdbcType="CHAR" property="gradeOrder" />
+    <result column="MSG_CODE" jdbcType="VARCHAR" property="msgCode" />
+    <result column="SCHOOL_NAME" jdbcType="VARCHAR" property="schoolName" />
+  </resultMap>
+
+	<resultMap id="examClassResultMap" type="cn.com.wtrj.jx.web.portal.model.entities.WtrjRptScoreExamClass">
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="EXAM_INS_ID" jdbcType="VARCHAR" property="examInsId" />
+    <result column="EXAM_INS_NAME" jdbcType="VARCHAR" property="examInsName" />
+    <result column="START_DATE" jdbcType="TIMESTAMP" property="startDate" />
+    <result column="END_DATE" jdbcType="TIMESTAMP" property="endDate" />
+    <result column="SCHOOL_CODE" jdbcType="VARCHAR" property="schoolCode" />
+    <result column="STAGE" jdbcType="VARCHAR" property="stage" />
+    <result column="GRADE" jdbcType="VARCHAR" property="grade" />
+    <result column="EXAM_SEQ_CODE" jdbcType="VARCHAR" property="examSeqCode" />
+    <result column="EXAM_SEQ_NAME" jdbcType="VARCHAR" property="examSeqName" />
+    <result column="TYPE_CODE" jdbcType="VARCHAR" property="typeCode" />
+    <result column="TYPE_NAME" jdbcType="VARCHAR" property="typeName" />
+    <result column="SCHOOL_YEAR_CODE" jdbcType="VARCHAR" property="schoolYearCode" />
+    <result column="SCHOOL_YEAR_NAME" jdbcType="VARCHAR" property="schoolYearName" />
+    <result column="SCHOOL_TERM_CODE" jdbcType="VARCHAR" property="schoolTermCode" />
+    <result column="SCHOOL_TERM_NAME" jdbcType="VARCHAR" property="schoolTermName" />
+    <result column="EXAM_TIME" jdbcType="DECIMAL" property="examTime" />
+    <result column="CREATE_USER_ID" jdbcType="VARCHAR" property="createUserId" />
+    <result column="CREATE_USER_NAME" jdbcType="VARCHAR" property="createUserName" />
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="COURSE_CODE" jdbcType="VARCHAR" property="courseCode" />
+    <result column="COURSE_NAME" jdbcType="VARCHAR" property="courseName" />
+    <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+    <result column="EXAM_TYPE" jdbcType="VARCHAR" property="examType" />
+    <result column="CLASS_ID" jdbcType="DECIMAL" property="classId" />
+    <result column="CLASS_NAME" jdbcType="VARCHAR" property="className" />
+    <result column="UPLOAD_STATE" jdbcType="VARCHAR" property="uploadState" />
+    <result column="SEND_STATE" jdbcType="VARCHAR" property="sendState" />
+    <result column="DATA_STATE" jdbcType="VARCHAR" property="dataState" />
+    <result column="FLAG" jdbcType="CHAR" property="flag" />
+    <result column="GRADE_ORDER" jdbcType="CHAR" property="gradeOrder" />
+    <result column="MSG_CODE" jdbcType="VARCHAR" property="msgCode" />
+    <result column="SCHOOL_NAME" jdbcType="VARCHAR" property="schoolName" />
+    <result column="visible_State" jdbcType="VARCHAR" property="visibleState" />
+  </resultMap>
+
+ 	<resultMap id="teacherPermissionResultMap" type="cn.com.wtrj.jx.web.portal.model.entities.TeacherPermission" >
+		<result column="teacher_id"      property="teacherId" jdbcType="INTEGER" />
+		<result column="teacher_name"      property="teacherName" jdbcType="VARCHAR" />
+		<result column="school_code"     property="schoolCode" jdbcType="VARCHAR" />
+		<result column="grade"           property="grade" jdbcType="INTEGER" />
+		<result column="class_id"        property="classId" jdbcType="INTEGER" />
+		<result column="course_code"     property="courseCode" jdbcType="VARCHAR" />
+		<result column="type"            property="type" jdbcType="VARCHAR" />
+		<result column="school_name"     property="schoolName" jdbcType="VARCHAR" />
+		<result column="class_name"      property="className" jdbcType="VARCHAR" />
+		<result column="stage"           property="stage" jdbcType="VARCHAR" />
+		<result column="course_name"     property="courseName" jdbcType="VARCHAR" />
+	 </resultMap>
+	 
+	 <resultMap id="studentResultMap" type="cn.com.wtrj.jx.web.portal.model.entities.WtrjStudent">
+	 	<result column="id"      property="id" jdbcType="VARCHAR" />
+		<result column="name"           property="name" jdbcType="VARCHAR" />
+		<result column="student_code"     property="studentCode" jdbcType="VARCHAR" />
+		<result column="rn"      property="rn" jdbcType="VARCHAR" />
+		<result column="score"      property="score" jdbcType="DECIMAL" />
+	 </resultMap>
+	 <resultMap type="cn.com.wtrj.jx.web.portal.model.entities.WtrjRptScoreSum" id="scoreSumMap">
+	 	<result column="id" property="id" jdbcType="VARCHAR"/>
+	 	<result column="science_score" property="scienceScore" jdbcType="DECIMAL"/>
+	 	<result column="arts_score" property="artsScore" jdbcType="DECIMAL"/>
+	 </resultMap>
+	 
+	   <resultMap id="scoreRuleResultMap" type="cn.com.wtrj.jx.web.portal.model.entities.WtrjScoreRuleExt" >
+		    <id column="ID" property="id" jdbcType="VARCHAR" />
+		    <result column="SCORE_A_FULL" property="scoreAFull" jdbcType="DECIMAL" />
+		    <result column="SCORE_B_FULL" property="scoreBFull" jdbcType="DECIMAL" />
+		    <result column="SCORE_A_STD" property="scoreAStd" jdbcType="DECIMAL" />
+		    <result column="SCORE_B_STD" property="scoreBStd" jdbcType="DECIMAL" />
+		    <result column="SCORE_FULL" property="scoreFull" jdbcType="DECIMAL" />
+		    <result column="EXAM_INS_ID" property="examInsId" jdbcType="DECIMAL" />
+		    <result column="UPLOAD_ID" property="uploadId" jdbcType="DECIMAL" />
+		    <result column="COURSE_CODE" property="courseCode" jdbcType="VARCHAR" />
+		    <result column="COURSE_NAME" property="courseName" jdbcType="VARCHAR" />
+		    <result column="SCORE_MULTI" property="scoreMulti" jdbcType="VARCHAR" />
+		  </resultMap>
+
+<resultMap id="scoreUploadResultMap" type="cn.com.wtrj.jx.web.portal.model.entities.WtrjRptScoreUpload">
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="EXAM_INS_ID" jdbcType="VARCHAR" property="examInsId" />
+    <result column="EXAM_INS_NAME" jdbcType="VARCHAR" property="examInsName" />
+    <result column="SCHOOL_CODE" jdbcType="VARCHAR" property="schoolCode" />
+    <result column="SCHOOL_NAME" jdbcType="VARCHAR" property="schoolName" />
+    <result column="STAGE" jdbcType="VARCHAR" property="stage" />
+    <result column="GRADE" jdbcType="VARCHAR" property="grade" />
+    <result column="CLASS_ID" jdbcType="VARCHAR" property="classId" />
+    <result column="CLASS_NAME" jdbcType="VARCHAR" property="className" />
+    <result column="TYPE_CODE" jdbcType="VARCHAR" property="typeCode" />
+    <result column="TYPE_NAME" jdbcType="VARCHAR" property="typeName" />
+    <result column="COURSE_CODE" jdbcType="VARCHAR" property="courseCode" />
+    <result column="COURSE_NAME" jdbcType="VARCHAR" property="courseName" />
+    <result column="YEAR_CODE" jdbcType="VARCHAR" property="yearCode" />
+    <result column="YEAR_NAME" jdbcType="VARCHAR" property="yearName" />
+    <result column="TERM_CODE" jdbcType="VARCHAR" property="termCode" />
+    <result column="TERM_NAME" jdbcType="VARCHAR" property="termName" />
+    <result column="UPLOAD_TIME" jdbcType="TIMESTAMP" property="uploadTime" />
+    <result column="UPLOAD_USER_ID" jdbcType="DECIMAL" property="uploadUserId" />
+    <result column="UPLOAD_USER_NAME" jdbcType="VARCHAR" property="uploadUserName" />
+    <result column="UPLOAD_FILE" jdbcType="VARCHAR" property="uploadFile" />
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="FLAG" jdbcType="VARCHAR" property="flag" />
+    <result column="UPLOAD_TYPE" jdbcType="VARCHAR" property="uploadType" />
+    <result column="FULL_SCORE" jdbcType="DECIMAL" property="fullScore" />
+    <result column="SEND_STAGE" jdbcType="VARCHAR" property="sendStage" />
+  </resultMap>
+  
+   <resultMap id="scoreDetailResultMap" type="cn.com.wtrj.jx.web.portal.model.entities.WtrjRptScoreDetail">
+    <id column="ID" jdbcType="DECIMAL" property="id" />
+    <result column="EXAM_INS_ID" jdbcType="DECIMAL" property="examInsId" />
+    <result column="EXAM_INS_NAME" jdbcType="VARCHAR" property="examInsName" />
+    <result column="SCHOOL_CODE" jdbcType="VARCHAR" property="schoolCode" />
+    <result column="CLASS_NAME" jdbcType="VARCHAR" property="className" />
+    <result column="STUDENT_NAME" jdbcType="VARCHAR" property="studentName" />
+    <result column="SUBJECT" jdbcType="VARCHAR" property="subject" />
+    <result column="FULL_SCORE" jdbcType="DECIMAL" property="fullScore" />
+    <result column="SCORE" jdbcType="DECIMAL" property="score" />
+    <result column="STUDENT_NO" jdbcType="VARCHAR" property="studentNo" />
+    <result column="SUBJECTIVE_ITEM_SCORE" jdbcType="DECIMAL" property="subjectiveItemScore" />
+    <result column="OBJECTIVE_ITEM_SCORE" jdbcType="DECIMAL" property="objectiveItemScore" />
+    <result column="Z_SCORE" jdbcType="DECIMAL" property="zScore" />
+    <result column="T_SCORE" jdbcType="DECIMAL" property="tScore" />
+    <result column="CLASS_RANK" jdbcType="DECIMAL" property="classRank" />
+    <result column="GRADE_RANK" jdbcType="DECIMAL" property="gradeRank" />
+    <result column="EXAM_NO" jdbcType="VARCHAR" property="examNo" />
+    <result column="COURSE_CODE" jdbcType="VARCHAR" property="courseCode" />
+    <result column="COURSE_NAME" jdbcType="VARCHAR" property="courseName" />
+    <result column="STUDENT_ID_CARD_NO" jdbcType="VARCHAR" property="studentIdCardNo" />
+    <result column="CLASS_ID" jdbcType="DECIMAL" property="classId" />
+    <result column="FLAG" jdbcType="VARCHAR" property="flag" />
+    <result column="CREATE_USER_ID" jdbcType="DECIMAL" property="createUserId" />
+    <result column="CREATE_USER_NAME" jdbcType="VARCHAR" property="createUserName" />
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="UPLOAD_TYPE" jdbcType="VARCHAR" property="uploadType" />
+    <result column="SCORE_A" jdbcType="DECIMAL" property="scoreA" />
+    <result column="SCORE_A_EXT" jdbcType="DECIMAL" property="scoreAExt" />
+    <result column="SCORE_B" jdbcType="DECIMAL" property="scoreB" />
+    <result column="SCORE_B_EXT" jdbcType="DECIMAL" property="scoreBExt" />
+    <result column="SCORE_MULTI" jdbcType="CHAR" property="scoreMulti" />
+    <result column="STUDENT_CODE" jdbcType="VARCHAR" property="studentCode" />
+    <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+  </resultMap>
+  
+  <sql id="selectScoreNoCourseCode">
+  	select distinct c.*
+			  from WTRJ_RPT_SCORE_EXAM_CLASS c
+			 where c.flag = '1'
+			 and c.school_code = #{schoolCode}
+			 and c.stage = #{stage}
+			 and c.grade = #{grade}
+	       	and c.class_id = #{classId}
+	        and c.class_id = #{classId}
+			and c.school_year_code = #{schoolYearCode}
+	       and c.school_term_code = #{schoolTermCode}
+		         <if test='examInsName !=null and examInsName != ""'>
+		        	and c.exam_ins_name like '%${examInsName}%'
+		        </if>
+		   order by c.upload_state asc, c.send_state asc, c.CREATE_TIME desc
+  </sql>
+  
+  <sql id="selectScoreByCourseCode">
+  
+  	select distinct * from (
+  	select c.*
+			  from WTRJ_RPT_SCORE_EXAM_CLASS c
+			 where c.flag = '1'
+			 and c.school_code = #{schoolCode}
+			 and c.stage = #{stage}
+			 and c.grade = #{grade}
+	       	and c.class_id = #{classId}
+	        and c.class_id = #{classId}
+			and c.school_year_code = #{schoolYearCode}
+	       and c.school_term_code = #{schoolTermCode}
+	       and c.course_code = #{courseCode}
+		         <if test='examInsName !=null and examInsName != ""'>
+		        	and c.exam_ins_name like '%${examInsName}%'
+		        </if>
+		 union  
+		select c.*
+			  from WTRJ_RPT_SCORE_EXAM_CLASS c
+			 where c.flag = '1'
+			 and c.school_code = #{schoolCode}
+			 and c.stage = #{stage}
+			 and c.grade = #{grade}
+	       	and c.class_id = #{classId}
+	        and c.class_id = #{classId}
+			and c.school_year_code = #{schoolYearCode}
+	       and c.school_term_code = #{schoolTermCode}
+	       and c.exam_type != '0'
+		         <if test='examInsName !=null and examInsName != ""'>
+		        	and c.exam_ins_name like '%${examInsName}%'
+		        </if>
+		    ) tmp order by tmp.upload_state asc, tmp.send_state asc, tmp.CREATE_TIME desc
+  </sql>
+  <sql id="selectScoreRecoveryNoCourseCode">
+  	select distinct c.*
+			  from WTRJ_RPT_SCORE_EXAM_CLASS c
+			 where c.flag = '0'
+			 and c.school_code = #{schoolCode}
+			 and c.stage = #{stage}
+			 and c.grade = #{grade}
+	       	and c.class_id = #{classId}
+	        and c.class_id = #{classId}
+			and c.school_year_code = #{schoolYearCode}
+	       and c.school_term_code = #{schoolTermCode}
+		         <if test='examInsName !=null and examInsName != ""'>
+		        	and c.exam_ins_name like '%${examInsName}%'
+		        </if>
+  </sql>
+  <sql id="selectScoreRecoveryByCourseCode">
+  	select distinct * from (
+  	select c.*
+			  from WTRJ_RPT_SCORE_EXAM_CLASS c
+			 where c.flag = '0'
+			 and c.school_code = #{schoolCode}
+			 and c.stage = #{stage}
+			 and c.grade = #{grade}
+	       	and c.class_id = #{classId}
+	        and c.class_id = #{classId}
+			and c.school_year_code = #{schoolYearCode}
+	       and c.school_term_code = #{schoolTermCode}
+	       and c.course_code = #{courseCode}
+		         <if test='examInsName !=null and examInsName != ""'>
+		        	and c.exam_ins_name like '%${examInsName}%'
+		        </if>
+		 union  
+		select c.*
+			  from WTRJ_RPT_SCORE_EXAM_CLASS c
+			 where c.flag = '0'
+			 and c.school_code = #{schoolCode}
+			 and c.stage = #{stage}
+			 and c.grade = #{grade}
+	       	and c.class_id = #{classId}
+	        and c.class_id = #{classId}
+			and c.school_year_code = #{schoolYearCode}
+	       and c.school_term_code = #{schoolTermCode}
+	       and c.exam_type != '0'
+		         <if test='examInsName !=null and examInsName != ""'>
+		        	and c.exam_ins_name like '%${examInsName}%'
+		        </if>
+		    )
+  </sql>
+	
+	<select id="findRecoveryExamClassesPage" resultMap="examClassResultMap">
+		select * from (
+          select rownum rn,t.* from (
+          
+          <choose>  
+            <when test='courseCode !=null and courseCode != ""  and courseCode != "0"'>  
+            	<include refid="selectScoreRecoveryByCourseCode"></include>
+            </when>  
+            <when test='courseCode !=null and courseCode != ""  and courseCode == "0"'>  
+            	<include refid="selectScoreRecoveryNoCourseCode"></include>
+            </when>
+        </choose> 
+			
+					 ) t order by t.upload_state asc, t.send_state asc, t.CREATE_TIME desc
+              ) ext
+             where ext.rn between #{start} and #{end}
+	</select>
+	
+	<select id="findRecoveryExamClassesCount" resultType="int">
+		select count(*) from (
+		
+		<choose>  
+            <when test='courseCode !=null and courseCode != ""  and courseCode != "0"'>  
+            	<include refid="selectScoreRecoveryByCourseCode"></include>
+            </when>  
+            <when test='courseCode !=null and courseCode != ""  and courseCode == "0"'>  
+            	<include refid="selectScoreRecoveryNoCourseCode"></include>
+            </when>
+        </choose> 
+		 
+	    )
+	</select>
+	
+	<select id="findExamClassesPage" resultMap="examClassResultMap">
+		select * from (
+          select rownum rn,t.* from (
+          
+          <choose>  
+            <when test='courseCode !=null and courseCode != ""  and courseCode != "0"'>  
+            	<include refid="selectScoreByCourseCode"></include>
+            </when>  
+            <when test='courseCode !=null and courseCode != ""  and courseCode == "0"'>  
+            	<include refid="selectScoreNoCourseCode"></include>
+            </when>
+        </choose> 
+			
+					 ) t 
+              ) ext
+             where ext.rn between #{start} and #{end}
+	</select>
+	
+	<select id="findExamClassesCount" resultType="int">
+		select count(*) from (
+		
+		<choose>  
+            <when test='courseCode !=null and courseCode != ""  and courseCode != "0"'>  
+            	<include refid="selectScoreByCourseCode"></include>
+            </when>  
+            <when test='courseCode !=null and courseCode != ""  and courseCode == "0"'>  
+            	<include refid="selectScoreNoCourseCode"></include>
+            </when>
+        </choose> 
+		 
+	    )
+	</select>
+	
+	<select id="findStudentGradeOrder" resultMap="studentResultMap">
+	select rownum rn, ex.student_code,ex.score from (
+	  select s.id as student_code,s.sum_number score from WTRJ_RPT_SCORE_EXAM_CLASS c,wtrj_rpt_score_sum s where s.class_id = c.class_id and s.grade = c.grade and s.exam_ins_id = c.exam_ins_id
+  		and c.exam_ins_id = #{examInsId} and c.grade = #{grade} and c.stage = #{stage} order by s.sum_number desc) ex
+	</select>
+	<select id="findGradeAvgScore" resultType="java.lang.Double">
+		select avg(s.sum_number) from WTRJ_RPT_SCORE_EXAM_CLASS c,wtrj_rpt_score_sum s where s.class_id = c.class_id and s.grade = c.grade and s.exam_ins_id = c.exam_ins_id
+  		and c.exam_ins_id = #{examInsId} and c.grade = #{grade} and c.stage = #{stage}
+	</select>
+	<select id="findGradeTopScore" resultType="java.lang.Double">
+		select max(s.sum_number) from WTRJ_RPT_SCORE_EXAM_CLASS c,wtrj_rpt_score_sum s where s.class_id = c.class_id and s.grade = c.grade and s.exam_ins_id = c.exam_ins_id
+  		and c.exam_ins_id = #{examInsId} and c.grade = #{grade} and c.stage = #{stage}
+	</select>
+	<select id="findGradeMinScore" resultType="java.lang.Double">
+		select min(s.sum_number) from WTRJ_RPT_SCORE_EXAM_CLASS c,wtrj_rpt_score_sum s where s.class_id = c.class_id and s.grade = c.grade and s.exam_ins_id = c.exam_ins_id
+  		and c.exam_ins_id = #{examInsId} and c.grade = #{grade} and c.stage = #{stage}
+	</select>
+	<select id="findScienceScoreNumByGradeIdAndInsId" resultMap="scoreSumMap">
+		select s.id id,s.science_score scienceScore from WTRJ_RPT_SCORE_EXAM_CLASS c,wtrj_rpt_score_sum s where s.class_id = c.class_id and s.grade = c.grade and s.exam_ins_id = c.exam_ins_id
+  		and c.exam_ins_id = #{examInsId} and c.grade = #{grade} and c.stage = #{stage} order by s.science_score desc
+	</select>
+	<select id="findArtsScoreNumByGradeIdAndInsId" resultMap="scoreSumMap">
+		select s.id id,s.arts_score artsScore from WTRJ_RPT_SCORE_EXAM_CLASS c,wtrj_rpt_score_sum s where s.class_id = c.class_id and s.grade = c.grade and s.exam_ins_id = c.exam_ins_id
+  		and c.exam_ins_id = #{examInsId} and c.grade = #{grade} and c.stage = #{stage} order by s.arts_score desc
+	</select>
+	<select id="findScienceScore" resultType="java.lang.Double">
+		select max(science_score) from wtrj_rpt_score_sum 
+		where exam_ins_id = #{examInsId} and class_id=#{classId}
+	</select>
+	<select id="findArtsScore" resultType="java.lang.Double">
+		select min(arts_score) from wtrj_rpt_score_sum 
+		where exam_ins_id = #{examInsId} and class_id=#{classId}
+	</select>
+	<select id="findClassRemark" resultType="java.lang.String">
+		select distinct(class_remark) from wtrj_rpt_score_sum 
+		where exam_ins_id = #{examInsId} and class_id=#{classId}
+	</select>
+	<select id="findCourseCodeByGradeIdAndInsIdAndStage" resultType="java.lang.String">
+		select distinct(course_code) from wtrj_rpt_score_single 
+		where exam_ins_id = #{examInsId} and grade = #{grade} and flag = '1'
+	</select>
+	
+	<update id="updateGradeScoreSum">
+		update wtrj_rpt_score_sum set average_grade_score = #{averageGradeScore}, 
+		grade_bottom_score = #{gradeBottomScore},
+		grade_top_score = #{gradeTopScore}
+		<if test="artsOrderGradeNum != null">
+			,arts_order_grade_number=#{artsOrderGradeNum}
+		</if>
+		<if test="scienceOrderGradeNum != null">
+			,science_order_grade_number=#{scienceOrderGradeNum}
+		</if>
+		where id=#{id}
+	</update>
+	
+	
+	<update id="updateStudentGradeOrder">
+		update wtrj_rpt_score_sum set grade_order_no = #{orderNumber} where id = #{id}
+	</update>
+	
+	<select id="findTeacherSchools" resultMap="teacherPermissionResultMap">
+		select distinct p.school_code, p.school_name from wtrj_ecom_permission p where p.teacher_id = #{teacherId}
+	</select>
+	
+	<select id="findTeacherStages" resultType="int">
+		select distinct p.stage from wtrj_ecom_permission p where p.school_code = #{schoolCode} and p.teacher_id = #{teacherId}  and p.stage is not null
+	</select>
+	
+	<select id="findAllGrades" resultType="int">
+		select grade from wtrj_school_grade g where g.school_code = #{schoolCode} and g.stage = #{stage}
+	</select>
+	
+	<select id="findAllClasses" resultMap="teacherPermissionResultMap">
+		select  c.id class_id,c.class_name from wtrj_ecom_class c where c.school_code = #{schoolCode} and c.stage = #{stage} and c.grade = #{grade}
+	</select>
+	
+	<select id="validateExamIns" resultType="int">
+		select count(*) from WTRJ_RPT_SCORE_EXAM_INS ex where ex.flag = '1' and ex.grade = #{grade}
+		 
+		  <if test='classId !=null and classId != ""'>
+		        	and ex.class_id = #{classId} 
+		        </if>
+		   <if test='examSeqCode !=null and examSeqCode != ""'>
+		        	and ex.exam_seq_code = #{examSeqCode} 
+		        </if>      
+		        
+		        
+		and ex.exam_time = #{examTime} and ex.name = #{name} and flag = '1'
+	</select>	
+	
+	<select id="findTeacherRoles" resultMap="teacherPermissionResultMap">
+
+  	select distinct * from  wtrj_ecom_permission p where p.school_code = #{schoolCode} and p.stage = #{stage} and p.teacher_id = #{teacherId}
+
+  	<!-- 任课教师 -->
+  	<if test='roleType =="2"'>  
+       and p.course_code is not null and p.grade is not null and p.class_id is not null and p.type = '2'
+	</if>
+	<!-- 教研组长 -->
+	<if test='roleType =="6"'>  
+       and p.course_code is not null and p.grade is null and p.class_id is null  and p.type = '6'
+	</if>
+	<!-- 备课组长 -->
+	<if test='roleType =="4"'>  
+		and p.course_code is not null and p.grade is not null and p.class_id is null  and p.type = '4'
+	</if>
+	<!-- 年级组长 -->
+	<if test='roleType =="5"'>  
+		and p.course_code is null and p.grade is not null and p.class_id is null  and p.type = '5'
+	</if>
+	<!-- 班主任 -->
+	<if test='roleType =="1"'>  
+		 and p.course_code is null and p.grade is not null and p.class_id is not null  and p.type = '1'
+	</if>
+
+	<!-- 学部领导-->
+	<if test='roleType =="101"'>  
+		and p.course_code is null and p.grade is null and p.class_id is null  and p.type = '101'
+	</if>
+	
+	<!-- 生辅 -->
+	<if test='roleType =="3"'>  
+		 and p.course_code is null and p.grade is not null and p.class_id is not null  and p.type = '3'
+	</if>
+	
+	<!-- 德育 -->
+	<if test='roleType =="7"'>  
+		and p.course_code is null and p.grade is null and p.class_id is null  and p.type = '7'
+	</if>
+	
+	<!-- 员工 -->
+	<if test='roleType =="100"'>  
+		and p.course_code is null and p.grade is null and p.class_id is null  and p.type = '100'
+	</if>
+  	
+  </select>
+	
+	<select id="findExamInsById" resultMap="examInsResultMap">
+			select ex.* from WTRJ_RPT_SCORE_EXAM_INS ex where ex.id = #{id}
+	</select>
+	<select id="findExamClassByExamIdAndClassId" resultMap="examClassResultMap">
+		select * from WTRJ_RPT_SCORE_EXAM_CLASS 
+		where exam_ins_id=#{examInsId,jdbcType=DECIMAL} and class_id=#{classId,jdbcType=DECIMAL}
+	</select>
+	
+	<select id="findStudentsByClassId" resultMap="studentResultMap">
+		select rownum rn,s.id, s.name,s.student_code from WTRJ_STUDENT s where s.class_id = #{classId} order by s.student_code,rn asc
+	</select>
+	
+  <insert id="saveExamIns" parameterType="cn.com.wtrj.jx.web.portal.model.entities.WtrjRptScoreExamIns">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      select SQ_RPT_SCORE_EXAM_INS.currval from dual
+    </selectKey>
+    insert into WTRJ_RPT_SCORE_EXAM_INS (NAME,
+      SCHOOL_CODE, STAGE, GRADE, 
+      EXAM_SEQ_CODE, EXAM_SEQ_NAME, TYPE_CODE, 
+      TYPE_NAME, SCHOOL_YEAR_CODE, SCHOOL_YEAR_NAME, 
+      SCHOOL_TERM_CODE, SCHOOL_TERM_NAME, EXAM_TIME, 
+      CREATE_USER_ID, CREATE_USER_NAME, CREATE_TIME, 
+      COURSE_CODE, COURSE_NAME, 
+      REMARK, EXAM_TYPE, CLASS_ID, 
+      CLASS_NAME, UPLOAD_STATE, SEND_STATE, 
+      FLAG, GRADE_ORDER, SCHOOL_NAME, visible_State)
+    values (#{name,jdbcType=VARCHAR}, 
+      #{schoolCode,jdbcType=VARCHAR}, #{stage,jdbcType=VARCHAR}, #{grade,jdbcType=VARCHAR}, 
+      #{examSeqCode,jdbcType=VARCHAR}, #{examSeqName,jdbcType=VARCHAR}, #{typeCode,jdbcType=VARCHAR}, 
+      #{typeName,jdbcType=VARCHAR}, #{schoolYearCode,jdbcType=VARCHAR}, #{schoolYearName,jdbcType=VARCHAR}, 
+      #{schoolTermCode,jdbcType=VARCHAR}, #{schoolTermName,jdbcType=VARCHAR}, #{examTime,jdbcType=DECIMAL}, 
+      #{createUserId,jdbcType=VARCHAR}, #{createUserName,jdbcType=VARCHAR}, SYSDATE, 
+      #{courseCode,jdbcType=VARCHAR}, #{courseName,jdbcType=VARCHAR}, 
+      #{remark,jdbcType=VARCHAR}, #{examType,jdbcType=VARCHAR}, #{classId,jdbcType=DECIMAL}, 
+      #{className,jdbcType=VARCHAR}, '0', '0', 
+      '1', #{gradeOrder,jdbcType=CHAR},
+      #{schoolName,jdbcType=VARCHAR},#{visibleState,jdbcType=VARCHAR})
+  </insert>
+  
+  <insert id="saveExamClass" parameterType="cn.com.wtrj.jx.web.portal.model.entities.WtrjRptScoreExamClass">
+    insert into WTRJ_RPT_SCORE_EXAM_CLASS
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="examInsId != null">
+        EXAM_INS_ID,
+      </if>
+      <if test="examInsName != null">
+        EXAM_INS_NAME,
+      </if>
+      <if test="schoolCode != null">
+        SCHOOL_CODE,
+      </if>
+      <if test="stage != null">
+        STAGE,
+      </if>
+      <if test="grade != null">
+        GRADE,
+      </if>
+      <if test="examSeqCode != null">
+        EXAM_SEQ_CODE,
+      </if>
+      <if test="examSeqName != null">
+        EXAM_SEQ_NAME,
+      </if>
+      <if test="typeCode != null">
+        TYPE_CODE,
+      </if>
+      <if test="typeName != null">
+        TYPE_NAME,
+      </if>
+      <if test="schoolYearCode != null">
+        SCHOOL_YEAR_CODE,
+      </if>
+      <if test="schoolYearName != null">
+        SCHOOL_YEAR_NAME,
+      </if>
+      <if test="schoolTermCode != null">
+        SCHOOL_TERM_CODE,
+      </if>
+      <if test="schoolTermName != null">
+        SCHOOL_TERM_NAME,
+      </if>
+      <if test="examTime != null">
+        EXAM_TIME,
+      </if>
+      <if test="createUserId != null">
+        CREATE_USER_ID,
+      </if>
+      <if test="createUserName != null">
+        CREATE_USER_NAME,
+      </if>
+        CREATE_TIME,
+      <if test="courseCode != null">
+        COURSE_CODE,
+      </if>
+      <if test="courseName != null">
+        COURSE_NAME,
+      </if>
+      <if test="remark != null">
+        REMARK,
+      </if>
+      <if test="examType != null">
+        EXAM_TYPE,
+      </if>
+      <if test="classId != null">
+        CLASS_ID,
+      </if>
+      <if test="className != null">
+        CLASS_NAME,
+      </if>
+      <if test="msgCode != null">
+        MSG_CODE,
+      </if>
+      <if test="schoolName != null">
+        SCHOOL_NAME,
+      </if>
+       <if test="dataState != null">
+        DATA_STATE,
+      </if>
+       <if test="visibleState != null">
+        visible_State,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+       <if test="examInsId != null">
+        #{examInsId,jdbcType=DECIMAL},
+      </if>
+      <if test="examInsName != null">
+        #{examInsName,jdbcType=VARCHAR},
+      </if>
+      <if test="schoolCode != null">
+        #{schoolCode,jdbcType=VARCHAR},
+      </if>
+      <if test="stage != null">
+        #{stage,jdbcType=VARCHAR},
+      </if>
+      <if test="grade != null">
+        #{grade,jdbcType=VARCHAR},
+      </if>
+      <if test="examSeqCode != null">
+        #{examSeqCode,jdbcType=VARCHAR},
+      </if>
+      <if test="examSeqName != null">
+        #{examSeqName,jdbcType=VARCHAR},
+      </if>
+      <if test="typeCode != null">
+        #{typeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="typeName != null">
+        #{typeName,jdbcType=VARCHAR},
+      </if>
+      <if test="schoolYearCode != null">
+        #{schoolYearCode,jdbcType=VARCHAR},
+      </if>
+      <if test="schoolYearName != null">
+        #{schoolYearName,jdbcType=VARCHAR},
+      </if>
+      <if test="schoolTermCode != null">
+        #{schoolTermCode,jdbcType=VARCHAR},
+      </if>
+      <if test="schoolTermName != null">
+        #{schoolTermName,jdbcType=VARCHAR},
+      </if>
+      <if test="examTime != null">
+        #{examTime,jdbcType=DECIMAL},
+      </if>
+      <if test="createUserId != null">
+        #{createUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="createUserName != null">
+        #{createUserName,jdbcType=VARCHAR},
+      </if>
+        SYSDATE,
+      <if test="courseCode != null">
+        #{courseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="courseName != null">
+        #{courseName,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="examType != null">
+        #{examType,jdbcType=VARCHAR},
+      </if>
+      <if test="classId != null">
+        #{classId,jdbcType=DECIMAL},
+      </if>
+      <if test="className != null">
+        #{className,jdbcType=VARCHAR},
+      </if>
+      <if test="msgCode != null">
+        #{msgCode,jdbcType=VARCHAR},
+      </if>
+      <if test="schoolName != null">
+        #{schoolName,jdbcType=VARCHAR},
+      </if>
+      <if test="dataState != null">
+        #{dataState,jdbcType=VARCHAR},
+      </if>
+      <if test="visibleState != null">
+        #{visibleState,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="updateScoreRule" parameterType="cn.com.wtrj.jx.web.portal.model.entities.WtrjScoreRuleExt" >
+    update WTRJ_SCORE_RULE_EXT
+    <set >
+      <if test="scoreAFull != null" >
+        SCORE_A_FULL = #{scoreAFull,jdbcType=DECIMAL},
+      </if>
+      <if test="scoreBFull != null" >
+        SCORE_B_FULL = #{scoreBFull,jdbcType=DECIMAL},
+      </if>
+      <if test="scoreAStd != null" >
+        SCORE_A_STD = #{scoreAStd,jdbcType=DECIMAL},
+      </if>
+      <if test="scoreBStd != null" >
+        SCORE_B_STD = #{scoreBStd,jdbcType=DECIMAL},
+      </if>
+      <if test="scoreFull != null" >
+        SCORE_FULL = #{scoreFull,jdbcType=DECIMAL},
+      </if>
+      <if test="examInsId != null" >
+        EXAM_INS_ID = #{examInsId,jdbcType=DECIMAL},
+      </if>
+      <if test="uploadId != null" >
+        UPLOAD_ID = #{uploadId,jdbcType=DECIMAL},
+      </if>
+      <if test="courseCode != null" >
+        COURSE_CODE = #{courseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="courseName != null" >
+        COURSE_NAME = #{courseName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+	
+  <insert id="saveScoreRule" parameterType="cn.com.wtrj.jx.web.portal.model.entities.WtrjScoreRuleExt" >
+    insert into WTRJ_SCORE_RULE_EXT
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="scoreAFull != null" >
+        SCORE_A_FULL,
+      </if>
+      <if test="scoreBFull != null" >
+        SCORE_B_FULL,
+      </if>
+      <if test="scoreAStd != null" >
+        SCORE_A_STD,
+      </if>
+      <if test="scoreBStd != null" >
+        SCORE_B_STD,
+      </if>
+      <if test="scoreFull != null" >
+        SCORE_FULL,
+      </if>
+      <if test="examInsId != null" >
+        EXAM_INS_ID,
+      </if>
+      <if test="uploadId != null" >
+        UPLOAD_ID,
+      </if>
+      <if test="courseCode != null" >
+        COURSE_CODE,
+      </if>
+      <if test="courseName != null" >
+        COURSE_NAME,
+      </if>
+      <if test="scoreMulti != null" >
+        SCORE_MULTI,
+      </if>
+      <if test="classId != null" >
+        CLASS_ID,
+      </if>
+      <if test="className != null" >
+        CLASS_NAME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="scoreAFull != null" >
+        #{scoreAFull,jdbcType=DECIMAL},
+      </if>
+      <if test="scoreBFull != null" >
+        #{scoreBFull,jdbcType=DECIMAL},
+      </if>
+      <if test="scoreAStd != null" >
+        #{scoreAStd,jdbcType=DECIMAL},
+      </if>
+      <if test="scoreBStd != null" >
+        #{scoreBStd,jdbcType=DECIMAL},
+      </if>
+      <if test="scoreFull != null" >
+        #{scoreFull,jdbcType=DECIMAL},
+      </if>
+      <if test="examInsId != null" >
+        #{examInsId,jdbcType=DECIMAL},
+      </if>
+      <if test="uploadId != null" >
+        #{uploadId,jdbcType=DECIMAL},
+      </if>
+      <if test="courseCode != null" >
+        #{courseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="courseName != null" >
+        #{courseName,jdbcType=VARCHAR},
+      </if>
+      <if test="scoreMulti != null" >
+        #{scoreMulti,jdbcType=VARCHAR},
+      </if>
+      <if test="classId != null" >
+         #{classId,jdbcType=DECIMAL},
+      </if>
+      <if test="className != null" >
+         #{className,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+	
+	<select id="findScoreRule" resultMap="scoreRuleResultMap">
+		select ID, SCORE_A_FULL, SCORE_B_FULL, SCORE_A_STD, SCORE_B_STD, SCORE_FULL, EXAM_INS_ID, 
+    	UPLOAD_ID, COURSE_CODE, COURSE_NAME,SCORE_MULTI
+    	from WTRJ_SCORE_RULE_EXT where EXAM_INS_ID = #{examInsId} and CLASS_ID = #{classId} and COURSE_CODE = #{courseCode} and flag = '1'
+	</select>
+	
+	<insert id="saveScoreDetail" parameterType="cn.com.wtrj.jx.web.portal.model.entities.WtrjRptScoreDetail">
+    insert into WTRJ_RPT_SCORE_DETAIL
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="examInsId != null">
+        EXAM_INS_ID,
+      </if>
+      <if test="examInsName != null">
+        EXAM_INS_NAME,
+      </if>
+      <if test="schoolCode != null">
+        SCHOOL_CODE,
+      </if>
+      <if test="className != null">
+        CLASS_NAME,
+      </if>
+      <if test="studentName != null">
+        STUDENT_NAME,
+      </if>
+      <if test="subject != null">
+        SUBJECT,
+      </if>
+      <if test="fullScore != null">
+        FULL_SCORE,
+      </if>
+      <if test="score != null">
+        SCORE,
+      </if>
+      <if test="studentNo != null">
+        STUDENT_NO,
+      </if>
+      <if test="subjectiveItemScore != null">
+        SUBJECTIVE_ITEM_SCORE,
+      </if>
+      <if test="objectiveItemScore != null">
+        OBJECTIVE_ITEM_SCORE,
+      </if>
+      <if test="zScore != null">
+        Z_SCORE,
+      </if>
+      <if test="tScore != null">
+        T_SCORE,
+      </if>
+      <if test="classRank != null">
+        CLASS_RANK,
+      </if>
+      <if test="gradeRank != null">
+        GRADE_RANK,
+      </if>
+      <if test="examNo != null">
+        EXAM_NO,
+      </if>
+      <if test="courseCode != null">
+        COURSE_CODE,
+      </if>
+      <if test="courseName != null">
+        COURSE_NAME,
+      </if>
+      <if test="studentIdCardNo != null">
+        STUDENT_ID_CARD_NO,
+      </if>
+      <if test="classId != null">
+        CLASS_ID,
+      </if>
+      <if test="flag != null">
+        FLAG,
+      </if>
+      <if test="createUserId != null">
+        CREATE_USER_ID,
+      </if>
+      <if test="createUserName != null">
+        CREATE_USER_NAME,
+      </if>
+        CREATE_TIME,
+      <if test="uploadType != null">
+        UPLOAD_TYPE,
+      </if>
+      <if test="scoreA != null">
+        SCORE_A,
+      </if>
+      <if test="scoreAExt != null">
+        SCORE_A_EXT,
+      </if>
+      <if test="scoreB != null">
+        SCORE_B,
+      </if>
+      <if test="scoreBExt != null">
+        SCORE_B_EXT,
+      </if>
+      <if test="scoreMulti != null">
+        SCORE_MULTI,
+      </if>
+      <if test="studentCode != null">
+        STUDENT_CODE,
+      </if>
+      <if test="remark != null">
+        REMARK,
+      </if>
+    </trim>
+    
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="examInsId != null">
+        #{examInsId,jdbcType=DECIMAL},
+      </if>
+      <if test="examInsName != null">
+        #{examInsName,jdbcType=VARCHAR},
+      </if>
+      <if test="schoolCode != null">
+        #{schoolCode,jdbcType=VARCHAR},
+      </if>
+      <if test="className != null">
+        #{className,jdbcType=VARCHAR},
+      </if>
+      <if test="studentName != null">
+        #{studentName,jdbcType=VARCHAR},
+      </if>
+      <if test="subject != null">
+        #{subject,jdbcType=VARCHAR},
+      </if>
+      <if test="fullScore != null">
+        #{fullScore,jdbcType=DECIMAL},
+      </if>
+      <if test="score != null">
+        #{score,jdbcType=DECIMAL},
+      </if>
+      <if test="studentNo != null">
+        #{studentNo,jdbcType=VARCHAR},
+      </if>
+      <if test="subjectiveItemScore != null">
+        #{subjectiveItemScore,jdbcType=DECIMAL},
+      </if>
+      <if test="objectiveItemScore != null">
+        #{objectiveItemScore,jdbcType=DECIMAL},
+      </if>
+      <if test="zScore != null">
+        #{zScore,jdbcType=DECIMAL},
+      </if>
+      <if test="tScore != null">
+        #{tScore,jdbcType=DECIMAL},
+      </if>
+      <if test="classRank != null">
+        #{classRank,jdbcType=DECIMAL},
+      </if>
+      <if test="gradeRank != null">
+        #{gradeRank,jdbcType=DECIMAL},
+      </if>
+      <if test="examNo != null">
+        #{examNo,jdbcType=VARCHAR},
+      </if>
+      <if test="courseCode != null">
+        #{courseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="courseName != null">
+        #{courseName,jdbcType=VARCHAR},
+      </if>
+      <if test="studentIdCardNo != null">
+        #{studentIdCardNo,jdbcType=VARCHAR},
+      </if>
+      <if test="classId != null">
+        #{classId,jdbcType=DECIMAL},
+      </if>
+      <if test="flag != null">
+        #{flag,jdbcType=VARCHAR},
+      </if>
+      <if test="createUserId != null">
+        #{createUserId,jdbcType=DECIMAL},
+      </if>
+      <if test="createUserName != null">
+        #{createUserName,jdbcType=VARCHAR},
+      </if>
+        SYSDATE,
+      <if test="uploadType != null">
+        #{uploadType,jdbcType=VARCHAR},
+      </if>
+      <if test="scoreA != null">
+        #{scoreA,jdbcType=DECIMAL},
+      </if>
+      <if test="scoreAExt != null">
+        #{scoreAExt,jdbcType=DECIMAL},
+      </if>
+      <if test="scoreB != null">
+        #{scoreB,jdbcType=DECIMAL},
+      </if>
+      <if test="scoreBExt != null">
+        #{scoreBExt,jdbcType=DECIMAL},
+      </if>
+      <if test="scoreMulti != null">
+        #{scoreMulti,jdbcType=CHAR},
+      </if>
+      <if test="studentCode != null">
+       	#{studentCode,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+       	#{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="updateExamClassUploadState">
+  	update WTRJ_RPT_SCORE_EXAM_CLASS set upload_state = #{uploadState} where exam_ins_id = #{examInsId}
+  	 and class_id = #{classId} 
+  </update>
+  
+  <update id="updateExamClassSendState">
+  	update WTRJ_RPT_SCORE_EXAM_CLASS set send_state = #{sendState} where exam_ins_id = #{examInsId}
+  	 and class_id = #{classId} 
+  </update>
+  
+  <update id="updateExamClassMsgCode">
+  	update WTRJ_RPT_SCORE_EXAM_CLASS set msg_code = #{msgCode}, send_state = #{sendState},send_condition = #{sendCondition} where exam_ins_id = #{examInsId}
+  	 and class_id = #{classId} 
+  </update>
+  
+   <insert id="saveScoreUpload" parameterType="cn.com.wtrj.jx.web.portal.model.entities.WtrjRptScoreUpload">
+    insert into WTRJ_RPT_SCORE_UPLOAD
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="examInsId != null">
+        EXAM_INS_ID,
+      </if>
+      <if test="examInsName != null">
+        EXAM_INS_NAME,
+      </if>
+      <if test="schoolCode != null">
+        SCHOOL_CODE,
+      </if>
+      <if test="schoolName != null">
+        SCHOOL_NAME,
+      </if>
+      <if test="stage != null">
+        STAGE,
+      </if>
+      <if test="grade != null">
+        GRADE,
+      </if>
+      <if test="classId != null">
+        CLASS_ID,
+      </if>
+      <if test="className != null">
+        CLASS_NAME,
+      </if>
+      <if test="typeCode != null">
+        TYPE_CODE,
+      </if>
+      <if test="typeName != null">
+        TYPE_NAME,
+      </if>
+      <if test="courseCode != null">
+        COURSE_CODE,
+      </if>
+      <if test="courseName != null">
+        COURSE_NAME,
+      </if>
+      <if test="yearCode != null">
+        YEAR_CODE,
+      </if>
+      <if test="yearName != null">
+        YEAR_NAME,
+      </if>
+      <if test="termCode != null">
+        TERM_CODE,
+      </if>
+      <if test="termName != null">
+        TERM_NAME,
+      </if>
+   
+        UPLOAD_TIME,
+      
+      <if test="uploadUserId != null">
+        UPLOAD_USER_ID,
+      </if>
+      <if test="uploadUserName != null">
+        UPLOAD_USER_NAME,
+      </if>
+      <if test="uploadFile != null">
+        UPLOAD_FILE,
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME,
+      </if>
+      <if test="updateTime != null">
+        UPDATE_TIME,
+      </if>
+      <if test="flag != null">
+        FLAG,
+      </if>
+      <if test="uploadType != null">
+        UPLOAD_TYPE,
+      </if>
+      <if test="fullScore != null">
+        FULL_SCORE,
+      </if>
+      <if test="sendStage != null">
+        SEND_STAGE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="examInsId != null">
+        #{examInsId,jdbcType=VARCHAR},
+      </if>
+      <if test="examInsName != null">
+        #{examInsName,jdbcType=VARCHAR},
+      </if>
+      <if test="schoolCode != null">
+        #{schoolCode,jdbcType=VARCHAR},
+      </if>
+      <if test="schoolName != null">
+        #{schoolName,jdbcType=VARCHAR},
+      </if>
+      <if test="stage != null">
+        #{stage,jdbcType=VARCHAR},
+      </if>
+      <if test="grade != null">
+        #{grade,jdbcType=VARCHAR},
+      </if>
+      <if test="classId != null">
+        #{classId,jdbcType=VARCHAR},
+      </if>
+      <if test="className != null">
+        #{className,jdbcType=VARCHAR},
+      </if>
+      <if test="typeCode != null">
+        #{typeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="typeName != null">
+        #{typeName,jdbcType=VARCHAR},
+      </if>
+      <if test="courseCode != null">
+        #{courseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="courseName != null">
+        #{courseName,jdbcType=VARCHAR},
+      </if>
+      <if test="yearCode != null">
+        #{yearCode,jdbcType=VARCHAR},
+      </if>
+      <if test="yearName != null">
+        #{yearName,jdbcType=VARCHAR},
+      </if>
+      <if test="termCode != null">
+        #{termCode,jdbcType=VARCHAR},
+      </if>
+      <if test="termName != null">
+        #{termName,jdbcType=VARCHAR},
+      </if>
+     
+        SYSDATE,
+      
+      <if test="uploadUserId != null">
+        #{uploadUserId,jdbcType=DECIMAL},
+      </if>
+      <if test="uploadUserName != null">
+        #{uploadUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="uploadFile != null">
+        #{uploadFile,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="flag != null">
+        #{flag,jdbcType=VARCHAR},
+      </if>
+      <if test="uploadType != null">
+        #{uploadType,jdbcType=VARCHAR},
+      </if>
+      <if test="fullScore != null">
+        #{fullScore,jdbcType=DECIMAL},
+      </if>
+      <if test="sendStage != null">
+        #{sendStage,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="deleteScoreDetail">
+  	update WTRJ_RPT_SCORE_DETAIL set flag = '0' where exam_ins_id = #{examInsId} and class_id = #{classId} and  course_code = #{courseCode}
+  </update>
+  
+  <update id="deleteScoreUpload">
+  	update WTRJ_RPT_SCORE_UPLOAD set flag = '0' where exam_ins_id = #{examInsId} and class_id = #{classId} and  course_code = #{courseCode}
+  </update>
+  
+  <update id="deleteAllScoreDetail">
+  	update WTRJ_RPT_SCORE_DETAIL set flag = '0' where exam_ins_id = #{examInsId} and class_id = #{classId}
+  </update>
+  
+  <update id="deleteAllScoreUpload">
+  	update WTRJ_RPT_SCORE_UPLOAD set flag = '0' where exam_ins_id = #{examInsId} and class_id = #{classId}
+  </update>
+  
+  <update id="deleteScoreRule">
+  	update WTRJ_SCORE_RULE_EXT set flag = '0' where exam_ins_id = #{examInsId} and class_id = #{classId} and  course_code = #{courseCode}
+  </update>
+  
+  <update id="deleteScoreExamIns">
+  	update WTRJ_RPT_SCORE_EXAM_INS set flag = '0' where id = #{id}
+  </update>
+  
+   <update id="deleteScoreExamClass">
+  	update WTRJ_RPT_SCORE_EXAM_CLASS set flag = '0' where exam_ins_id = #{examInsId} and class_id = #{classId}
+  </update>
+  
+  <update id="deleteScoreExamClassCourse">
+  	update WTRJ_RPT_SCORE_EXAM_CLASS set flag = '0' where exam_ins_id = #{examInsId} and class_id = #{classId} and  course_code = #{courseCode}
+  </update>
+  
+  
+  <update id="recoveryScoreDetail">
+  	update WTRJ_RPT_SCORE_DETAIL set flag = '1' where exam_ins_id = #{examInsId} and class_id = #{classId} and  course_code = #{courseCode}
+  </update>
+  
+  <update id="recoveryScoreUpload">
+  	update WTRJ_RPT_SCORE_UPLOAD set flag = '1' where exam_ins_id = #{examInsId} and class_id = #{classId} and  course_code = #{courseCode}
+  </update>
+  
+  <update id="recoveryScoreRule">
+  	update WTRJ_SCORE_RULE_EXT set flag = '1' where exam_ins_id = #{examInsId} and class_id = #{classId} and  course_code = #{courseCode}
+  </update>
+  
+  <update id="recoveryScoreExamIns">
+  	update WTRJ_RPT_SCORE_EXAM_INS set flag = '1' where id = #{id}
+  </update>
+  
+   <update id="recoveryScoreExamClass">
+  	update WTRJ_RPT_SCORE_EXAM_CLASS set flag = '1' where exam_ins_id = #{examInsId} and class_id = #{classId}
+  </update>
+  
+  <update id="recoveryScoreExamClassCourse">
+  	update WTRJ_RPT_SCORE_EXAM_CLASS set flag = '1' where exam_ins_id = #{examInsId} and class_id = #{classId} and  course_code = #{courseCode}
+  </update>
+  
+  
+  
+  
+  <select id="findUploadCourses" resultMap="scoreUploadResultMap">
+    select 
+    ID, EXAM_INS_ID, EXAM_INS_NAME, SCHOOL_CODE, SCHOOL_NAME, STAGE, GRADE, CLASS_ID, 
+    CLASS_NAME, TYPE_CODE, TYPE_NAME, COURSE_CODE, COURSE_NAME, YEAR_CODE, YEAR_NAME, 
+    TERM_CODE, TERM_NAME, UPLOAD_TIME, UPLOAD_USER_ID, UPLOAD_USER_NAME, UPLOAD_FILE, 
+    CREATE_TIME, UPDATE_TIME, FLAG, UPLOAD_TYPE, FULL_SCORE, SEND_STAGE
+    from WTRJ_RPT_SCORE_UPLOAD
+    where flag = '1' and EXAM_INS_ID = #{examInsId} and class_id = #{classId}
+  </select>
+  
+  <select id="findRecoveryUploadCourses" resultMap="scoreUploadResultMap">
+    select 
+    ID, EXAM_INS_ID, EXAM_INS_NAME, SCHOOL_CODE, SCHOOL_NAME, STAGE, GRADE, CLASS_ID, 
+    CLASS_NAME, TYPE_CODE, TYPE_NAME, COURSE_CODE, COURSE_NAME, YEAR_CODE, YEAR_NAME, 
+    TERM_CODE, TERM_NAME, UPLOAD_TIME, UPLOAD_USER_ID, UPLOAD_USER_NAME, UPLOAD_FILE, 
+    CREATE_TIME, UPDATE_TIME, FLAG, UPLOAD_TYPE, FULL_SCORE, SEND_STAGE
+    from WTRJ_RPT_SCORE_UPLOAD
+    where flag = '0' and EXAM_INS_ID = #{examInsId} and class_id = #{classId}
+  </select>
+  
+   <select id="findScoreUpload" resultMap="scoreUploadResultMap">
+    select 
+    ID, EXAM_INS_ID, EXAM_INS_NAME, SCHOOL_CODE, SCHOOL_NAME, STAGE, GRADE, CLASS_ID, 
+    CLASS_NAME, TYPE_CODE, TYPE_NAME, COURSE_CODE, COURSE_NAME, YEAR_CODE, YEAR_NAME, 
+    TERM_CODE, TERM_NAME, UPLOAD_TIME, UPLOAD_USER_ID, UPLOAD_USER_NAME, UPLOAD_FILE, 
+    CREATE_TIME, UPDATE_TIME, FLAG, UPLOAD_TYPE, FULL_SCORE, SEND_STAGE
+    from WTRJ_RPT_SCORE_UPLOAD
+    where exam_ins_id = #{examInsId} and class_id = #{classId} and  course_code = #{courseCode} and flag = '1'
+  </select>
+  
+  <resultMap id="remarkResultMap" type="cn.com.wtrj.jx.web.portal.model.entities.Dict">
+	 	<result column="code"      property="code" jdbcType="VARCHAR" />
+		<result column="name"           property="name" jdbcType="VARCHAR" />
+	</resultMap>
+  
+   <select id="findScoreRemarkTypeByState" resultMap="remarkResultMap">
+   		select distinct c.type_code code,c.type_name name from WTRJ_BASE_COMMENT c where c.state_code = #{stateCode} order by type_code asc
+   </select>
+  
+    <select id="findScoreRemarkLevelByType" resultMap="remarkResultMap">
+   		select distinct c.level_code code, c.level_name name from WTRJ_BASE_COMMENT c where c.type_code = #{typeCode} order by level_code asc
+   </select>
+  
+  <select id="findScoreRemarkCommentByLevel" resultMap="remarkResultMap">
+   		select distinct c.id code, c.content name from WTRJ_BASE_COMMENT c where c.level_code = #{levelCode} order by id asc
+   </select>
+   
+ <sql id="score_detail_Column_List">
+    ID, EXAM_INS_ID, EXAM_INS_NAME, SCHOOL_CODE, CLASS_NAME, STUDENT_NAME, SUBJECT, FULL_SCORE, 
+    SCORE, STUDENT_NO, SUBJECTIVE_ITEM_SCORE, OBJECTIVE_ITEM_SCORE, Z_SCORE, T_SCORE, 
+    CLASS_RANK, GRADE_RANK, EXAM_NO, COURSE_CODE, COURSE_NAME, STUDENT_ID_CARD_NO, CLASS_ID, 
+    FLAG, CREATE_USER_ID, CREATE_USER_NAME, CREATE_TIME,  SCORE_A, SCORE_A_EXT, 
+    SCORE_B, SCORE_B_EXT, SCORE_MULTI, STUDENT_CODE, REMARK
+  </sql>
+  
+  <select id="findScoreDetails" resultMap="scoreDetailResultMap">
+    select 
+    <include refid="score_detail_Column_List" /> 
+    from WTRJ_RPT_SCORE_DETAIL
+    where exam_ins_id = #{examInsId} and class_id = #{classId} and course_code = #{courseCode} and flag = '1'
+    order by student_code asc
+  </select>
+   
+  
+</mapper>

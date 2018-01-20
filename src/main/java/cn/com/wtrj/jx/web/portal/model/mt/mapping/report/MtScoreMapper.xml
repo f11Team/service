@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.wtrj.jx.web.portal.model.mt.dao.report.MtScoreMapper">
+  	
+  	<select id="selectSchoolJunfenByUserId" resultType="cn.com.wtrj.jx.web.portal.model.mt.entities.report.MtSchoolJunfenDto">
+		  select T.*, sc.nick_name as schoolName
+		    from (select school_code as schoolCode,
+		                 subject,
+		                 round(avg(score), 2) as junfen
+		            from WTRJ_RPT_SCORE_DETAIL sd
+		           where school_code in
+		                 (select distinct nr.school_code
+		                    from wtrj_user u
+		                    left join wtrj_user_role ur on u.id = ur.user_id
+		                    left join wtrj_role_school_relationship nr on ur.role_id =
+		                                                                  nr.role_id
+		                  
+		                   where nr.school_code is not null
+		                     and u.id = 4)
+		           group by school_code, subject) T
+		    left join wtrj_school_info sc on T.schoolCode = sc.code
+
+  	</select>
+  	<select id="selectClassJunfen" resultType="cn.com.wtrj.jx.web.portal.model.mt.entities.report.MtClassJunfenDto">
+		   select 
+                  class_name as className,
+                  subject,
+                  round(avg(score), 2) as junfen
+             from WTRJ_RPT_SCORE_DETAIL sd
+            where school_code = #{schoolCode} and exam_ins_id = #{examInsId}
+            group by school_code, class_name, subject
+  	</select>
+  	
+  	<select id="selectScoreAnalysisData" parameterType="Map" resultType="cn.com.wtrj.jx.web.portal.model.mt.entities.report.MtRptScoreAnalysisDto">
+  	    SELECT * FROM(
+		SELECT
+			T .EXAM_INS_ID AS examInsId,
+			T .SCHOOL_CODE AS schoolCode,
+			T .CLASS_NAME AS className,
+			T .zongRenshu,
+			T .zongfen,
+			T .youxiaoRc,
+			T .pjScroe,
+			TS.grZongfen,
+			TM.grYouxiao,
+			(
+				CASE
+				WHEN TU.jgRenshu = 100 THEN
+					100
+				ELSE
+					TRUNC (
+						TU.jgRenshu * 100 / T .zongRenshu,
+						2
+					)
+				END
+			) AS jgLv,
+			SCL.NICK_NAME AS schoolName
+		FROM
+			(
+				SELECT
+					EXAM_INS_ID,
+					SCHOOL_CODE,
+					CLASS_NAME,
+					COUNT (DISTINCT STUDENT_NAME) AS zongRenshu,
+					"SUM" (score) AS zongfen,
+					TRUNC (
+						COUNT (DISTINCT STUDENT_NAME) * 0.9
+					) AS youxiaoRc,
+					ROUND (
+						"SUM" (score) / COUNT (DISTINCT STUDENT_NAME),
+						2
+					) AS pjScroe
+				FROM
+					WTRJ_RPT_SCORE_DETAIL
+				WHERE
+					EXAM_INS_ID = #{examInsId}
+				<if test="schoolCode != '' and schoolCode != null ">
+				AND SCHOOL_CODE = #{schoolCode}
+    			</if>
+				AND SCHOOL_CODE IN (
+					SELECT DISTINCT
+						ship.SCHOOL_CODE
+					FROM
+						WTRJ_USER_ROLE rl,
+						WTRJ_ROLE_SCHOOL_RELATIONSHIP ship
+					WHERE
+						rl.ROLE_ID = ship.ROLE_ID
+					AND rl.user_id = #{userId}
+				)
+				GROUP BY
+					EXAM_INS_ID,
+					SCHOOL_CODE,
+					CLASS_NAME
+			) T
+		LEFT JOIN (
+			SELECT
+				TT.EXAM_INS_ID,
+				TT.SCHOOL_CODE,
+				TT.CLASS_NAME,
+				"MAX" (TT.GRZONGFEN) AS grZongfen
+			FROM
+				(
+					SELECT
+						EXAM_INS_ID,
+						SCHOOL_CODE,
+						CLASS_NAME,
+						STUDENT_NAME,
+						"SUM" (SCORE) AS grZongfen
+					FROM
+						WTRJ_RPT_SCORE_DETAIL
+					WHERE
+						EXAM_INS_ID = #{examInsId}
+					<if test="schoolCode != '' and schoolCode != null ">
+					AND SCHOOL_CODE = #{schoolCode}
+    				</if>
+					AND SCHOOL_CODE IN (
+						SELECT DISTINCT
+							ship.SCHOOL_CODE
+						FROM
+							WTRJ_USER_ROLE rl,
+							WTRJ_ROLE_SCHOOL_RELATIONSHIP ship
+						WHERE
+							rl.ROLE_ID = ship.ROLE_ID
+						AND rl.user_id = #{userId}
+					)
+					GROUP BY
+						EXAM_INS_ID,
+						SCHOOL_CODE,
+						CLASS_NAME,
+						STUDENT_NAME
+				) TT
+			GROUP BY
+				TT.EXAM_INS_ID,
+				TT.SCHOOL_CODE,
+				TT.CLASS_NAME
+		) TS ON TS.EXAM_INS_ID = T .EXAM_INS_ID
+		AND TS.SCHOOL_CODE = T .SCHOOL_CODE
+		AND TS.CLASS_NAME = T .CLASS_NAME
+		LEFT JOIN (
+			SELECT
+				ROW_NUMBER () OVER (
+					PARTITION BY EXAM_INS_ID,
+					SCHOOL_CODE,
+					CLASS_NAME
+				ORDER BY
+					TB.CLASS_NAME,
+					TB.grYouxiao DESC
+				) AS rowNumber,
+				Tb.*
+			FROM
+				(
+					SELECT
+						EXAM_INS_ID,
+						SCHOOL_CODE,
+						CLASS_NAME,
+						STUDENT_NAME,
+						"SUM" (SCORE) AS grYouxiao
+					FROM
+						WTRJ_RPT_SCORE_DETAIL
+					WHERE
+						EXAM_INS_ID = #{examInsId}
+					<if test="schoolCode != '' and schoolCode != null ">
+					AND SCHOOL_CODE = #{schoolCode}
+    				</if>
+					AND SCHOOL_CODE IN (
+						SELECT DISTINCT
+							ship.SCHOOL_CODE
+						FROM
+							WTRJ_USER_ROLE rl,
+							WTRJ_ROLE_SCHOOL_RELATIONSHIP ship
+						WHERE
+							rl.ROLE_ID = ship.ROLE_ID
+						AND rl.user_id = #{userId}
+					)
+					GROUP BY
+						EXAM_INS_ID,
+						SCHOOL_CODE,
+						CLASS_NAME,
+						STUDENT_NAME
+					ORDER BY
+						EXAM_INS_ID,
+						SCHOOL_CODE,
+						CLASS_NAME,
+						grYouxiao DESC
+				) Tb
+		) TM ON TM.EXAM_INS_ID = T .EXAM_INS_ID
+		AND TM.SCHOOL_CODE = T .SCHOOL_CODE
+		AND TM.CLASS_NAME = T .CLASS_NAME
+		AND TM.rowNumber = T .youxiaoRc
+		LEFT JOIN (
+			SELECT
+				TY.EXAM_INS_ID,
+				TY.SCHOOL_CODE,
+				TY.CLASS_NAME,
+				"COUNT"(*) AS jgRenshu
+			FROM
+				(
+					SELECT
+						Ts.*, (
+							CASE
+							WHEN TS.grZongfen &lt; TS.grManfen THEN
+								TS.ROWNUMBER
+							ELSE
+								100
+							END
+						) AS jgRenshu
+					FROM
+						(
+							SELECT
+								ROW_NUMBER () OVER (
+									PARTITION BY EXAM_INS_ID,
+									SCHOOL_CODE,
+									CLASS_NAME
+								ORDER BY
+									TB.CLASS_NAME,
+									TB.GRZONGFEN DESC
+								) AS rowNumber,
+								Tb.*
+							FROM
+								(
+									SELECT
+										EXAM_INS_ID,
+										SCHOOL_CODE,
+										CLASS_NAME,
+										STUDENT_NAME,
+										"SUM" (SCORE) AS grZongfen,
+										TRUNC ("SUM"(FULL_SCORE) * 0.6) AS grManfen
+									FROM
+										WTRJ_RPT_SCORE_DETAIL
+									WHERE
+										EXAM_INS_ID = #{examInsId}
+									<if test="schoolCode != '' and schoolCode != null ">
+									AND SCHOOL_CODE = #{schoolCode}
+					    			</if>
+									AND SCHOOL_CODE IN (
+										SELECT DISTINCT
+											ship.SCHOOL_CODE
+										FROM
+											WTRJ_USER_ROLE rl,
+											WTRJ_ROLE_SCHOOL_RELATIONSHIP ship
+										WHERE
+											rl.ROLE_ID = ship.ROLE_ID
+										AND rl.user_id = #{userId}
+									)
+									GROUP BY
+										EXAM_INS_ID,
+										SCHOOL_CODE,
+										CLASS_NAME,
+										STUDENT_NAME
+									ORDER BY
+										EXAM_INS_ID,
+										SCHOOL_CODE,
+										CLASS_NAME,
+										grZongfen DESC
+								) Tb
+						) Ts
+				) Ty
+			WHERE TY.JGRENSHU=100
+			GROUP BY
+				TY.EXAM_INS_ID,
+				TY.SCHOOL_CODE,
+				TY.CLASS_NAME
+		) TU ON TU.EXAM_INS_ID = T .EXAM_INS_ID
+		AND TU.SCHOOL_CODE = T .SCHOOL_CODE
+		AND TU.CLASS_NAME = T .CLASS_NAME
+		LEFT JOIN WTRJ_SCHOOL_INFO SCL ON SCL.CODE = T .SCHOOL_CODE
+		) ORDER BY pjScroe DESC
+  	</select>
+</mapper>

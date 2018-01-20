@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.wtrj.jx.web.portal.model.mt.dao.MtPermissionMapper">
+  <!-- 根据学生ID获取任课老师信息 -->
+  <select id="selectCourseTeacherByStudentId" resultType="cn.com.wtrj.jx.web.portal.model.mt.entities.MtCourseTeacher">
+	select p.course_code as courseCode,
+	       p.course_name as courseName,
+	       p.teacher_id  as teacherId,
+	       c.name        as teacherName,
+	       c.phone       as teacherPhone,
+	       s.id          as classId,
+	       s.class_name  as className,
+	       s.school_code as schoolCode,
+	       s.stage       as stage,
+	       s.grade       as grade,
+	       s.class_no    as classNo
+	  from wtrj_student t
+	  left join wtrj_ecom_permission p on t.class_id = p.class_id
+	  left join wtrj_teacher c on c.id = p.teacher_id
+	  left join wtrj_ecom_class s on s.id = t.class_id
+	 where course_code is not null
+	   and t.id = #{studentId}
+  	
+  	</select>
+  	
+  <!-- 根据学生ID获取班主任信息 -->
+  <select id="selectHeaderTeacherByStudentId" resultType="cn.com.wtrj.jx.web.portal.model.mt.entities.MtCourseTeacher">
+	  select p.teacher_id  as teacherId,
+	         c.name        as teacherName,
+	         c.phone       as teacherPhone,
+	         s.id          as classId,
+	         s.class_name  as className,
+	         s.school_code as schoolCode,
+	         s.stage       as stage,
+	         s.grade       as grade,
+	         s.class_no    as classNo
+	    from wtrj_student t
+	    left join wtrj_ecom_permission p on t.class_id = p.class_id
+	    left join wtrj_teacher c on c.id = p.teacher_id
+	    left join wtrj_ecom_class s on s.id = t.class_id
+	   where p.course_code is null
+	     and p.class_id is not null
+	  	 and t.id = #{studentId}
+  	
+  	</select>
+</mapper>

@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.wtrj.jx.web.portal.model.dao.ScoreNoticeMapper" >
+
+  
+ <resultMap id="tpseResultMap" type="cn.com.wtrj.jx.web.portal.model.entities.TeacherPermission" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+	<result column="teacher_id"      property="teacherId" jdbcType="INTEGER" />
+	<result column="teacher_name"      property="teacherName" jdbcType="VARCHAR" />
+	<result column="school_code"     property="schoolCode" jdbcType="VARCHAR" />
+	<result column="grade"           property="grade" jdbcType="INTEGER" />
+	<result column="class_id"        property="classId" jdbcType="INTEGER" />
+	<result column="course_code"     property="courseCode" jdbcType="VARCHAR" />
+	<result column="type"            property="type" jdbcType="VARCHAR" />
+	<result column="school_name"     property="schoolName" jdbcType="VARCHAR" />
+	<result column="class_name"      property="className" jdbcType="VARCHAR" />
+	<result column="stage"           property="stage" jdbcType="VARCHAR" />
+	<result column="course_name"     property="courseName" jdbcType="VARCHAR" />
+   </resultMap>
+   
+   <resultMap id="scoreResultMap" type="cn.com.wtrj.jx.web.portal.service.dto.Score" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="exam_ins_id" property="examInsId" jdbcType="VARCHAR" />
+    <result column="exam_ins_name" property="examInsName" jdbcType="VARCHAR" />
+    <result column="score" property="score" jdbcType="VARCHAR" />
+     <result column="sum_number" property="sumNumber" jdbcType="VARCHAR" />
+    <result column="id_card_number" property="idCardNumber" jdbcType="VARCHAR" />
+    <result column="id_card" property="idCardNumber" jdbcType="VARCHAR" />
+    <result column="student_id_card_no" property="idCardNumber" jdbcType="VARCHAR" />
+     <result column="student_name" property="studentName" jdbcType="VARCHAR" />
+    <result column="year_name" property="yearName" jdbcType="VARCHAR" />
+    <result column="term_name" property="termName" jdbcType="VARCHAR" />
+    <result column="school_code" property="schoolCode" jdbcType="VARCHAR" />
+    <result column="school_name" property="schoolName" jdbcType="VARCHAR" />
+    <result column="course_name" property="courseName" jdbcType="VARCHAR" />
+    <result column="class_id" property="classId" jdbcType="VARCHAR" />
+    <result column="class_name" property="className" jdbcType="VARCHAR" />
+    <result column="grade" property="grade" jdbcType="VARCHAR" />
+    <result column="type_name" property="typeName" jdbcType="VARCHAR" />
+    <result column="upload_file" property="filePath" jdbcType="VARCHAR" />
+    <result column="upload_time_str" property="uploadTimeStr" jdbcType="VARCHAR" />
+    <result column="upload_user_name" property="uploadUserName" jdbcType="VARCHAR" />
+    <result column="parent_name" property="parentName" jdbcType="VARCHAR" />
+    <result column="parent_phone" property="parentPhone" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="class_top_score" property="classTopScore" jdbcType="VARCHAR" />
+    <result column="order_number" property="orderNumber" jdbcType="VARCHAR" />
+    <result column="average_number" property="averageNumber" jdbcType="VARCHAR" />
+    <result column="full_score" property="fullScore" jdbcType="VARCHAR" />
+     <result column="grade_order_no" property="gradeOrderNo" jdbcType="VARCHAR" />
+     <result column="class_bottom_score" property="classBottomScore" jdbcType="VARCHAR"/>
+     <result column="grade_bottom_score" property="gradeBottomScore" jdbcType="VARCHAR"/>
+     <result column="grade_top_score" property="gradeTopScore" jdbcType="VARCHAR"/>
+     <result column="average_grade_score" property="averageGradeScore" jdbcType="VARCHAR"/>
+     <result column="science_score" property="scienceScore" jdbcType="VARCHAR"/>
+     <result column="arts_score" property="artsScore" jdbcType="VARCHAR"/>
+     <result column="arts_order_class_number" property="artsOrdClassNum" jdbcType="VARCHAR"/>
+     <result column="science_order_class_number" property="scienceOrdClassNum" jdbcType="VARCHAR"/>
+     <result column="arts_order_grade_number" property="artsOrdGradeNum" jdbcType="VARCHAR"/>
+     <result column="science_order_grade_number" property="scienceOrdGradeNum" jdbcType="VARCHAR"/>
+     <result column="class_remark" property="classRemark" jdbcType="VARCHAR"/>
+  </resultMap>
+   
+   <select id="findRkTeacherClasses" resultMap="tpseResultMap">
+  		select p.* from wtrj_ecom_permission p where
+  		p.class_id is not null
+  		and p.course_code is not null
+  		and p.teacher_id = #{teacherId}
+      and p.type = 2
+  		
+  </select>
+   
+  <select id="findTeacherClasses" resultMap="tpseResultMap">
+  <!-- 	select p.* from wtrj_ecom_permission p,wtrj_teacher t,
+  		wtrj_user u where u.tel = t.phone 
+  		and  p.teacher_id = t.id
+  		and p.class_id is not null 
+  		and p.course_code is null
+  		and u.id = #{uid}
+  		and p.type = 1
+  		 -->
+  		select p.* from wtrj_ecom_permission p where
+  		p.class_id is not null 
+  		and p.course_code is null
+  		and p.teacher_id = #{teacherId}
+      and p.type = 1
+  		
+  </select>
+  
+  <select id="findScoreSumByClassAndExamIns" resultMap="scoreResultMap">
+   select distinct p.name parent_name,p.phone parent_phone,ss.*,e.class_name,e.type_name from   wtrj_parent p, wtrj_stu_parent_relationship spr,wtrj_student s,
+   WTRJ_RPT_SCORE_SUM ss left join WTRJ_RPT_SCORE_UPLOAD e on ss.EXAM_INS_ID = e.EXAM_INS_ID  and e.class_id = ss.class_id
+    where ss.name = s.name and ss.class_id = s.class_id and s.id = spr.student_id and spr.parent_id = p.id and ss.exam_ins_id = #{examInsId} and ss.class_id = #{classId}
+  </select>
+  
+  <select id="findStudentDetailScore" resultMap="scoreResultMap">
+  	 select * from wtrj_rpt_score_detail d where d.exam_ins_id = #{examInsId} and d.class_id = #{classId} and d.student_name = #{studentName} and d.flag = '1'
+  </select>
+</mapper>

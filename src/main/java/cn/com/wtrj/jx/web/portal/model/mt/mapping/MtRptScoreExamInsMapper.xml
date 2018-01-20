@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.wtrj.jx.web.portal.model.mt.dao.MtRptScoreExamInsMapper" >
+  <resultMap id="BaseResultMap" type="cn.com.wtrj.jx.web.portal.model.entities.WtrjRptScoreExamIns" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="START_DATE" property="startDate" jdbcType="TIMESTAMP" />
+    <result column="END_DATE" property="endDate" jdbcType="TIMESTAMP" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="exam_time" property="examTime"/>
+    <result column="type_code" property="typeCode" jdbcType="VARCHAR"/>
+    <result column="type_name" property="typeName" jdbcType="VARCHAR"/>
+  </resultMap>
+ <select id="searchByStudentNo" resultMap="BaseResultMap">
+ 	select DISTINCT d.EXAM_INS_ID id, d.EXAM_INS_NAME name, ei.EXAM_TIME,d
+		  from wtrj_rpt_score_detail d, WTRJ_RPT_SCORE_EXAM_INS ei
+		 where ei.id = d.EXAM_INS_ID and ei.class_id = d.class_id
+		   and d.STUDENT_NAME = #{studentNo} and d.CLASS_ID = #{classId}
+ </select>
+ <select id="findByStudentNo" resultMap="BaseResultMap">
+ 	select DISTINCT ei.TYPE_CODE,ei.TYPE_NAME
+		  from wtrj_rpt_score_detail d, WTRJ_RPT_SCORE_EXAM_INS ei
+		 where ei.id = d.EXAM_INS_ID and ei.class_id = d.class_id
+		   and d.STUDENT_NAME = #{studentNo} and d.CLASS_ID = #{classId} and d.flag=1
+ </select>
+ 
+ <resultMap id="scoreResultMap" type="cn.com.wtrj.jx.web.portal.model.entities.WtrjRptScoreExamIns" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="exam_type" property="examType" jdbcType="VARCHAR" />
+    <result column="exam_time" property="examTime" jdbcType="VARCHAR"/>
+  </resultMap>
+ 
+ <select id="findExamIns" resultMap="scoreResultMap">
+    <!-- 多科查询 -->
+ 	select * from WTRJ_RPT_SCORE_EXAM_INS ex where ex.SCHOOL_CODE = #{schoolCode} and ex.SCHOOL_YEAR_CODE = #{schoolYearCode} and ex.SCHOOL_TERM_CODE = #{schoolTermCode}
+ 	 and ex.GRADE = #{grade} and ex.TYPE_CODE = #{typeCode}
+ 	  
+ 	  <if test='searchType =="1"'>  
+ 	  and ex.EXAM_TYPE != '0'
+ 	  </if>
+ 	  
+ 	  <if test='searchType == "2"'>  
+ 	  and ex.EXAM_TYPE != '0'
+ 	  </if>
+ 	  
+ 	  <if test='searchType == "2"'> 
+    UNION
+    <!-- 单科查询 -->
+    select * from WTRJ_RPT_SCORE_EXAM_INS ex where ex.SCHOOL_CODE = #{schoolCode} and ex.SCHOOL_YEAR_CODE = #{schoolYearCode} and ex.SCHOOL_TERM_CODE = #{schoolTermCode} 
+    	and ex.GRADE = #{grade} and ex.TYPE_CODE = #{typeCode}
+   </if>
+   <if test='searchType == "0"'>  
+    and ex.COURSE_CODE = #{courseCode} and ex.EXAM_TYPE = '0' and ex.CLASS_ID = #{classId} and ex.CREATE_USER_ID = #{createUserId}
+ 	</if>
+ 	
+ 	<if test='searchType == "2"'>  
+    and ex.COURSE_CODE = #{courseCode} and ex.EXAM_TYPE = '0' and ex.CLASS_ID = #{classId} and ex.CREATE_USER_ID = #{createUserId}
+ 	</if>
+ 	
+ </select>
+ 
+ <select id="findExamInses" resultMap="scoreResultMap">
+    <!-- 多科查询 -->
+ 	select * from WTRJ_RPT_SCORE_EXAM_INS ex where ex.SCHOOL_CODE = #{schoolCode} and ex.SCHOOL_YEAR_CODE = #{schoolYearCode} and ex.SCHOOL_TERM_CODE = #{schoolTermCode}
+ 	 and ex.GRADE = #{grade} and ex.TYPE_CODE = #{typeCode} and ex.exam_seq_code = #{examSeqCode}
+ 	  
+ 	  <if test='searchType =="1"'>  
+ 	  and ex.EXAM_TYPE != '0'
+ 	  </if>
+ 	  
+ 	  <if test='searchType == "2"'>  
+ 	  and ex.EXAM_TYPE != '0'
+ 	  </if>
+ 	  
+ 	  <if test='searchType == "2"'> 
+    UNION
+    <!-- 单科查询 -->
+    select * from WTRJ_RPT_SCORE_EXAM_INS ex where ex.SCHOOL_CODE = #{schoolCode} and ex.SCHOOL_YEAR_CODE = #{schoolYearCode} and ex.SCHOOL_TERM_CODE = #{schoolTermCode} 
+    	and ex.GRADE = #{grade} and ex.TYPE_CODE = #{typeCode} and ex.exam_seq_code = #{examSeqCode}
+   </if>
+   <if test='searchType == "0"'>  
+    and ex.COURSE_CODE = #{courseCode} and ex.EXAM_TYPE = '0' and ex.CLASS_ID = #{classId} and ex.CREATE_USER_ID = #{createUserId}
+ 	</if>
+ 	
+ 	<if test='searchType == "2"'>  
+    and ex.COURSE_CODE = #{courseCode} and ex.EXAM_TYPE = '0' and ex.CLASS_ID = #{classId} and ex.CREATE_USER_ID = #{createUserId}
+ 	</if>
+ 	
+ </select>
+ 
+ <select id="selectExamInsByPage" resultType="cn.com.wtrj.jx.web.portal.model.entities.WtrjRptScoreExamIns">
+ 	 select *
+		  from (select id,
+		               name,
+		               start_date,
+		               end_date,
+		               school_code,
+		               stage,
+		               grade,
+		               exam_seq_code as examSeqCode,
+		               exam_seq_name as examSeqName,
+		               type_code,
+		               type_name as typeName,
+		               class_id as classId,
+		               class_name as className,
+		               course_code as courseCode,
+		               course_name as courseName,
+		               school_year_code as schoolYearCode,
+		               school_year_name as schoolYearName,
+		               school_term_code as schoollTermName,
+		               school_term_name as schoolTermName,
+		               exam_time as examTime,
+		               create_user_id as createUserId,
+		               create_user_name as createUserName,
+		               create_time as createTime,
+		               update_time as updateTime,
+		               exam_type as examType,
+		               remark,
+		               row_number() over(ORDER BY create_time desc) rn
+		          from wtrj_rpt_score_exam_ins 
+		          where create_user_id = #{userId}
+					 <if test="search!=null">
+					       and name like CONCAT(CONCAT('%','${search}'), '%')
+					 </if>
+		          ) T
+		 where rn between #{start} and #{end}
+
+ </select>
+ 
+  <select id="countExamIns" resultType="Integer">
+ 	select count(*) as cnt from wtrj_rpt_score_exam_ins where create_user_id = #{userId}
+					 <if test="search!=null">
+					       and name like CONCAT(CONCAT('%','${search}'), '%')
+					 </if>
+ </select>
+</mapper>

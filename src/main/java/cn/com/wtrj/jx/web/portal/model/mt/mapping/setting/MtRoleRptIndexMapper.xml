@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.wtrj.jx.web.portal.model.mt.dao.setting.MtRoleRptIndexMapper">
+	<select id="searchRoleRptIndex" resultType="cn.com.wtrj.jx.web.portal.model.mt.entities.setting.MtRoleRptIndexDto">
+		SELECT
+			AA."ID" AS ID,
+			AA."NAME" AS NAME,
+			AA.TYPE_CODE AS typeCode,
+			AA.TYPE_NAME AS typeName,
+			BB."ID" AS userIndexId,
+			CC.ROLE_ID AS roleId,
+			NVL (CC.BL_INDEX_AUTH, 0) AS blIndexAuth,
+			(
+				CASE
+				WHEN CC.ROLE_ID IS NULL THEN
+					0
+				ELSE
+					1
+				END
+			) AS OWN
+		FROM
+			WTRJ_RPT_INDEX aa
+		LEFT JOIN WTRJ_RPT_USER_INDEX bb ON AA."ID" = BB.INDEX_ID
+		LEFT JOIN WTRJ_RPT_ROLE_INDEX cc ON BB."ID" = CC.USER_INDEX_ID 
+																 AND CC.ROLE_ID=#{roleId}
+		ORDER BY  AA.TYPE_CODE, AA."ID"																 
+	</select>
+</mapper>

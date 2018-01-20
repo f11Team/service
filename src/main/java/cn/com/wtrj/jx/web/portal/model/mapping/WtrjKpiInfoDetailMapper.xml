@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.wtrj.jx.web.portal.model.dao.WtrjKpiInfoDetailMapper" >
+  <resultMap id="BaseResultMap" type="cn.com.wtrj.jx.web.portal.model.entities.WtrjKpiInfoDetail" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="KPI_INS" property="kpiIns" jdbcType="DECIMAL" />
+    <result column="EMPLOYEE_ID" property="employeeId" jdbcType="DECIMAL" />
+    <result column="KPI_ITEM_CODE" property="kpiItemCode" jdbcType="VARCHAR" />
+    <result column="KPI_TMPL_CODE" property="kpiTmplCode" jdbcType="VARCHAR" />
+    <result column="KPI_ITEM_SCORE" property="kpiItemScore" jdbcType="DECIMAL" />
+    <result column="KPI_ITEM_TXT" property="kpiItemTxt" jdbcType="VARCHAR" />
+    <result column="KPI_TEMPL_SCORE" property="kpiTemplScore" jdbcType="DECIMAL" />
+    <result column="KPI_SCORE" property="kpiScore" jdbcType="DECIMAL" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, KPI_INS, EMPLOYEE_ID, KPI_ITEM_CODE, KPI_TMPL_CODE, KPI_ITEM_SCORE, KPI_ITEM_TXT, 
+    KPI_TEMPL_SCORE, KPI_SCORE, REMARK
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="cn.com.wtrj.jx.web.portal.model.entities.WtrjKpiInfoDetailExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from WTRJ_KPI_INFO_DETAIL
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from WTRJ_KPI_INFO_DETAIL
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from WTRJ_KPI_INFO_DETAIL
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <delete id="deleteByExample" parameterType="cn.com.wtrj.jx.web.portal.model.entities.WtrjKpiInfoDetailExample" >
+    delete from WTRJ_KPI_INFO_DETAIL
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="cn.com.wtrj.jx.web.portal.model.entities.WtrjKpiInfoDetail" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      select Sequence_KPI_INFO_DETAIL.NEXTVAL from dual
+    </selectKey>
+    insert into WTRJ_KPI_INFO_DETAIL (KPI_INS, EMPLOYEE_ID, KPI_ITEM_CODE, 
+      KPI_TMPL_CODE, KPI_ITEM_SCORE, KPI_ITEM_TXT, 
+      KPI_TEMPL_SCORE, KPI_SCORE, REMARK
+      )
+    values (#{kpiIns,jdbcType=DECIMAL}, #{employeeId,jdbcType=DECIMAL}, #{kpiItemCode,jdbcType=VARCHAR}, 
+      #{kpiTmplCode,jdbcType=VARCHAR}, #{kpiItemScore,jdbcType=DECIMAL}, #{kpiItemTxt,jdbcType=VARCHAR}, 
+      #{kpiTemplScore,jdbcType=DECIMAL}, #{kpiScore,jdbcType=DECIMAL}, #{remark,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="cn.com.wtrj.jx.web.portal.model.entities.WtrjKpiInfoDetail" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      select Sequence_KPI_INFO_DETAIL.NEXTVAL from dual
+    </selectKey>
+    insert into WTRJ_KPI_INFO_DETAIL
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="kpiIns != null" >
+        KPI_INS,
+      </if>
+      <if test="employeeId != null" >
+        EMPLOYEE_ID,
+      </if>
+      <if test="kpiItemCode != null" >
+        KPI_ITEM_CODE,
+      </if>
+      <if test="kpiTmplCode != null" >
+        KPI_TMPL_CODE,
+      </if>
+      <if test="kpiItemScore != null" >
+        KPI_ITEM_SCORE,
+      </if>
+      <if test="kpiItemTxt != null" >
+        KPI_ITEM_TXT,
+      </if>
+      <if test="kpiTemplScore != null" >
+        KPI_TEMPL_SCORE,
+      </if>
+      <if test="kpiScore != null" >
+        KPI_SCORE,
+      </if>
+      <if test="remark != null" >
+        REMARK,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="kpiIns != null" >
+        #{kpiIns,jdbcType=DECIMAL},
+      </if>
+      <if test="employeeId != null" >
+        #{employeeId,jdbcType=DECIMAL},
+      </if>
+      <if test="kpiItemCode != null" >
+        #{kpiItemCode,jdbcType=VARCHAR},
+      </if>
+      <if test="kpiTmplCode != null" >
+        #{kpiTmplCode,jdbcType=VARCHAR},
+      </if>
+      <if test="kpiItemScore != null" >
+        #{kpiItemScore,jdbcType=DECIMAL},
+      </if>
+      <if test="kpiItemTxt != null" >
+        #{kpiItemTxt,jdbcType=VARCHAR},
+      </if>
+      <if test="kpiTemplScore != null" >
+        #{kpiTemplScore,jdbcType=DECIMAL},
+      </if>
+      <if test="kpiScore != null" >
+        #{kpiScore,jdbcType=DECIMAL},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="cn.com.wtrj.jx.web.portal.model.entities.WtrjKpiInfoDetailExample" resultType="java.lang.Integer" >
+    select count(*) from WTRJ_KPI_INFO_DETAIL
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update WTRJ_KPI_INFO_DETAIL
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=DECIMAL},
+      </if>
+      <if test="record.kpiIns != null" >
+        KPI_INS = #{record.kpiIns,jdbcType=DECIMAL},
+      </if>
+      <if test="record.employeeId != null" >
+        EMPLOYEE_ID = #{record.employeeId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.kpiItemCode != null" >
+        KPI_ITEM_CODE = #{record.kpiItemCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.kpiTmplCode != null" >
+        KPI_TMPL_CODE = #{record.kpiTmplCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.kpiItemScore != null" >
+        KPI_ITEM_SCORE = #{record.kpiItemScore,jdbcType=DECIMAL},
+      </if>
+      <if test="record.kpiItemTxt != null" >
+        KPI_ITEM_TXT = #{record.kpiItemTxt,jdbcType=VARCHAR},
+      </if>
+      <if test="record.kpiTemplScore != null" >
+        KPI_TEMPL_SCORE = #{record.kpiTemplScore,jdbcType=DECIMAL},
+      </if>
+      <if test="record.kpiScore != null" >
+        KPI_SCORE = #{record.kpiScore,jdbcType=DECIMAL},
+      </if>
+      <if test="record.remark != null" >
+        REMARK = #{record.remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update WTRJ_KPI_INFO_DETAIL
+    set ID = #{record.id,jdbcType=DECIMAL},
+      KPI_INS = #{record.kpiIns,jdbcType=DECIMAL},
+      EMPLOYEE_ID = #{record.employeeId,jdbcType=DECIMAL},
+      KPI_ITEM_CODE = #{record.kpiItemCode,jdbcType=VARCHAR},
+      KPI_TMPL_CODE = #{record.kpiTmplCode,jdbcType=VARCHAR},
+      KPI_ITEM_SCORE = #{record.kpiItemScore,jdbcType=DECIMAL},
+      KPI_ITEM_TXT = #{record.kpiItemTxt,jdbcType=VARCHAR},
+      KPI_TEMPL_SCORE = #{record.kpiTemplScore,jdbcType=DECIMAL},
+      KPI_SCORE = #{record.kpiScore,jdbcType=DECIMAL},
+      REMARK = #{record.remark,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.com.wtrj.jx.web.portal.model.entities.WtrjKpiInfoDetail" >
+    update WTRJ_KPI_INFO_DETAIL
+    <set >
+      <if test="kpiIns != null" >
+        KPI_INS = #{kpiIns,jdbcType=DECIMAL},
+      </if>
+      <if test="employeeId != null" >
+        EMPLOYEE_ID = #{employeeId,jdbcType=DECIMAL},
+      </if>
+      <if test="kpiItemCode != null" >
+        KPI_ITEM_CODE = #{kpiItemCode,jdbcType=VARCHAR},
+      </if>
+      <if test="kpiTmplCode != null" >
+        KPI_TMPL_CODE = #{kpiTmplCode,jdbcType=VARCHAR},
+      </if>
+      <if test="kpiItemScore != null" >
+        KPI_ITEM_SCORE = #{kpiItemScore,jdbcType=DECIMAL},
+      </if>
+      <if test="kpiItemTxt != null" >
+        KPI_ITEM_TXT = #{kpiItemTxt,jdbcType=VARCHAR},
+      </if>
+      <if test="kpiTemplScore != null" >
+        KPI_TEMPL_SCORE = #{kpiTemplScore,jdbcType=DECIMAL},
+      </if>
+      <if test="kpiScore != null" >
+        KPI_SCORE = #{kpiScore,jdbcType=DECIMAL},
+      </if>
+      <if test="remark != null" >
+        REMARK = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.com.wtrj.jx.web.portal.model.entities.WtrjKpiInfoDetail" >
+    update WTRJ_KPI_INFO_DETAIL
+    set KPI_INS = #{kpiIns,jdbcType=DECIMAL},
+      EMPLOYEE_ID = #{employeeId,jdbcType=DECIMAL},
+      KPI_ITEM_CODE = #{kpiItemCode,jdbcType=VARCHAR},
+      KPI_TMPL_CODE = #{kpiTmplCode,jdbcType=VARCHAR},
+      KPI_ITEM_SCORE = #{kpiItemScore,jdbcType=DECIMAL},
+      KPI_ITEM_TXT = #{kpiItemTxt,jdbcType=VARCHAR},
+      KPI_TEMPL_SCORE = #{kpiTemplScore,jdbcType=DECIMAL},
+      KPI_SCORE = #{kpiScore,jdbcType=DECIMAL},
+      REMARK = #{remark,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

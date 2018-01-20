@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.wtrj.jx.web.portal.model.dao.WtrjStuParentRelationshipMapper" >
+  <resultMap id="BaseResultMap" type="cn.com.wtrj.jx.web.portal.model.entities.WtrjStuParentRelationship" >
+    <id column="PARENT_ID" property="parentId" jdbcType="DECIMAL" />
+    <id column="STUDENT_ID" property="studentId" jdbcType="DECIMAL" />
+    <result column="APPELLATION" property="appellation" jdbcType="VARCHAR" />
+    <result column="FLAG" property="flag" jdbcType="CHAR" />
+    <result column="BL_ATTENDANCE_SMS" property="blAttendanceSms" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    PARENT_ID, STUDENT_ID, APPELLATION, FLAG, BL_ATTENDANCE_SMS
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="cn.com.wtrj.jx.web.portal.model.entities.WtrjStuParentRelationshipExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from WTRJ_STU_PARENT_RELATIONSHIP
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="cn.com.wtrj.jx.web.portal.model.entities.WtrjStuParentRelationshipKey" >
+    select 
+    <include refid="Base_Column_List" />
+    from WTRJ_STU_PARENT_RELATIONSHIP
+    where PARENT_ID = #{parentId,jdbcType=DECIMAL}
+      and STUDENT_ID = #{studentId,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="cn.com.wtrj.jx.web.portal.model.entities.WtrjStuParentRelationshipKey" >
+    delete from WTRJ_STU_PARENT_RELATIONSHIP
+    where PARENT_ID = #{parentId,jdbcType=DECIMAL}
+      and STUDENT_ID = #{studentId,jdbcType=DECIMAL}
+  </delete>
+  <delete id="deleteByExample" parameterType="cn.com.wtrj.jx.web.portal.model.entities.WtrjStuParentRelationshipExample" >
+    delete from WTRJ_STU_PARENT_RELATIONSHIP
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="cn.com.wtrj.jx.web.portal.model.entities.WtrjStuParentRelationship" >
+    insert into WTRJ_STU_PARENT_RELATIONSHIP (PARENT_ID, STUDENT_ID, APPELLATION, 
+      FLAG, BL_ATTENDANCE_SMS)
+    values (#{parentId,jdbcType=DECIMAL}, #{studentId,jdbcType=DECIMAL}, #{appellation,jdbcType=VARCHAR}, 
+      #{flag,jdbcType=CHAR}, #{blAttendanceSms,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.com.wtrj.jx.web.portal.model.entities.WtrjStuParentRelationship" >
+    insert into WTRJ_STU_PARENT_RELATIONSHIP
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="parentId != null" >
+        PARENT_ID,
+      </if>
+      <if test="studentId != null" >
+        STUDENT_ID,
+      </if>
+      <if test="appellation != null" >
+        APPELLATION,
+      </if>
+      <if test="flag != null" >
+        FLAG,
+      </if>
+      <if test="blAttendanceSms != null" >
+        BL_ATTENDANCE_SMS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="parentId != null" >
+        #{parentId,jdbcType=DECIMAL},
+      </if>
+      <if test="studentId != null" >
+        #{studentId,jdbcType=DECIMAL},
+      </if>
+      <if test="appellation != null" >
+        #{appellation,jdbcType=VARCHAR},
+      </if>
+      <if test="flag != null" >
+        #{flag,jdbcType=CHAR},
+      </if>
+      <if test="blAttendanceSms != null" >
+        #{blAttendanceSms,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="cn.com.wtrj.jx.web.portal.model.entities.WtrjStuParentRelationshipExample" resultType="java.lang.Integer" >
+    select count(*) from WTRJ_STU_PARENT_RELATIONSHIP
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update WTRJ_STU_PARENT_RELATIONSHIP
+    <set >
+      <if test="record.parentId != null" >
+        PARENT_ID = #{record.parentId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.studentId != null" >
+        STUDENT_ID = #{record.studentId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.appellation != null" >
+        APPELLATION = #{record.appellation,jdbcType=VARCHAR},
+      </if>
+      <if test="record.flag != null" >
+        FLAG = #{record.flag,jdbcType=CHAR},
+      </if>
+      <if test="record.blAttendanceSms != null" >
+        BL_ATTENDANCE_SMS = #{record.blAttendanceSms,jdbcType=CHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update WTRJ_STU_PARENT_RELATIONSHIP
+    set PARENT_ID = #{record.parentId,jdbcType=DECIMAL},
+      STUDENT_ID = #{record.studentId,jdbcType=DECIMAL},
+      APPELLATION = #{record.appellation,jdbcType=VARCHAR},
+      FLAG = #{record.flag,jdbcType=CHAR},
+      BL_ATTENDANCE_SMS = #{record.blAttendanceSms,jdbcType=CHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.com.wtrj.jx.web.portal.model.entities.WtrjStuParentRelationship" >
+    update WTRJ_STU_PARENT_RELATIONSHIP
+    <set >
+      <if test="appellation != null" >
+        APPELLATION = #{appellation,jdbcType=VARCHAR},
+      </if>
+      <if test="flag != null" >
+        FLAG = #{flag,jdbcType=CHAR},
+      </if>
+      <if test="blAttendanceSms != null" >
+        BL_ATTENDANCE_SMS = #{blAttendanceSms,jdbcType=CHAR},
+      </if>
+    </set>
+    where PARENT_ID = #{parentId,jdbcType=DECIMAL}
+      and STUDENT_ID = #{studentId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.com.wtrj.jx.web.portal.model.entities.WtrjStuParentRelationship" >
+    update WTRJ_STU_PARENT_RELATIONSHIP
+    set APPELLATION = #{appellation,jdbcType=VARCHAR},
+      FLAG = #{flag,jdbcType=CHAR},
+      BL_ATTENDANCE_SMS = #{blAttendanceSms,jdbcType=CHAR}
+    where PARENT_ID = #{parentId,jdbcType=DECIMAL}
+      and STUDENT_ID = #{studentId,jdbcType=DECIMAL}
+  </update>
+</mapper>

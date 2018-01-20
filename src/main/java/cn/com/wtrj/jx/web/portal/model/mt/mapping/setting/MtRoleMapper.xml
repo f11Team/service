@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.wtrj.jx.web.portal.model.mt.dao.setting.MtRoleMapper">
+  	
+  	<select id="selectRoleByPage" resultType="cn.com.wtrj.jx.web.portal.model.entities.WtrjRole">
+		SELECT *
+		  FROM (SELECT T.*, row_number() over(ORDER BY id ASC) rn FROM WTRJ_ROLE T
+		  		 <if test = "search != null" >
+		        	 where NAME like CONCAT(CONCAT('%', '${search}'), '%')
+		          </if>
+		  ) M
+		 where M.rn between #{start} and #{end}
+	
+  	</select>
+  	
+  	<select id="countRoles" resultType="Integer">
+	   SELECT count(*)
+	     FROM WTRJ_ROLE T
+	    <if test="search != null">
+        	where NAME like  CONCAT(CONCAT('%','${search}'), '%')
+         </if>
+  	</select>
+  	
+  	<select id="selectUserRoleByPage" resultType="cn.com.wtrj.jx.web.portal.model.mt.entities.setting.MtRoleDto">
+		SELECT M.ID AS roleId, M.NAME AS roleName, M.userId AS userId
+		  FROM (SELECT
+			S.*,ROW_NUMBER () OVER (ORDER BY S.USERID) rn
+		FROM
+			(
+				SELECT
+					T .*, UR.User_Id AS userId
+				FROM
+					WTRJ_ROLE T
+				LEFT JOIN (
+					SELECT
+						*
+					FROM
+						WTRJ_USER_ROLE
+					WHERE
+						USER_ID = #{userId}
+				) UR ON T . ID = UR.ROLE_ID
+			)S) M
+		 where M.rn between #{start} and #{end}
+		 <if test = "search != null" >
+		  AND M.NAME like CONCAT(CONCAT('%', '${search}'), '%')
+		 </if>
+  	</select>
+  	
+  	<select id="selectRoleMenus" resultType="cn.com.wtrj.jx.web.portal.model.mt.entities.setting.MtRoleMenusDto">
+		select m.role_id as roleId, r.name as menuName, r.code as menuCode
+	      from wtrj_portal_menu r
+	      left join wtrj_portal_role_menu m on r.code = m.menu_code and m.role_id = #{roleId}
+  	</select>
+  	
+  	<select id="selectMenusByUserId" resultType="cn.com.wtrj.jx.web.portal.model.mt.entities.setting.MtUserMenuDto">
+		select menu.code as menuCode, menu.name as menuName, menu.menu_id as menuId, rm.role_id, ur.user_id as userId
+		      from wtrj_portal_menu menu
+		      left join wtrj_portal_role_menu rm on menu.code = rm.menu_code
+		      left join wtrj_user_role ur on rm.role_id = ur.role_id
+		                             and ur.user_id = #{userId}
+  	</select>
+  	
+  	<select id="selectNcOrgByRoleId" resultType="cn.com.wtrj.jx.web.portal.model.mt.entities.setting.MtRoleNcOrgDto">
+		select t.code     as orgCode,
+		       t.name     as orgName,
+		       t.nick_name as orgNickName,
+		       bs.code    as segementCode,
+		       bs.name    as segementName,
+		       nr.role_id as roleId
+		  from wtrj_org t
+		  left join wtrj_business_segment bs on t.segement_code = bs.code
+		  left join (select * from wtrj_role_nc_relationship where role_id = #{roleId}) nr on t.code =
+		                                                                              nr.org_code
+		  order by bs.code, t.name asc
+  	</select>
+  	
+  	<select id="selectNcOrgNumByUserId"  resultType="cn.com.wtrj.jx.web.portal.model.mt.entities.setting.MtUserNcOrgDto">
+  		select M1.userId, M1.orgNum, M2.segementNum
+		  from (select count(*) as orgNum, userId
+		          from (select u.id as userId, nr.org_code, org.segement_code
+		                  from wtrj_user u
+		                  left join wtrj_user_role ur on u.id = ur.user_id
+		                  left join wtrj_role_nc_relationship nr on ur.role_id =
+		                                                            nr.role_id
+		                  left join wtrj_org org on nr.org_code = org.code
+		                 where nr.org_code is not null
+		                   and u.id = #{userId}) T
+		         group by userId) M1
+		  left join (select count(segementCode) as segementNum, userId
+		               from (select distinct u.id              as userId,
+		                                     org.segement_code as segementCode
+		                       from wtrj_user u
+		                       left join wtrj_user_role ur on u.id = ur.user_id
+		                       left join wtrj_role_nc_relationship nr on ur.role_id =
+		                                                                 nr.role_id
+		                       left join wtrj_org org on nr.org_code = org.code
+		                      where nr.org_code is not null
+		                        and u.id = #{userId}) T
+		              group by userId) M2 on M1.userId = M2.userId
+  	</select>
+  	<select id="selectNcOrgInfoByUserId" resultType="cn.com.wtrj.jx.web.portal.model.mt.entities.setting.MtUserNcOrgNameDto">
+			select bs.name as segementName, org.name as orgName, org.nick_name as orgNickName
+			  from wtrj_user u
+			  left join wtrj_user_role ur on u.id = ur.user_id
+			  left join wtrj_role_nc_relationship nr on ur.role_id = nr.role_id
+			  left join wtrj_org org on nr.org_code = org.code
+			  left join wtrj_business_segment bs on bs.code = org.segement_code
+			 where nr.org_code is not null
+			   and u.id = #{userId}
+  	</select>
+  	
+  	<select id="selectUserRoleByRoleId" resultType="string">
+  		select role_id from wtrj_user_role ur where #{userId} = ur.user_id and ur.role_id = #{roleId}
+  	</select>
+  	
+</mapper>

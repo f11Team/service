@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.wtrj.jx.web.portal.model.mt.dao.report.MtReportHomeMapper">
+	<select id="searchRptIndex" resultType="cn.com.wtrj.jx.web.portal.model.mt.entities.report.MtIndexDto">
+		SELECT
+			cc."ID" AS userIndexId,
+			cc.INDEX_ID AS indexId,
+			cc.QUERY_RANGE AS queryRange,
+			dd."NAME" AS NAME,
+			dd.NOTE AS note,
+			dd.TYPE_CODE AS typeCode,
+			tt.blIndexAuth
+		FROM
+			(
+				SELECT
+					bb.USER_INDEX_ID,
+					MAX (BL_INDEX_AUTH) AS blIndexAuth
+				FROM
+					WTRJ_USER_ROLE aa,
+					WTRJ_RPT_ROLE_INDEX bb
+				WHERE
+					aa.ROLE_ID = bb.ROLE_ID
+				AND aa.USER_ID =#{userId}
+				GROUP BY
+					bb.USER_INDEX_ID
+			) tt,
+			WTRJ_RPT_USER_INDEX cc,
+			WTRJ_RPT_INDEX dd
+		WHERE
+			tt.USER_INDEX_ID = cc."ID"
+		AND cc.INDEX_ID = dd."ID"
+		ORDER BY
+			dd.TYPE_CODE,
+			dd."ID"
+	</select>
+</mapper>

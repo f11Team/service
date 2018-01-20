@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.wtrj.jx.web.portal.model.dao.WtrjSchoolInfoMapper" >
+  <resultMap id="BaseResultMap" type="cn.com.wtrj.jx.web.portal.model.entities.WtrjSchoolInfo" >
+    <id column="CODE" property="code" jdbcType="VARCHAR" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="NICK_NAME" property="nickName" jdbcType="VARCHAR" />
+    <result column="GRADE_STAGE" property="gradeStage" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_TIIME" property="updateTiime" jdbcType="TIMESTAMP" />
+    <result column="ZS_SCHOOL_ID" property="zsSchoolId" jdbcType="DECIMAL" />
+    <result column="ZS_GRADE" property="zsGrade" jdbcType="VARCHAR" />
+    <result column="NC_ORG_CODE" property="ncOrgCode" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    CODE, NAME, NICK_NAME, GRADE_STAGE, CREATE_TIME, UPDATE_TIIME, ZS_SCHOOL_ID, ZS_GRADE, 
+    NC_ORG_CODE
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="cn.com.wtrj.jx.web.portal.model.entities.WtrjSchoolInfoExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from WTRJ_SCHOOL_INFO
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from WTRJ_SCHOOL_INFO
+    where CODE = #{code,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from WTRJ_SCHOOL_INFO
+    where CODE = #{code,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="cn.com.wtrj.jx.web.portal.model.entities.WtrjSchoolInfoExample" >
+    delete from WTRJ_SCHOOL_INFO
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="cn.com.wtrj.jx.web.portal.model.entities.WtrjSchoolInfo" >
+    insert into WTRJ_SCHOOL_INFO (CODE, NAME, NICK_NAME, 
+      GRADE_STAGE, CREATE_TIME, UPDATE_TIIME, 
+      ZS_SCHOOL_ID, ZS_GRADE, NC_ORG_CODE
+      )
+    values (#{code,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{nickName,jdbcType=VARCHAR}, 
+      #{gradeStage,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTiime,jdbcType=TIMESTAMP}, 
+      #{zsSchoolId,jdbcType=DECIMAL}, #{zsGrade,jdbcType=VARCHAR}, #{ncOrgCode,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="cn.com.wtrj.jx.web.portal.model.entities.WtrjSchoolInfo" >
+    insert into WTRJ_SCHOOL_INFO
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="code != null" >
+        CODE,
+      </if>
+      <if test="name != null" >
+        NAME,
+      </if>
+      <if test="nickName != null" >
+        NICK_NAME,
+      </if>
+      <if test="gradeStage != null" >
+        GRADE_STAGE,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="updateTiime != null" >
+        UPDATE_TIIME,
+      </if>
+      <if test="zsSchoolId != null" >
+        ZS_SCHOOL_ID,
+      </if>
+      <if test="zsGrade != null" >
+        ZS_GRADE,
+      </if>
+      <if test="ncOrgCode != null" >
+        NC_ORG_CODE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="code != null" >
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="nickName != null" >
+        #{nickName,jdbcType=VARCHAR},
+      </if>
+      <if test="gradeStage != null" >
+        #{gradeStage,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTiime != null" >
+        #{updateTiime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="zsSchoolId != null" >
+        #{zsSchoolId,jdbcType=DECIMAL},
+      </if>
+      <if test="zsGrade != null" >
+        #{zsGrade,jdbcType=VARCHAR},
+      </if>
+      <if test="ncOrgCode != null" >
+        #{ncOrgCode,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="cn.com.wtrj.jx.web.portal.model.entities.WtrjSchoolInfoExample" resultType="java.lang.Integer" >
+    select count(*) from WTRJ_SCHOOL_INFO
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update WTRJ_SCHOOL_INFO
+    <set >
+      <if test="record.code != null" >
+        CODE = #{record.code,jdbcType=VARCHAR},
+      </if>
+      <if test="record.name != null" >
+        NAME = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.nickName != null" >
+        NICK_NAME = #{record.nickName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.gradeStage != null" >
+        GRADE_STAGE = #{record.gradeStage,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null" >
+        CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateTiime != null" >
+        UPDATE_TIIME = #{record.updateTiime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.zsSchoolId != null" >
+        ZS_SCHOOL_ID = #{record.zsSchoolId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.zsGrade != null" >
+        ZS_GRADE = #{record.zsGrade,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ncOrgCode != null" >
+        NC_ORG_CODE = #{record.ncOrgCode,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update WTRJ_SCHOOL_INFO
+    set CODE = #{record.code,jdbcType=VARCHAR},
+      NAME = #{record.name,jdbcType=VARCHAR},
+      NICK_NAME = #{record.nickName,jdbcType=VARCHAR},
+      GRADE_STAGE = #{record.gradeStage,jdbcType=VARCHAR},
+      CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      UPDATE_TIIME = #{record.updateTiime,jdbcType=TIMESTAMP},
+      ZS_SCHOOL_ID = #{record.zsSchoolId,jdbcType=DECIMAL},
+      ZS_GRADE = #{record.zsGrade,jdbcType=VARCHAR},
+      NC_ORG_CODE = #{record.ncOrgCode,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.com.wtrj.jx.web.portal.model.entities.WtrjSchoolInfo" >
+    update WTRJ_SCHOOL_INFO
+    <set >
+      <if test="name != null" >
+        NAME = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="nickName != null" >
+        NICK_NAME = #{nickName,jdbcType=VARCHAR},
+      </if>
+      <if test="gradeStage != null" >
+        GRADE_STAGE = #{gradeStage,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTiime != null" >
+        UPDATE_TIIME = #{updateTiime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="zsSchoolId != null" >
+        ZS_SCHOOL_ID = #{zsSchoolId,jdbcType=DECIMAL},
+      </if>
+      <if test="zsGrade != null" >
+        ZS_GRADE = #{zsGrade,jdbcType=VARCHAR},
+      </if>
+      <if test="ncOrgCode != null" >
+        NC_ORG_CODE = #{ncOrgCode,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where CODE = #{code,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.com.wtrj.jx.web.portal.model.entities.WtrjSchoolInfo" >
+    update WTRJ_SCHOOL_INFO
+    set NAME = #{name,jdbcType=VARCHAR},
+      NICK_NAME = #{nickName,jdbcType=VARCHAR},
+      GRADE_STAGE = #{gradeStage,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      UPDATE_TIIME = #{updateTiime,jdbcType=TIMESTAMP},
+      ZS_SCHOOL_ID = #{zsSchoolId,jdbcType=DECIMAL},
+      ZS_GRADE = #{zsGrade,jdbcType=VARCHAR},
+      NC_ORG_CODE = #{ncOrgCode,jdbcType=VARCHAR}
+    where CODE = #{code,jdbcType=VARCHAR}
+  </update>
+</mapper>

@@ -1,0 +1,434 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.wtrj.jx.web.portal.model.dao.WtrjStudentMapper" >
+  <resultMap id="BaseResultMap" type="cn.com.wtrj.jx.web.portal.model.entities.WtrjStudent">
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="STUDENT_ID" jdbcType="DECIMAL" property="studentId" />
+    <result column="STUDENT_NAME" jdbcType="VARCHAR" property="name" />
+    <result column="SCHOOL_CODE" jdbcType="VARCHAR" property="schoolCode" />
+    <result column="CUREENT_SCHOOL_CODE" jdbcType="VARCHAR" property="cureentSchoolCode" />
+    <result column="GRADE_NO" jdbcType="DECIMAL" property="gradeNo" />
+    <result column="CLASS_NO" jdbcType="DECIMAL" property="classNo" />
+    <result column="CLASS_ID" jdbcType="DECIMAL" property="classId" />
+    <result column="STUDENT_NO" jdbcType="VARCHAR" property="studentNo" />
+    <result column="ID_CARD_NUMBER" property="idCardNumber" jdbcType="VARCHAR"/>
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, SCHOOL_CODE, NAME, SEX, ID_CARD_NUMBER, STUDENT_NO, CUREENT_SCHOOL_CODE , REGISTER_YEAR, 
+    GRADE_NO, CLASS_NO, ENTRANCE_SERIAL_NUM, ENTRANCE_SCHOLARSHIP_LEVEL, ENTRANCE_SERIAL_IMG, 
+    RUXUE_FENBAN, BAOMING_KAHAO, CLASS_ID, CARD_COLOR, PHOTO, FLAG
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="cn.com.wtrj.jx.web.portal.model.entities.WtrjStudentExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from WTRJ_STUDENT
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    S.ID,S.STUDENT_NO,S.SCHOOL_CODE, S.NAME, S.SEX, S.ID_CARD_NUMBER, S.STUDENT_NO, S.CUREENT_SCHOOL_CODE,SC.NAME SCHOOL_NAME, S.REGISTER_YEAR, 
+    S.GRADE_NO, S.CLASS_NO, S.ENTRANCE_SERIAL_NUM, S.ENTRANCE_SCHOLARSHIP_LEVEL, S.ENTRANCE_SERIAL_IMG, 
+    S.RUXUE_FENBAN, S.BAOMING_KAHAO, S.CLASS_ID, S.CARD_COLOR, S.PHOTO, S.FLAG 
+    from WTRJ_STUDENT S ,WTRJ_SCHOOL_INFO SC 
+    where S.SCHOOL_CODE=SC.CODE AND S.ID = #{id,jdbcType=DECIMAL}
+  </select>
+  
+  <select id="selectStudentsByTeacherId" resultMap="BaseResultMap" >
+  	 select distinct S.* from wtrj_ecom_permission p,wtrj_student s,wtrj_teacher t 
+  	 where p.class_id=s.class_id 
+  	 and p.teacher_id=t.id 
+  	 and p.teacher_id= ${teacherId} and p.type = 1 
+  	 order by s.student_code 
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from WTRJ_STUDENT
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <delete id="deleteByExample" parameterType="cn.com.wtrj.jx.web.portal.model.entities.WtrjStudentExample" >
+    delete from WTRJ_STUDENT
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="cn.com.wtrj.jx.web.portal.model.entities.WtrjStudent" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      select SQ_STUDENT.NEXTVAL from dual
+    </selectKey>
+    insert into WTRJ_STUDENT (SCHOOL_CODE, NAME, SEX, 
+      ID_CARD_NUMBER, STUDENT_NO, CUREENT_SCHOOL_CODE, 
+      REGISTER_YEAR, GRADE_NO, CLASS_NO, 
+      ENTRANCE_SERIAL_NUM, ENTRANCE_SCHOLARSHIP_LEVEL, 
+      ENTRANCE_SERIAL_IMG, RUXUE_FENBAN, BAOMING_KAHAO, 
+      CLASS_ID, CARD_COLOR, PHOTO, 
+      FLAG)
+    values (#{schoolCode,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{sex,jdbcType=DECIMAL}, 
+      #{idCardNumber,jdbcType=VARCHAR}, #{studentNo,jdbcType=VARCHAR}, #{cureentSchoolCode,jdbcType=VARCHAR}, 
+      #{registerYear,jdbcType=VARCHAR}, #{gradeNo,jdbcType=DECIMAL}, #{classNo,jdbcType=DECIMAL}, 
+      #{entranceSerialNum,jdbcType=VARCHAR}, #{entranceScholarshipLevel,jdbcType=VARCHAR}, 
+      #{entranceSerialImg,jdbcType=VARCHAR}, #{ruxueFenban,jdbcType=VARCHAR}, #{baomingKahao,jdbcType=VARCHAR}, 
+      #{classId,jdbcType=DECIMAL}, #{cardColor,jdbcType=VARCHAR}, #{photo,jdbcType=VARCHAR}, 
+      #{flag,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.com.wtrj.jx.web.portal.model.entities.WtrjStudent" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      select SQ_STUDENT.NEXTVAL from dual
+    </selectKey>
+    insert into WTRJ_STUDENT
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="schoolCode != null" >
+        SCHOOL_CODE,
+      </if>
+      <if test="name != null" >
+        NAME,
+      </if>
+      <if test="sex != null" >
+        SEX,
+      </if>
+      <if test="idCardNumber != null" >
+        ID_CARD_NUMBER,
+      </if>
+      <if test="studentNo != null" >
+        STUDENT_NO,
+      </if>
+      <if test="cureentSchoolCode != null" >
+        CUREENT_SCHOOL_CODE,
+      </if>
+      <if test="registerYear != null" >
+        REGISTER_YEAR,
+      </if>
+      <if test="gradeNo != null" >
+        GRADE_NO,
+      </if>
+      <if test="classNo != null" >
+        CLASS_NO,
+      </if>
+      <if test="entranceSerialNum != null" >
+        ENTRANCE_SERIAL_NUM,
+      </if>
+      <if test="entranceScholarshipLevel != null" >
+        ENTRANCE_SCHOLARSHIP_LEVEL,
+      </if>
+      <if test="entranceSerialImg != null" >
+        ENTRANCE_SERIAL_IMG,
+      </if>
+      <if test="ruxueFenban != null" >
+        RUXUE_FENBAN,
+      </if>
+      <if test="baomingKahao != null" >
+        BAOMING_KAHAO,
+      </if>
+      <if test="classId != null" >
+        CLASS_ID,
+      </if>
+      <if test="cardColor != null" >
+        CARD_COLOR,
+      </if>
+      <if test="photo != null" >
+        PHOTO,
+      </if>
+      <if test="flag != null" >
+        FLAG,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="schoolCode != null" >
+        #{schoolCode,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        #{sex,jdbcType=DECIMAL},
+      </if>
+      <if test="idCardNumber != null" >
+        #{idCardNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="studentNo != null" >
+        #{studentNo,jdbcType=VARCHAR},
+      </if>
+      <if test="cureentSchoolCode != null" >
+        #{cureentSchoolCode,jdbcType=VARCHAR},
+      </if>
+      <if test="registerYear != null" >
+        #{registerYear,jdbcType=VARCHAR},
+      </if>
+      <if test="gradeNo != null" >
+        #{gradeNo,jdbcType=DECIMAL},
+      </if>
+      <if test="classNo != null" >
+        #{classNo,jdbcType=DECIMAL},
+      </if>
+      <if test="entranceSerialNum != null" >
+        #{entranceSerialNum,jdbcType=VARCHAR},
+      </if>
+      <if test="entranceScholarshipLevel != null" >
+        #{entranceScholarshipLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="entranceSerialImg != null" >
+        #{entranceSerialImg,jdbcType=VARCHAR},
+      </if>
+      <if test="ruxueFenban != null" >
+        #{ruxueFenban,jdbcType=VARCHAR},
+      </if>
+      <if test="baomingKahao != null" >
+        #{baomingKahao,jdbcType=VARCHAR},
+      </if>
+      <if test="classId != null" >
+        #{classId,jdbcType=DECIMAL},
+      </if>
+      <if test="cardColor != null" >
+        #{cardColor,jdbcType=VARCHAR},
+      </if>
+      <if test="photo != null" >
+        #{photo,jdbcType=VARCHAR},
+      </if>
+      <if test="flag != null" >
+        #{flag,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="cn.com.wtrj.jx.web.portal.model.entities.WtrjStudentExample" resultType="java.lang.Integer" >
+    select count(*) from WTRJ_STUDENT
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update WTRJ_STUDENT
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=DECIMAL},
+      </if>
+      <if test="record.schoolCode != null" >
+        SCHOOL_CODE = #{record.schoolCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.name != null" >
+        NAME = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sex != null" >
+        SEX = #{record.sex,jdbcType=DECIMAL},
+      </if>
+      <if test="record.idCardNumber != null" >
+        ID_CARD_NUMBER = #{record.idCardNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.studentNo != null" >
+        STUDENT_NO = #{record.studentNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cureentSchoolCode != null" >
+        CUREENT_SCHOOL_CODE = #{record.cureentSchoolCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.registerYear != null" >
+        REGISTER_YEAR = #{record.registerYear,jdbcType=VARCHAR},
+      </if>
+      <if test="record.gradeNo != null" >
+        GRADE_NO = #{record.gradeNo,jdbcType=DECIMAL},
+      </if>
+      <if test="record.classNo != null" >
+        CLASS_NO = #{record.classNo,jdbcType=DECIMAL},
+      </if>
+      <if test="record.entranceSerialNum != null" >
+        ENTRANCE_SERIAL_NUM = #{record.entranceSerialNum,jdbcType=VARCHAR},
+      </if>
+      <if test="record.entranceScholarshipLevel != null" >
+        ENTRANCE_SCHOLARSHIP_LEVEL = #{record.entranceScholarshipLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="record.entranceSerialImg != null" >
+        ENTRANCE_SERIAL_IMG = #{record.entranceSerialImg,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ruxueFenban != null" >
+        RUXUE_FENBAN = #{record.ruxueFenban,jdbcType=VARCHAR},
+      </if>
+      <if test="record.baomingKahao != null" >
+        BAOMING_KAHAO = #{record.baomingKahao,jdbcType=VARCHAR},
+      </if>
+      <if test="record.classId != null" >
+        CLASS_ID = #{record.classId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.cardColor != null" >
+        CARD_COLOR = #{record.cardColor,jdbcType=VARCHAR},
+      </if>
+      <if test="record.photo != null" >
+        PHOTO = #{record.photo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.flag != null" >
+        FLAG = #{record.flag,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update WTRJ_STUDENT
+    set ID = #{record.id,jdbcType=DECIMAL},
+      SCHOOL_CODE = #{record.schoolCode,jdbcType=VARCHAR},
+      NAME = #{record.name,jdbcType=VARCHAR},
+      SEX = #{record.sex,jdbcType=DECIMAL},
+      ID_CARD_NUMBER = #{record.idCardNumber,jdbcType=VARCHAR},
+      STUDENT_NO = #{record.studentNo,jdbcType=VARCHAR},
+      CUREENT_SCHOOL_CODE = #{record.cureentSchoolCode,jdbcType=VARCHAR},
+      REGISTER_YEAR = #{record.registerYear,jdbcType=VARCHAR},
+      GRADE_NO = #{record.gradeNo,jdbcType=DECIMAL},
+      CLASS_NO = #{record.classNo,jdbcType=DECIMAL},
+      ENTRANCE_SERIAL_NUM = #{record.entranceSerialNum,jdbcType=VARCHAR},
+      ENTRANCE_SCHOLARSHIP_LEVEL = #{record.entranceScholarshipLevel,jdbcType=VARCHAR},
+      ENTRANCE_SERIAL_IMG = #{record.entranceSerialImg,jdbcType=VARCHAR},
+      RUXUE_FENBAN = #{record.ruxueFenban,jdbcType=VARCHAR},
+      BAOMING_KAHAO = #{record.baomingKahao,jdbcType=VARCHAR},
+      CLASS_ID = #{record.classId,jdbcType=DECIMAL},
+      CARD_COLOR = #{record.cardColor,jdbcType=VARCHAR},
+      PHOTO = #{record.photo,jdbcType=VARCHAR},
+      FLAG = #{record.flag,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.com.wtrj.jx.web.portal.model.entities.WtrjStudent" >
+    update WTRJ_STUDENT
+    <set >
+      <if test="schoolCode != null" >
+        SCHOOL_CODE = #{schoolCode,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        NAME = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        SEX = #{sex,jdbcType=DECIMAL},
+      </if>
+      <if test="idCardNumber != null" >
+        ID_CARD_NUMBER = #{idCardNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="studentNo != null" >
+        STUDENT_NO = #{studentNo,jdbcType=VARCHAR},
+      </if>
+      <if test="cureentSchoolCode != null" >
+        CUREENT_SCHOOL_CODE = #{cureentSchoolCode,jdbcType=VARCHAR},
+      </if>
+      <if test="registerYear != null" >
+        REGISTER_YEAR = #{registerYear,jdbcType=VARCHAR},
+      </if>
+      <if test="gradeNo != null" >
+        GRADE_NO = #{gradeNo,jdbcType=DECIMAL},
+      </if>
+      <if test="classNo != null" >
+        CLASS_NO = #{classNo,jdbcType=DECIMAL},
+      </if>
+      <if test="entranceSerialNum != null" >
+        ENTRANCE_SERIAL_NUM = #{entranceSerialNum,jdbcType=VARCHAR},
+      </if>
+      <if test="entranceScholarshipLevel != null" >
+        ENTRANCE_SCHOLARSHIP_LEVEL = #{entranceScholarshipLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="entranceSerialImg != null" >
+        ENTRANCE_SERIAL_IMG = #{entranceSerialImg,jdbcType=VARCHAR},
+      </if>
+      <if test="ruxueFenban != null" >
+        RUXUE_FENBAN = #{ruxueFenban,jdbcType=VARCHAR},
+      </if>
+      <if test="baomingKahao != null" >
+        BAOMING_KAHAO = #{baomingKahao,jdbcType=VARCHAR},
+      </if>
+      <if test="classId != null" >
+        CLASS_ID = #{classId,jdbcType=DECIMAL},
+      </if>
+      <if test="cardColor != null" >
+        CARD_COLOR = #{cardColor,jdbcType=VARCHAR},
+      </if>
+      <if test="photo != null" >
+        PHOTO = #{photo,jdbcType=VARCHAR},
+      </if>
+      <if test="flag != null" >
+        FLAG = #{flag,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.com.wtrj.jx.web.portal.model.entities.WtrjStudent" >
+    update WTRJ_STUDENT
+    set SCHOOL_CODE = #{schoolCode,jdbcType=VARCHAR},
+      NAME = #{name,jdbcType=VARCHAR},
+      SEX = #{sex,jdbcType=DECIMAL},
+      ID_CARD_NUMBER = #{idCardNumber,jdbcType=VARCHAR},
+      STUDENT_NO = #{studentNo,jdbcType=VARCHAR},
+      CUREENT_SCHOOL_CODE = #{cureentSchoolCode,jdbcType=VARCHAR},
+      REGISTER_YEAR = #{registerYear,jdbcType=VARCHAR},
+      GRADE_NO = #{gradeNo,jdbcType=DECIMAL},
+      CLASS_NO = #{classNo,jdbcType=DECIMAL},
+      ENTRANCE_SERIAL_NUM = #{entranceSerialNum,jdbcType=VARCHAR},
+      ENTRANCE_SCHOLARSHIP_LEVEL = #{entranceScholarshipLevel,jdbcType=VARCHAR},
+      ENTRANCE_SERIAL_IMG = #{entranceSerialImg,jdbcType=VARCHAR},
+      RUXUE_FENBAN = #{ruxueFenban,jdbcType=VARCHAR},
+      BAOMING_KAHAO = #{baomingKahao,jdbcType=VARCHAR},
+      CLASS_ID = #{classId,jdbcType=DECIMAL},
+      CARD_COLOR = #{cardColor,jdbcType=VARCHAR},
+      PHOTO = #{photo,jdbcType=VARCHAR},
+      FLAG = #{flag,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

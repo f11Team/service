@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.wtrj.jx.web.portal.model.dao.WtrjEcomParentsMeetingMapper" >
+  <resultMap id="BaseResultMap" type="cn.com.wtrj.jx.web.portal.model.entities.WtrjEcomParentsMeeting" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="TEACHER_ID" property="teacherId" jdbcType="DECIMAL" />
+    <result column="CLASS_ID" property="classId" jdbcType="DECIMAL" />
+    <result column="METTING_DATE" property="mettingDate" jdbcType="TIMESTAMP" />
+    <result column="PLACE" property="place" jdbcType="VARCHAR" />
+    <result column="START_TIME" property="startTime" jdbcType="TIMESTAMP" />
+    <result column="END_TIME" property="endTime" jdbcType="TIMESTAMP" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="THEME" property="theme" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, TEACHER_ID, CLASS_ID, METTING_DATE, PLACE, START_TIME, END_TIME, CREATE_TIME, 
+    UPDATE_TIME, THEME
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="cn.com.wtrj.jx.web.portal.model.entities.WtrjEcomParentsMeetingExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from WTRJ_ECOM_PARENTS_MEETING
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from WTRJ_ECOM_PARENTS_MEETING
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from WTRJ_ECOM_PARENTS_MEETING
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <delete id="deleteByExample" parameterType="cn.com.wtrj.jx.web.portal.model.entities.WtrjEcomParentsMeetingExample" >
+    delete from WTRJ_ECOM_PARENTS_MEETING
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="cn.com.wtrj.jx.web.portal.model.entities.WtrjEcomParentsMeeting" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      select   SQ_ECOM_PARENTS_MEETING.NEXTVAL from dual
+    </selectKey>
+    insert into WTRJ_ECOM_PARENTS_MEETING (TEACHER_ID, CLASS_ID, METTING_DATE, 
+      PLACE, START_TIME, END_TIME, 
+      CREATE_TIME, UPDATE_TIME, THEME
+      )
+    values (#{teacherId,jdbcType=DECIMAL}, #{classId,jdbcType=DECIMAL}, #{mettingDate,jdbcType=TIMESTAMP}, 
+      #{place,jdbcType=VARCHAR}, #{startTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{theme,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="cn.com.wtrj.jx.web.portal.model.entities.WtrjEcomParentsMeeting" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      select   SQ_ECOM_PARENTS_MEETING.NEXTVAL from dual
+    </selectKey>
+    insert into WTRJ_ECOM_PARENTS_MEETING
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="teacherId != null" >
+        TEACHER_ID,
+      </if>
+      <if test="classId != null" >
+        CLASS_ID,
+      </if>
+      <if test="mettingDate != null" >
+        METTING_DATE,
+      </if>
+      <if test="place != null" >
+        PLACE,
+      </if>
+      <if test="startTime != null" >
+        START_TIME,
+      </if>
+      <if test="endTime != null" >
+        END_TIME,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME,
+      </if>
+      <if test="theme != null" >
+        THEME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="teacherId != null" >
+        #{teacherId,jdbcType=DECIMAL},
+      </if>
+      <if test="classId != null" >
+        #{classId,jdbcType=DECIMAL},
+      </if>
+      <if test="mettingDate != null" >
+        #{mettingDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="place != null" >
+        #{place,jdbcType=VARCHAR},
+      </if>
+      <if test="startTime != null" >
+        #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null" >
+        #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="theme != null" >
+        #{theme,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="cn.com.wtrj.jx.web.portal.model.entities.WtrjEcomParentsMeetingExample" resultType="java.lang.Integer" >
+    select count(*) from WTRJ_ECOM_PARENTS_MEETING
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update WTRJ_ECOM_PARENTS_MEETING
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=DECIMAL},
+      </if>
+      <if test="record.teacherId != null" >
+        TEACHER_ID = #{record.teacherId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.classId != null" >
+        CLASS_ID = #{record.classId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.mettingDate != null" >
+        METTING_DATE = #{record.mettingDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.place != null" >
+        PLACE = #{record.place,jdbcType=VARCHAR},
+      </if>
+      <if test="record.startTime != null" >
+        START_TIME = #{record.startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.endTime != null" >
+        END_TIME = #{record.endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createTime != null" >
+        CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateTime != null" >
+        UPDATE_TIME = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.theme != null" >
+        THEME = #{record.theme,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update WTRJ_ECOM_PARENTS_MEETING
+    set ID = #{record.id,jdbcType=DECIMAL},
+      TEACHER_ID = #{record.teacherId,jdbcType=DECIMAL},
+      CLASS_ID = #{record.classId,jdbcType=DECIMAL},
+      METTING_DATE = #{record.mettingDate,jdbcType=TIMESTAMP},
+      PLACE = #{record.place,jdbcType=VARCHAR},
+      START_TIME = #{record.startTime,jdbcType=TIMESTAMP},
+      END_TIME = #{record.endTime,jdbcType=TIMESTAMP},
+      CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      UPDATE_TIME = #{record.updateTime,jdbcType=TIMESTAMP},
+      THEME = #{record.theme,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.com.wtrj.jx.web.portal.model.entities.WtrjEcomParentsMeeting" >
+    update WTRJ_ECOM_PARENTS_MEETING
+    <set >
+      <if test="teacherId != null" >
+        TEACHER_ID = #{teacherId,jdbcType=DECIMAL},
+      </if>
+      <if test="classId != null" >
+        CLASS_ID = #{classId,jdbcType=DECIMAL},
+      </if>
+      <if test="mettingDate != null" >
+        METTING_DATE = #{mettingDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="place != null" >
+        PLACE = #{place,jdbcType=VARCHAR},
+      </if>
+      <if test="startTime != null" >
+        START_TIME = #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null" >
+        END_TIME = #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="theme != null" >
+        THEME = #{theme,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.com.wtrj.jx.web.portal.model.entities.WtrjEcomParentsMeeting" >
+    update WTRJ_ECOM_PARENTS_MEETING
+    set TEACHER_ID = #{teacherId,jdbcType=DECIMAL},
+      CLASS_ID = #{classId,jdbcType=DECIMAL},
+      METTING_DATE = #{mettingDate,jdbcType=TIMESTAMP},
+      PLACE = #{place,jdbcType=VARCHAR},
+      START_TIME = #{startTime,jdbcType=TIMESTAMP},
+      END_TIME = #{endTime,jdbcType=TIMESTAMP},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      THEME = #{theme,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

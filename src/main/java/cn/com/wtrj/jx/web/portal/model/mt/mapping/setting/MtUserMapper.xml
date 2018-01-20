@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.wtrj.jx.web.portal.model.mt.dao.setting.MtUserMapper">
+  	
+  	<select id="selectUserByPage" resultType="cn.com.wtrj.jx.web.portal.model.mt.entities.setting.MtUserDto">
+		SELECT M.*
+		  FROM (SELECT L.*, row_number() over(ORDER BY L.userId ASC) rn
+		          FROM (SELECT T.Id       AS userId,
+		                       T.Name     as userName,
+		                       T.Pwd      as pwd,
+		                       E.Id       as employeeId,
+		                       E.Job_Code as jobCode,
+		                       E.Name     as employeeName,
+		                       T.Tel    as phone,
+                         	   E.Employee_Number as employeeNumber
+		                  from WTRJ_USER T
+		                  LEFT JOIN WTRJ_EMPLOYEE E ON T.Employee_Id = E.Id
+		                  <if test="search != null">
+				         	where T.Name like CONCAT(CONCAT('%','${search}'), '%') 
+				         	   or  E.Name like CONCAT(CONCAT('%','${search}'), '%')
+				         	   or  E.Employee_Number like CONCAT(CONCAT('%','${search}'), '%')
+				          </if>
+		                  ) L) M
+		
+		 where M.rn between #{start} and #{end}
+  	</select>
+  	
+  	<select id="countUsers" resultType="Integer">
+	   SELECT count(*)
+	     FROM WTRJ_USER T
+	    <if test="search != null">
+        	where NAME like  CONCAT(CONCAT('%','${search}'), '%')
+         </if>
+  	</select>
+  	
+  	<update id="deleteBindEmployee">
+  		update wtrj_user set employee_id = null where id = #{userId}
+  	</update>
+  	
+</mapper>

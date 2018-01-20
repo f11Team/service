@@ -1,0 +1,307 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.wtrj.jx.web.portal.model.dao.TeacherMapper" >
+  
+  <resultMap id="teacherResultMap" type="cn.com.wtrj.jx.web.portal.model.entities.Teacher" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="sex" property="sex" jdbcType="VARCHAR" />
+    <result column="job_number" property="jobNumber" jdbcType="VARCHAR" />
+     <result column="user_id" property="userId" jdbcType="INTEGER" />
+  </resultMap>
+  
+  <select id="findTeacherByPhone" resultMap="teacherResultMap">
+  	SELECT * from wtrj_teacher t where t.phone = #{phone}
+  </select>
+  
+  <select id="findTeacherByJobNumber" resultMap="teacherResultMap">
+  	SELECT * from wtrj_teacher t where t.job_number = #{jobNumber}
+  </select>
+  
+  <select id="countTeachers" parameterType="string" resultType="int">
+  	select count(*) from (
+  		SELECT distinct t.id, t.name, t.sex, t.phone, t.job_number
+                  from wtrj_teacher t,wtrj_ecom_permission p where t.id = p.teacher_id 
+                  and p.school_code in
+                  <foreach collection="schoolCodes" index="index" item="code" open="(" separator="," close=")">
+				    #{code}
+				  </foreach>
+                 <if test="name != null">
+				         	and t.name like '%${name}%' 
+				          </if>
+                
+  	)
+  </select>
+  
+  <select id="selectTeachersByPage" parameterType="string" resultMap="teacherResultMap">
+  	 select * from (
+        select rownum rn,t.* from (
+        
+        SELECT distinct t.id, t.name, t.sex, t.phone, t.job_number, t.user_id
+                  from wtrj_teacher t,wtrj_ecom_permission p where t.id = p.teacher_id 
+                  and p.school_code in
+                  <foreach collection="schoolCodes" index="index" item="code" open="(" separator="," close=")">
+				    #{code}
+				  </foreach>
+                 <if test="name != null">
+				         	and t.name like '%${name}%' 
+				          </if>
+				         	 order by t.id desc
+                ) t
+                 ) l where 
+                 l.rn  between #{start} and #{end}
+  </select>
+  
+  <insert id="insert" parameterType="cn.com.wtrj.jx.web.portal.model.entities.Teacher">
+	     <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+	     select SQ_TEACHER.currval from dual
+	    </selectKey>
+	    insert into wtrj_teacher(name, job_number, phone, sex, user_id)
+	    values(#{name}, #{jobNumber}, #{phone}, #{sex}, #{userId})
+  </insert>
+  
+    
+  <update id="update" parameterType="cn.com.wtrj.jx.web.portal.model.entities.Teacher">
+  	update wtrj_teacher set name=#{name},phone=#{phone},job_number=#{jobNumber},sex=#{sex}, where id = ${id}
+  </update>
+  
+  
+  <resultMap id="schoolResultMap" type="cn.com.wtrj.jx.web.portal.service.dto.School" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="school_code" property="code" jdbcType="VARCHAR" />
+    <result column="school_name" property="name" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <select id="findUserSchools" parameterType="int"  resultMap="schoolResultMap">
+  	select distinct p.school_code code,p.school_name name 
+      from wtrj_ecom_permission p where p.teacher_id = #{teacherId}
+  </select>
+  
+  <select id="findTeacherSelectionSchools" parameterType="string"  resultMap="schoolResultMap">
+  	 select distinct p.school_code,p.school_name from wtrj_teacher t,wtrj_ecom_permission p 
+  	 	where t.id = p.teacher_id and t.id = #{teacherId}
+  </select>
+  
+  <resultMap id="schoolPermissionResultMap" type="cn.com.wtrj.jx.web.portal.service.dto.School" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="school_code" property="code" jdbcType="VARCHAR" />
+    <result column="school_name" property="name" jdbcType="VARCHAR" />
+  </resultMap>
+  
+   <resultMap id="gradeResultMap" type="cn.com.wtrj.jx.web.portal.service.dto.Grade" >
+    <result column="school_code" property="schoolCode" jdbcType="VARCHAR" />
+    <result column="school_name" property="schoolName" jdbcType="VARCHAR" />
+     <result column="grade" property="grade" jdbcType="VARCHAR" />
+      <result column="stage" property="stage" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <resultMap id="classResultMap" type="cn.com.wtrj.jx.web.portal.service.dto.SchoolClass" >
+    <result column="school_code" property="schoolCode" jdbcType="VARCHAR" />
+    <result column="school_name" property="schoolName" jdbcType="VARCHAR" />
+     <result column="grade" property="grade" jdbcType="VARCHAR" />
+      <result column="stage" property="stage" jdbcType="VARCHAR" />
+      <result column="id" property="classId" jdbcType="VARCHAR" />
+      <result column="class_name" property="className" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <resultMap id="tpseResultMap" type="cn.com.wtrj.jx.web.portal.model.entities.TeacherPermission" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+	<result column="teacher_id"      property="teacherId" jdbcType="INTEGER" />
+	<result column="teacher_name"      property="teacherName" jdbcType="VARCHAR" />
+	<result column="school_code"     property="schoolCode" jdbcType="VARCHAR" />
+	<result column="grade"           property="grade" jdbcType="INTEGER" />
+	<result column="class_id"        property="classId" jdbcType="INTEGER" />
+	<result column="course_code"     property="courseCode" jdbcType="VARCHAR" />
+	<result column="type"            property="type" jdbcType="VARCHAR" />
+	<result column="school_name"     property="schoolName" jdbcType="VARCHAR" />
+	<result column="class_name"      property="className" jdbcType="VARCHAR" />
+	<result column="stage"           property="stage" jdbcType="VARCHAR" />
+	<result column="course_name"     property="courseName" jdbcType="VARCHAR" />
+   </resultMap>
+  
+  <select id="findTeacherPermissionsByPhone" resultMap="tpseResultMap">
+  	 select distinct p.teacher_id,p.school_code,p.school_name from wtrj_teacher t,wtrj_ecom_permission p 
+  	 	where t.id = p.teacher_id and t.phone = #{phone}
+  </select>
+  
+  <select id="findTeacherSchoolPermissionInfos" resultMap="tpseResultMap">
+  	 select p.* from wtrj_teacher t,wtrj_ecom_permission p 
+  	 	where t.id = p.teacher_id and t.id = #{teacherId}
+  </select>
+  
+  <select id="findTeacherSchoolPermissionInfosByTeacherIdAndSchoolCode" resultMap="tpseResultMap">
+  	 select p.* from wtrj_teacher t,wtrj_ecom_permission p 
+  	 	where t.id = p.teacher_id and t.id = #{teacherId} and p.school_code = #{schoolCode}
+  </select>
+  
+   <select id="findTeacherClassesPermissionInfosByTeacherIdAndSchoolCode" resultMap="tpseResultMap">
+  	 select distinct p.class_id,p.class_name from wtrj_ecom_permission p 
+       where p.teacher_id = #{teacherId} and p.school_code = #{schoolCode} and p.type=#{type}
+       and p.class_id is not null
+  </select>
+  
+  <insert id="insertTeacherPermission" >
+	     insert into wtrj_ecom_permission(teacher_id,school_code,school_name,type) 
+         values(#{teacherId}, #{schoolCode}, #{schoolName}, #{type})
+  </insert>
+
+  <insert id="saveTeacherPermission" parameterType="cn.com.wtrj.jx.web.portal.model.entities.TeacherPermission">
+	     insert into wtrj_ecom_permission(
+	     	teacher_id,school_code,school_name
+	     	<if test="grade!=null and grade!=''">  
+			    ,grade
+			</if>
+	     	<if test="stage!=null and stage!=''">  
+			    ,stage
+			</if>
+			<if test="type!=null and type!=''">  
+			    ,type
+			</if>
+	     	
+			<if test="courseCode!=null and courseCode!=''">  
+			    ,course_code 
+			</if>
+			<if test="courseName!=null and courseName!=''">  
+			    ,course_name 
+			</if>
+			<if test="classId!=null and classId!=''">  
+			    ,class_id 
+			</if>
+			<if test="className!=null and className!=''">  
+			    ,class_name 
+			</if>
+	     	)
+      values(
+      	#{teacherId},#{schoolCode},#{schoolName}
+      	<if test="grade!=null and grade!=''">  
+			    ,#{grade} 
+			</if>
+      	<if test="stage!=null and stage!=''">  
+			    ,#{stage} 
+			</if>
+			<if test="type!=null and type!=''">  
+			    ,#{type} 
+			</if>
+ 
+			<if test="courseCode!=null and courseCode!=''">  
+			    ,#{courseCode}
+			</if>
+			<if test="courseName!=null and courseName!=''">  
+			    ,#{courseName} 
+			</if>
+			<if test="classId!=null and classId!=''">  
+			    ,#{classId} 
+			</if>
+			<if test="className!=null and className!=''">  
+			    ,#{className} 
+			</if>
+      	
+      )
+	     
+  </insert>
+  
+  <select id="findGradesBySchoolCode" resultMap="gradeResultMap">
+  	  select * from wtrj_school_grade g where g.school_code = #{schoolCode}
+  </select>
+  
+  <select id="findClassesBySchoolCode" resultMap="classResultMap">
+  	  select * from wtrj_ecom_class c where c.school_code = #{schoolCode}
+  </select>
+  
+  <select id="selectByPrimaryKey" resultMap="teacherResultMap">
+  	select * from wtrj_teacher t where t.id= #{id} 
+  </select>
+  
+  <select id="findTeacherRoleInfo" resultMap="tpseResultMap">
+
+  	select * from  wtrj_ecom_permission p where p.school_code = #{schoolCode} and p.teacher_id = #{teacherId}
+
+  	<!-- 任课教师 -->
+  	<if test='roleType =="1"'>  
+       and p.course_code is not null and p.grade is not null and p.class_id is not null and p.type = '2'
+	</if>
+	<!-- 教研组长 -->
+	<if test='roleType =="2"'>  
+       and p.course_code is not null and p.grade is null and p.class_id is null  and p.type = '6'
+	</if>
+	<!-- 备课组长 -->
+	<if test='roleType =="3"'>  
+		and p.course_code is not null and p.grade is not null and p.class_id is null  and p.type = '4'
+	</if>
+	<!-- 年级组长 -->
+	<if test='roleType =="4"'>  
+		and p.course_code is null and p.grade is not null and p.class_id is null  and p.type = '5'
+	</if>
+	<!-- 班主任 -->
+	<if test='roleType =="5"'>  
+		 and p.course_code is null and p.grade is not null and p.class_id is not null  and p.type = '1'
+	</if>
+
+	<!-- 学部领导-->
+	<if test='roleType =="6"'>  
+		and p.course_code is null and p.grade is null and p.class_id is null  and p.type = '101'
+	</if>
+	
+	<!-- 生辅 -->
+	<if test='roleType =="7"'>  
+		 and p.course_code is null and p.grade is not null and p.class_id is not null  and p.type = '3'
+	</if>
+	
+	<!-- 德育 -->
+	<if test='roleType =="8"'>  
+		and p.course_code is null and p.grade is null and p.class_id is null  and p.type = '7'
+	</if>
+	
+	<!-- 员工 -->
+	<if test='roleType =="0"'>  
+		and p.course_code is null and p.grade is null and p.class_id is null  and p.type = '100'
+	</if>
+  	
+  </select>
+  
+  <select id="findTeacherStages" resultType="string">
+  	select DISTINCT g.stage from wtrj_school_grade g where g.school_code =  #{schoolCode} 
+  </select>
+  
+   <select id="findTeacherGrades" resultType="string">
+  	select DISTINCT g.grade from wtrj_school_grade g where g.school_code =  #{schoolCode} and g.stage = #{stage}
+  </select>
+  
+  <select id="findTeacherClasses" resultMap="classResultMap">
+  	select * from wtrj_ecom_class c where c.SCHOOL_CODE = #{schoolCode}  and c.STAGE = #{stage} and c.grade = #{grade}
+  </select>
+  
+  <delete id="deleteTeacherRole">
+  	delete from  wtrj_ecom_permission p where p.school_code = #{schoolCode} and p.teacher_id = #{teacherId}
+  	
+  	<!-- 任课教师 -->
+  	<if test='type =="1"'>  
+       and p.course_code is not null and p.grade is not null and p.class_id is not null  and p.type = '2'
+	</if>
+	<!-- 教研组长 -->
+	<if test='type =="2"'>  
+       and p.course_code is not null and p.grade is null and p.class_id is null and p.type = '6'
+	</if>
+	<!-- 备课组长 -->
+	<if test='type =="3"'>  
+		and p.course_code is not null and p.grade is not null and p.class_id is null and p.type = '4'
+	</if>
+	<!-- 年级组长 -->
+	<if test='type =="4"'>  
+		and p.course_code is null and p.grade is not null and p.class_id is null and p.type = '5'
+	</if>
+	
+	<!-- 班主任 -->
+	<if test='type =="5"'>  
+		 and p.course_code is null and p.grade is not null and p.class_id is not null  and p.type = '1'
+	</if>
+	
+	<!-- 学部领导-->
+	<if test='type =="6"'>  
+		and p.course_code is null and p.grade is null and p.class_id is null  and p.type = '101'
+	</if>
+  	
+  </delete>
+  
+</mapper>

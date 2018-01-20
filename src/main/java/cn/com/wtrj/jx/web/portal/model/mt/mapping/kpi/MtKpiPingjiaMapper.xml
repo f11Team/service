@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.wtrj.jx.web.portal.model.mt.dao.kpi.MtKpiPingjiaMapper">
+  	
+	<select id="selectPingjiaItemJy" resultType="cn.com.wtrj.jx.web.portal.model.mt.entities.kpi.MtKpiPingjiaDto">
+		select t.id                as id,
+			   #{employeeId}       as employeeId,
+		       t.kpi_score         as kpiScore,
+		       t.kpi_item_score    as itemScore,
+		       t.kpi_item_txt      as itemTxt,
+		       t.remark              as remark, 
+		       ins.id                   as kpiInsId,
+		       tmpl.id                as itemId,
+		       tmpl.tmpl_code      as tmplCode,
+		       tmpl.tmpl_name      as tmplName,
+		       tmpl.item_code      as itemCode,
+		       tmpl.item_name      as itemName,
+		       tmpl.item_score_max as itemScoreMax,
+		       tmpl.item_score_min as itemScoreMin,
+		       tmpl.item_standard  as itemStandard,
+		       tmpl.item_type      as itemType,
+		       tmpl.bl_leaf           as blLeaf
+		  from wtrj_kpi_ins ins
+		 inner join wtrj_kpi_template tmpl on tmpl.tmpl_code=ins.jiaoyanzu_tmpl_code
+		  left join wtrj_kpi_info_detail t on t.employee_id = #{employeeId}
+		                                  and t.kpi_ins = ins.id
+		                                  and t.kpi_tmpl_code = tmpl.tmpl_code
+		                                  and t.kpi_item_code = tmpl.item_code
+		 where ins.id = #{kpiInsId}
+		 order by tmpl.item_code
+	</select>	
+	<select id="selectPingjiaItemNj" resultType="cn.com.wtrj.jx.web.portal.model.mt.entities.kpi.MtKpiPingjiaDto">
+		select t.id                as id,
+			   #{employeeId}       as employeeId,
+		       t.kpi_score         as kpiScore,
+		       t.kpi_item_score    as itemScore,
+		       t.kpi_item_txt      as itemTxt,
+		       t.remark              as remark, 
+		       ins.id                   as kpiInsId,
+		       tmpl.id                as itemId,
+		       tmpl.tmpl_code      as tmplCode,
+		       tmpl.tmpl_name      as tmplName,
+		       tmpl.item_code      as itemCode,
+		       tmpl.item_name      as itemName,
+		       tmpl.item_score_max as itemScoreMax,
+		       tmpl.item_score_min as itemScoreMin,
+		       tmpl.item_standard  as itemStandard,
+		       tmpl.item_type      as itemType,
+		       tmpl.bl_leaf           as blLeaf
+		  from wtrj_kpi_ins ins
+		 inner join wtrj_kpi_template tmpl on tmpl.tmpl_code=ins.nianjizu_tmpl_code
+		  left join wtrj_kpi_info_detail t on t.employee_id = #{employeeId}
+		                                  and t.kpi_ins = ins.id
+		                                  and t.kpi_tmpl_code = tmpl.tmpl_code
+		                                  and t.kpi_item_code = tmpl.item_code
+		 where ins.id = #{kpiInsId}
+		 order by tmpl.item_code
+	</select>		
+	<select id="selectPingjiaItemJw" resultType="cn.com.wtrj.jx.web.portal.model.mt.entities.kpi.MtKpiPingjiaDto">
+		select t.id                as id,
+			   #{employeeId}       as employeeId,
+		       t.kpi_score         as kpiScore,
+		       t.kpi_item_score    as itemScore,
+		       t.kpi_item_txt      as itemTxt,
+		       t.remark              as remark, 
+		       ins.id                   as kpiInsId,
+		       tmpl.id                as itemId,
+		       tmpl.tmpl_code      as tmplCode,
+		       tmpl.tmpl_name      as tmplName,
+		       tmpl.item_code      as itemCode,
+		       tmpl.item_name      as itemName,
+		       tmpl.item_score_max as itemScoreMax,
+		       tmpl.item_score_min as itemScoreMin,
+		       tmpl.item_standard  as itemStandard,
+		       tmpl.item_type      as itemType,
+		       tmpl.bl_leaf           as blLeaf
+		  from wtrj_kpi_ins ins
+		 inner join wtrj_kpi_template tmpl on tmpl.tmpl_code=ins.jiaowu_tmpl_code
+		  left join wtrj_kpi_info_detail t on t.employee_id = #{employeeId}
+		                                  and t.kpi_ins = ins.id
+		                                  and t.kpi_tmpl_code = tmpl.tmpl_code
+		                                  and t.kpi_item_code = tmpl.item_code
+		 where ins.id = #{kpiInsId}
+		 order by tmpl.item_code
+	</select>		
+	<select id="selectPingjiaItemTc" resultType="cn.com.wtrj.jx.web.portal.model.mt.entities.kpi.MtKpiPingjiaDto">
+		select t.id                as id,
+			   #{employeeId}       as employeeId,
+		       t.kpi_score         as kpiScore,
+		       t.kpi_item_score    as itemScore,
+		       t.kpi_item_txt      as itemTxt,
+		       t.remark              as remark, 
+		       ins.id                   as kpiInsId,
+		       tmpl.id                as itemId,
+		       tmpl.tmpl_code      as tmplCode,
+		       tmpl.tmpl_name      as tmplName,
+		       tmpl.item_code      as itemCode,
+		       tmpl.item_name      as itemName,
+		       tmpl.item_score_max as itemScoreMax,
+		       tmpl.item_score_min as itemScoreMin,
+		       tmpl.item_standard  as itemStandard,
+		       tmpl.item_type      as itemType,
+		       tmpl.bl_leaf           as blLeaf
+		  from wtrj_kpi_ins ins
+		 inner join wtrj_kpi_template tmpl on tmpl.tmpl_code=ins.ziping_tmpl_code
+		  left join wtrj_kpi_info_detail t on t.employee_id = #{employeeId}
+		                                  and t.kpi_ins = ins.id
+		                                  and t.kpi_tmpl_code = tmpl.tmpl_code
+		                                  and t.kpi_item_code = tmpl.item_code
+		 where ins.id = #{kpiInsId}
+		 order by tmpl.item_code
+	</select>		
+
+</mapper>

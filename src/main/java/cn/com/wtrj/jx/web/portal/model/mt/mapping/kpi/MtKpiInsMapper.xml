@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.wtrj.jx.web.portal.model.mt.dao.kpi.MtKpiInsMapper">
+	<select id="searchPage" parameterType="Map" resultType="cn.com.wtrj.jx.web.portal.model.mt.entities.kpi.MtKpiIns">
+		select a.id,
+		a.name,
+		a.year,
+		a.seq,
+		a.start_time as startTime,
+		a.end_time as endTime,
+		a.kpi_school as kpiSchool,
+		a.ziping_tmpl_code as zipingTmplCode,
+		a.jiaoyanzu_tmpl_code as jiaoyanzuTmplCode,
+		a.nianjizu_tmpl_code as nianjizuTmplCode,
+		a.jiaowu_tmpl_code as jiaowuTmplCode,
+		a.ziping_end as zipingEnd,
+		a.jiaoyanzu_pingjia_end as jiaoyanzuPingjiaEnd,
+		a.nianjiazu_pingjia_end as nianjizuPingjiaEnd,
+		a.jiaowu_pingjia_end as jiaowuPingjiaEnd,
+		b.name as schoolName,
+		t1.tmpl_name as zipingTmplName,
+		t2.tmpl_name as jiaoyanzuTmplName,
+		t3.tmpl_name as nianjizuTmplName,
+		t4.tmpl_name as jiaowuTmplName
+		from WTRJ_KPI_INS a
+		inner join WTRJ_SCHOOL_INFO b on a.KPI_SCHOOL = b.code
+		left join (select a.tmpl_code, a.tmpl_name
+		from WTRJ_KPI_TEMPLATE a
+		group by a.tmpl_code, a.tmpl_name) t1 on a.ZIPING_TMPL_CODE =
+		t1.tmpl_code
+		left join (select a.tmpl_code, a.tmpl_name
+		from WTRJ_KPI_TEMPLATE a
+		group by a.tmpl_code, a.tmpl_name) t2 on a.JIAOYANZU_TMPL_CODE =
+		t2.tmpl_code
+		left join (select a.tmpl_code, a.tmpl_name
+		from WTRJ_KPI_TEMPLATE a
+		group by a.tmpl_code, a.tmpl_name) t3 on a.NIANJIZU_TMPL_CODE =
+		t3.tmpl_code
+		left join (select a.tmpl_code, a.tmpl_name
+		from WTRJ_KPI_TEMPLATE a
+		group by a.tmpl_code, a.tmpl_name) t4 on a.JIAOWU_TMPL_CODE =
+		t4.tmpl_code
+		where 1 = 1
+		<if test="schoolCode != null and schoolCode != ''">
+			and a.KPI_SCHOOL = #{schoolCode}
+		</if>
+	</select>
+
+	<select id="searchByUser" resultType="cn.com.wtrj.jx.web.portal.model.entities.WtrjKpiIns">
+		SELECT
+			b. ID,
+			b."NAME",
+			b.start_time as startTime,
+			b.end_time as endTime
+		FROM
+			WTRJ_KPI_EMPLOYEE A,
+			WTRJ_KPI_INS b
+		WHERE
+			A .KPI_INS = b."ID"
+		AND A .EMPLOYEE_ID = #{employeeId}
+	</select>
+</mapper>

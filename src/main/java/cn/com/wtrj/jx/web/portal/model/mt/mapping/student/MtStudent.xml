@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.wtrj.jx.web.portal.model.mt.dao.MtStudentMapper">
+	<select id="findStudentsByTeacherIdAndParam" resultMap="students1-resultMap">
+		select
+		st.*
+		from (select distinct (t.cid), t.tid
+		from (select wt.id tid, wec.id
+		cid
+		from wtrj_teacher wt
+		join WTRJ_TEACHER_COURSE wtc on wt.id =
+		wtc.teacher_id
+		join wtrj_ecom_class wec on wtc.class_id = wec.id
+		union
+		select t.id tid, ec.id cid
+		from wtrj_teacher t
+		join WTRJ_HEAD_TEACHER ht
+		on t.id = ht.teacher_id
+		join wtrj_ecom_class ec on ht.class_id = ec.id)
+		t) alt
+		join wtrj_student st on alt.cid = st.class_id
+		where alt.tid =
+		#{teacherId} and st.name like '%${param}%'
+	</select>
+
+	<resultMap id="students1-resultMap"
+		type="cn.com.wtrj.jx.web.portal.model.entities.WtrjStudent">
+		<id column="id" property="id" />
+		<result column="STUDENT_CODE" property="schoolCode" />
+		<result column="NAME" property="name" />
+		<result column="SEX" property="sex" />
+		<result column="ID_CARD_NUMBER" property="idCardNumber" />
+		<result column="STUDENT_NO" property="studentNo" />
+		<result column="CURRENT_SCHOOL_CODE" property="cureentSchoolCode" />
+		<result column="REGISTER_YEAR" property="registerYear" />
+		<result column="GRADE_NO" property="gradeNo" />
+		<result column="CLASS_NO" property="classNo" />
+		<result column="ENTRANCE_SERIAL_NUM" property="entranceSerialNum" />
+		<result column="ENTRANCE_SCHOLARSHIP_LEVEL" property="entranceScholarshipLevel" />
+		<result column="ENTRANCE_SERIAL_IMG" property="entranceSerialImg" />
+		<result column="RUXUE_FENBAN" property="ruxueFenban" />
+		<result column="BAOMING_KAHAO" property="baomingKahao" />
+	</resultMap>
+
+	<select id="findStudentsByTeacherId" resultMap="students2-resultMap">
+		select st.*
+		from
+		(select distinct (t.cid), t.tid
+		from (select wt.id tid, wec.id cid
+		from
+		wtrj_teacher wt
+		join WTRJ_TEACHER_COURSE wtc on wt.id = wtc.teacher_id
+		join wtrj_ecom_class wec on wtc.class_id = wec.id
+		union
+		select t.id tid,
+		ec.id cid
+		from wtrj_teacher t
+		join WTRJ_HEAD_TEACHER ht on t.id =
+		ht.teacher_id
+		join wtrj_ecom_class ec on ht.class_id = ec.id) t) alt
+		join wtrj_student st on alt.cid = st.class_id
+		where alt.tid =
+		#{teacherId}
+	</select>
+
+	<resultMap id="students2-resultMap"
+		type="cn.com.wtrj.jx.web.portal.model.entities.WtrjStudent">
+		<id column="id" property="id" />
+		<result column="STUDENT_CODE" property="schoolCode" />
+		<result column="NAME" property="name" />
+		<result column="SEX" property="sex" />
+		<result column="ID_CARD_NUMBER" property="idCardNumber" />
+		<result column="STUDENT_NO" property="studentNo" />
+		<result column="CURRENT_SCHOOL_CODE" property="cureentSchoolCode" />
+		<result column="REGISTER_YEAR" property="registerYear" />
+		<result column="GRADE_NO" property="gradeNo" />
+		<result column="CLASS_NO" property="classNo" />
+		<result column="ENTRANCE_SERIAL_NUM" property="entranceSerialNum" />
+		<result column="ENTRANCE_SCHOLARSHIP_LEVEL" property="entranceScholarshipLevel" />
+		<result column="ENTRANCE_SERIAL_IMG" property="entranceSerialImg" />
+		<result column="RUXUE_FENBAN" property="ruxueFenban" />
+		<result column="BAOMING_KAHAO" property="baomingKahao" />
+	</resultMap>
+
+	<select id="findStudentsByParentId" resultMap="students3-resultMap">
+		select ws.* from
+		wtrj_student ws join wtrj_stu_parent_relationship wrt on ws.id =
+		wrt.student_id join wtrj_parent wp on wp.id = wrt.parent_id where
+		wp.id = #{parentId} 
+	</select>
+
+	<resultMap id="students3-resultMap"
+		type="cn.com.wtrj.jx.web.portal.model.entities.WtrjStudent">
+		<id column="id" property="id" />
+		<result column="STUDENT_CODE" property="schoolCode" />
+		<result column="NAME" property="name" />
+		<result column="SEX" property="sex" />
+		<result column="ID_CARD_NUMBER" property="idCardNumber" />
+		<result column="STUDENT_NO" property="studentNo" />
+		<result column="CURRENT_SCHOOL_CODE" property="cureentSchoolCode" />
+		<result column="REGISTER_YEAR" property="registerYear" />
+		<result column="GRADE_NO" property="gradeNo" />
+		<result column="CLASS_NO" property="classNo" />
+		<result column="ENTRANCE_SERIAL_NUM" property="entranceSerialNum" />
+		<result column="ENTRANCE_SCHOLARSHIP_LEVEL" property="entranceScholarshipLevel" />
+		<result column="ENTRANCE_SERIAL_IMG" property="entranceSerialImg" />
+		<result column="RUXUE_FENBAN" property="ruxueFenban" />
+		<result column="BAOMING_KAHAO" property="baomingKahao" />
+	</resultMap>
+</mapper>

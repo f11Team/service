@@ -1,0 +1,729 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.wtrj.jx.web.portal.model.dao.WtrjEcomLeaveRecMapper" >
+  <resultMap id="BaseResultMap" type="cn.com.wtrj.jx.web.portal.model.entities.WtrjEcomLeaveRec" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="STUDENT_ID" property="studentId" jdbcType="DECIMAL" />
+    <result column="STUDENT_NAME" property="studentName" jdbcType="VARCHAR" />
+    <result column="SCHOOL_CODE" property="schoolCode" jdbcType="VARCHAR" />
+    <result column="SCHOOL_NAME" property="schoolName" jdbcType="VARCHAR" />
+    <result column="STAGE" property="stage" jdbcType="DECIMAL" />
+    <result column="GRADE" property="grade" jdbcType="DECIMAL" />
+    <result column="CLASS_NO" property="classNo" jdbcType="DECIMAL" />
+    <result column="CLASS_ID" property="classId" jdbcType="DECIMAL" />
+    <result column="STATER_TYPE" property="staterType" jdbcType="VARCHAR" />
+    <result column="TYPE" property="type" jdbcType="VARCHAR" />
+    <result column="START_TIME" property="startTime" jdbcType="TIMESTAMP" />
+    <result column="END_TIME" property="endTime" jdbcType="TIMESTAMP" />
+    <result column="REASON" property="reason" jdbcType="VARCHAR" />
+    <result column="STARTER_PARENT_ID" property="starterParentId" jdbcType="DECIMAL" />
+    <result column="STARTER_PARENT_MOBILE" property="starterParentMobile" jdbcType="VARCHAR" />
+    <result column="STARTER_PARENT_NAME" property="starterParentName" jdbcType="VARCHAR" />
+    <result column="STARTER_TEACHER_ID" property="starterTeacherId" jdbcType="DECIMAL" />
+    <result column="STARTER_TEACHER_NAME" property="starterTeacherName" jdbcType="VARCHAR" />
+    <result column="STARTER_TEACHER_MOBILE" property="starterTeacherMobile" jdbcType="VARCHAR" />
+    <result column="STARTER_TEACHER_JOBNO" property="starterTeacherJobno" jdbcType="VARCHAR" />
+    <result column="CONFIRM_TEACHER_ID" property="confirmTeacherId" jdbcType="DECIMAL" />
+    <result column="CONFIRM_TEACHER_NAME" property="confirmTeacherName" jdbcType="VARCHAR" />
+    <result column="CONFIRM_TEACHER_MOBILE" property="confirmTeacherMobile" jdbcType="VARCHAR" />
+    <result column="CONFIRM_TEACHER_JOBNO" property="confirmTeacherJobno" jdbcType="VARCHAR" />
+    <result column="CONFIRM_TEACHER_STATUS" property="confirmTeacherStatus" jdbcType="VARCHAR" />
+    <result column="CONFIRM_TEACHER_TIME" property="confirmTeacherTime" jdbcType="TIMESTAMP" />
+    <result column="CONFIRM_PARENT_ID" property="confirmParentId" jdbcType="DECIMAL" />
+    <result column="CONFIRM_PARENT_NAME" property="confirmParentName" jdbcType="VARCHAR" />
+    <result column="CONFIRM_PARENT_MOBILE" property="confirmParentMobile" jdbcType="VARCHAR" />
+    <result column="CONFIRM_PARENT_STATUS" property="confirmParentStatus" jdbcType="VARCHAR" />
+    <result column="CONFIRM_PARENT_TIME" property="confirmParentTime" jdbcType="VARCHAR" />
+    <result column="MSG_CODE" property="msgCode" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="FLAG" property="flag" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, STUDENT_ID, STUDENT_NAME, SCHOOL_CODE, SCHOOL_NAME, STAGE, GRADE, CLASS_NO, CLASS_ID, 
+    STATER_TYPE, TYPE, START_TIME, END_TIME, REASON, STARTER_PARENT_ID, STARTER_PARENT_MOBILE, 
+    STARTER_PARENT_NAME, STARTER_TEACHER_ID, STARTER_TEACHER_NAME, STARTER_TEACHER_MOBILE, 
+    STARTER_TEACHER_JOBNO, CONFIRM_TEACHER_ID, CONFIRM_TEACHER_NAME, CONFIRM_TEACHER_MOBILE, 
+    CONFIRM_TEACHER_JOBNO, CONFIRM_TEACHER_STATUS, CONFIRM_TEACHER_TIME, CONFIRM_PARENT_ID, 
+    CONFIRM_PARENT_NAME, CONFIRM_PARENT_MOBILE, CONFIRM_PARENT_STATUS, CONFIRM_PARENT_TIME, 
+    MSG_CODE, CREATE_TIME, UPDATE_TIME, FLAG
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="cn.com.wtrj.jx.web.portal.model.entities.WtrjEcomLeaveRecExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from WTRJ_ECOM_LEAVE_REC
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="findLeaveRecordsByStarterTeahcerId" resultMap="BaseResultMap">
+    select distinct r.* from wtrj_ecom_leave_rec r ,wtrj_ecom_permission p 
+    where r.class_id=p.class_id and p.teacher_id = r.starter_teacher_id and r.starter_teacher_id=#{userId} and p.type=1 and r.flag=1
+    order by r.update_time desc
+  </select>
+  <select id="findLeaveRecordsByConfirmTeahcerId" resultMap="BaseResultMap">
+    select distinct r.* from wtrj_ecom_leave_rec r ,wtrj_ecom_permission p 
+    where r.class_id=p.class_id and p.teacher_id=#{userId} and r.stater_type = 1 and p.type = 1 and r.flag=1
+    order by r.update_time desc
+  </select>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from WTRJ_ECOM_LEAVE_REC
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from WTRJ_ECOM_LEAVE_REC
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="cn.com.wtrj.jx.web.portal.model.entities.WtrjEcomLeaveRecExample" >
+    delete from WTRJ_ECOM_LEAVE_REC
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="cn.com.wtrj.jx.web.portal.model.entities.WtrjEcomLeaveRec" >
+    insert into WTRJ_ECOM_LEAVE_REC (ID, STUDENT_ID, STUDENT_NAME, 
+      SCHOOL_CODE, SCHOOL_NAME, STAGE, 
+      GRADE, CLASS_NO, CLASS_ID, 
+      STATER_TYPE, TYPE, START_TIME, 
+      END_TIME, REASON, STARTER_PARENT_ID, 
+      STARTER_PARENT_MOBILE, STARTER_PARENT_NAME, 
+      STARTER_TEACHER_ID, STARTER_TEACHER_NAME, STARTER_TEACHER_MOBILE, 
+      STARTER_TEACHER_JOBNO, CONFIRM_TEACHER_ID, 
+      CONFIRM_TEACHER_NAME, CONFIRM_TEACHER_MOBILE, 
+      CONFIRM_TEACHER_JOBNO, CONFIRM_TEACHER_STATUS, 
+      CONFIRM_TEACHER_TIME, CONFIRM_PARENT_ID, 
+      CONFIRM_PARENT_NAME, CONFIRM_PARENT_MOBILE, 
+      CONFIRM_PARENT_STATUS, CONFIRM_PARENT_TIME, 
+      MSG_CODE, CREATE_TIME, UPDATE_TIME, 
+      FLAG)
+    values (#{id,jdbcType=VARCHAR}, #{studentId,jdbcType=DECIMAL}, #{studentName,jdbcType=VARCHAR}, 
+      #{schoolCode,jdbcType=VARCHAR}, #{schoolName,jdbcType=VARCHAR}, #{stage,jdbcType=DECIMAL}, 
+      #{grade,jdbcType=DECIMAL}, #{classNo,jdbcType=DECIMAL}, #{classId,jdbcType=DECIMAL}, 
+      #{staterType,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{startTime,jdbcType=TIMESTAMP}, 
+      #{endTime,jdbcType=TIMESTAMP}, #{reason,jdbcType=VARCHAR}, #{starterParentId,jdbcType=DECIMAL}, 
+      #{starterParentMobile,jdbcType=VARCHAR}, #{starterParentName,jdbcType=VARCHAR}, 
+      #{starterTeacherId,jdbcType=DECIMAL}, #{starterTeacherName,jdbcType=VARCHAR}, #{starterTeacherMobile,jdbcType=VARCHAR}, 
+      #{starterTeacherJobno,jdbcType=VARCHAR}, #{confirmTeacherId,jdbcType=DECIMAL}, 
+      #{confirmTeacherName,jdbcType=VARCHAR}, #{confirmTeacherMobile,jdbcType=VARCHAR}, 
+      #{confirmTeacherJobno,jdbcType=VARCHAR}, #{confirmTeacherStatus,jdbcType=VARCHAR}, 
+      #{confirmTeacherTime,jdbcType=TIMESTAMP}, #{confirmParentId,jdbcType=DECIMAL}, 
+      #{confirmParentName,jdbcType=VARCHAR}, #{confirmParentMobile,jdbcType=VARCHAR}, 
+      #{confirmParentStatus,jdbcType=VARCHAR}, #{confirmParentTime,jdbcType=VARCHAR}, 
+      #{msgCode,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{flag,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.com.wtrj.jx.web.portal.model.entities.WtrjEcomLeaveRec" >
+    insert into WTRJ_ECOM_LEAVE_REC
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="studentId != null" >
+        STUDENT_ID,
+      </if>
+      <if test="studentName != null" >
+        STUDENT_NAME,
+      </if>
+      <if test="schoolCode != null" >
+        SCHOOL_CODE,
+      </if>
+      <if test="schoolName != null" >
+        SCHOOL_NAME,
+      </if>
+      <if test="stage != null" >
+        STAGE,
+      </if>
+      <if test="grade != null" >
+        GRADE,
+      </if>
+      <if test="classNo != null" >
+        CLASS_NO,
+      </if>
+      <if test="classId != null" >
+        CLASS_ID,
+      </if>
+      <if test="staterType != null" >
+        STATER_TYPE,
+      </if>
+      <if test="type != null" >
+        TYPE,
+      </if>
+      <if test="startTime != null" >
+        START_TIME,
+      </if>
+      <if test="endTime != null" >
+        END_TIME,
+      </if>
+      <if test="reason != null" >
+        REASON,
+      </if>
+      <if test="starterParentId != null" >
+        STARTER_PARENT_ID,
+      </if>
+      <if test="starterParentMobile != null" >
+        STARTER_PARENT_MOBILE,
+      </if>
+      <if test="starterParentName != null" >
+        STARTER_PARENT_NAME,
+      </if>
+      <if test="starterTeacherId != null" >
+        STARTER_TEACHER_ID,
+      </if>
+      <if test="starterTeacherName != null" >
+        STARTER_TEACHER_NAME,
+      </if>
+      <if test="starterTeacherMobile != null" >
+        STARTER_TEACHER_MOBILE,
+      </if>
+      <if test="starterTeacherJobno != null" >
+        STARTER_TEACHER_JOBNO,
+      </if>
+      <if test="confirmTeacherId != null" >
+        CONFIRM_TEACHER_ID,
+      </if>
+      <if test="confirmTeacherName != null" >
+        CONFIRM_TEACHER_NAME,
+      </if>
+      <if test="confirmTeacherMobile != null" >
+        CONFIRM_TEACHER_MOBILE,
+      </if>
+      <if test="confirmTeacherJobno != null" >
+        CONFIRM_TEACHER_JOBNO,
+      </if>
+      <if test="confirmTeacherStatus != null" >
+        CONFIRM_TEACHER_STATUS,
+      </if>
+      <if test="confirmTeacherTime != null" >
+        CONFIRM_TEACHER_TIME,
+      </if>
+      <if test="confirmParentId != null" >
+        CONFIRM_PARENT_ID,
+      </if>
+      <if test="confirmParentName != null" >
+        CONFIRM_PARENT_NAME,
+      </if>
+      <if test="confirmParentMobile != null" >
+        CONFIRM_PARENT_MOBILE,
+      </if>
+      <if test="confirmParentStatus != null" >
+        CONFIRM_PARENT_STATUS,
+      </if>
+      <if test="confirmParentTime != null" >
+        CONFIRM_PARENT_TIME,
+      </if>
+      <if test="msgCode != null" >
+        MSG_CODE,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME,
+      </if>
+      <if test="flag != null" >
+        FLAG,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="studentId != null" >
+        #{studentId,jdbcType=DECIMAL},
+      </if>
+      <if test="studentName != null" >
+        #{studentName,jdbcType=VARCHAR},
+      </if>
+      <if test="schoolCode != null" >
+        #{schoolCode,jdbcType=VARCHAR},
+      </if>
+      <if test="schoolName != null" >
+        #{schoolName,jdbcType=VARCHAR},
+      </if>
+      <if test="stage != null" >
+        #{stage,jdbcType=DECIMAL},
+      </if>
+      <if test="grade != null" >
+        #{grade,jdbcType=DECIMAL},
+      </if>
+      <if test="classNo != null" >
+        #{classNo,jdbcType=DECIMAL},
+      </if>
+      <if test="classId != null" >
+        #{classId,jdbcType=DECIMAL},
+      </if>
+      <if test="staterType != null" >
+        #{staterType,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="startTime != null" >
+        #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null" >
+        #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="reason != null" >
+        #{reason,jdbcType=VARCHAR},
+      </if>
+      <if test="starterParentId != null" >
+        #{starterParentId,jdbcType=DECIMAL},
+      </if>
+      <if test="starterParentMobile != null" >
+        #{starterParentMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="starterParentName != null" >
+        #{starterParentName,jdbcType=VARCHAR},
+      </if>
+      <if test="starterTeacherId != null" >
+        #{starterTeacherId,jdbcType=DECIMAL},
+      </if>
+      <if test="starterTeacherName != null" >
+        #{starterTeacherName,jdbcType=VARCHAR},
+      </if>
+      <if test="starterTeacherMobile != null" >
+        #{starterTeacherMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="starterTeacherJobno != null" >
+        #{starterTeacherJobno,jdbcType=VARCHAR},
+      </if>
+      <if test="confirmTeacherId != null" >
+        #{confirmTeacherId,jdbcType=DECIMAL},
+      </if>
+      <if test="confirmTeacherName != null" >
+        #{confirmTeacherName,jdbcType=VARCHAR},
+      </if>
+      <if test="confirmTeacherMobile != null" >
+        #{confirmTeacherMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="confirmTeacherJobno != null" >
+        #{confirmTeacherJobno,jdbcType=VARCHAR},
+      </if>
+      <if test="confirmTeacherStatus != null" >
+        #{confirmTeacherStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="confirmTeacherTime != null" >
+        #{confirmTeacherTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="confirmParentId != null" >
+        #{confirmParentId,jdbcType=DECIMAL},
+      </if>
+      <if test="confirmParentName != null" >
+        #{confirmParentName,jdbcType=VARCHAR},
+      </if>
+      <if test="confirmParentMobile != null" >
+        #{confirmParentMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="confirmParentStatus != null" >
+        #{confirmParentStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="confirmParentTime != null" >
+        #{confirmParentTime,jdbcType=VARCHAR},
+      </if>
+      <if test="msgCode != null" >
+        #{msgCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="flag != null" >
+        #{flag,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="cn.com.wtrj.jx.web.portal.model.entities.WtrjEcomLeaveRecExample" resultType="java.lang.Integer" >
+    select count(*) from WTRJ_ECOM_LEAVE_REC
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update WTRJ_ECOM_LEAVE_REC
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.studentId != null" >
+        STUDENT_ID = #{record.studentId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.studentName != null" >
+        STUDENT_NAME = #{record.studentName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.schoolCode != null" >
+        SCHOOL_CODE = #{record.schoolCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.schoolName != null" >
+        SCHOOL_NAME = #{record.schoolName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.stage != null" >
+        STAGE = #{record.stage,jdbcType=DECIMAL},
+      </if>
+      <if test="record.grade != null" >
+        GRADE = #{record.grade,jdbcType=DECIMAL},
+      </if>
+      <if test="record.classNo != null" >
+        CLASS_NO = #{record.classNo,jdbcType=DECIMAL},
+      </if>
+      <if test="record.classId != null" >
+        CLASS_ID = #{record.classId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.staterType != null" >
+        STATER_TYPE = #{record.staterType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.type != null" >
+        TYPE = #{record.type,jdbcType=VARCHAR},
+      </if>
+      <if test="record.startTime != null" >
+        START_TIME = #{record.startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.endTime != null" >
+        END_TIME = #{record.endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.reason != null" >
+        REASON = #{record.reason,jdbcType=VARCHAR},
+      </if>
+      <if test="record.starterParentId != null" >
+        STARTER_PARENT_ID = #{record.starterParentId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.starterParentMobile != null" >
+        STARTER_PARENT_MOBILE = #{record.starterParentMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="record.starterParentName != null" >
+        STARTER_PARENT_NAME = #{record.starterParentName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.starterTeacherId != null" >
+        STARTER_TEACHER_ID = #{record.starterTeacherId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.starterTeacherName != null" >
+        STARTER_TEACHER_NAME = #{record.starterTeacherName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.starterTeacherMobile != null" >
+        STARTER_TEACHER_MOBILE = #{record.starterTeacherMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="record.starterTeacherJobno != null" >
+        STARTER_TEACHER_JOBNO = #{record.starterTeacherJobno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.confirmTeacherId != null" >
+        CONFIRM_TEACHER_ID = #{record.confirmTeacherId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.confirmTeacherName != null" >
+        CONFIRM_TEACHER_NAME = #{record.confirmTeacherName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.confirmTeacherMobile != null" >
+        CONFIRM_TEACHER_MOBILE = #{record.confirmTeacherMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="record.confirmTeacherJobno != null" >
+        CONFIRM_TEACHER_JOBNO = #{record.confirmTeacherJobno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.confirmTeacherStatus != null" >
+        CONFIRM_TEACHER_STATUS = #{record.confirmTeacherStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="record.confirmTeacherTime != null" >
+        CONFIRM_TEACHER_TIME = #{record.confirmTeacherTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.confirmParentId != null" >
+        CONFIRM_PARENT_ID = #{record.confirmParentId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.confirmParentName != null" >
+        CONFIRM_PARENT_NAME = #{record.confirmParentName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.confirmParentMobile != null" >
+        CONFIRM_PARENT_MOBILE = #{record.confirmParentMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="record.confirmParentStatus != null" >
+        CONFIRM_PARENT_STATUS = #{record.confirmParentStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="record.confirmParentTime != null" >
+        CONFIRM_PARENT_TIME = #{record.confirmParentTime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.msgCode != null" >
+        MSG_CODE = #{record.msgCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null" >
+        CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateTime != null" >
+        UPDATE_TIME = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.flag != null" >
+        FLAG = #{record.flag,jdbcType=CHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update WTRJ_ECOM_LEAVE_REC
+    set ID = #{record.id,jdbcType=VARCHAR},
+      STUDENT_ID = #{record.studentId,jdbcType=DECIMAL},
+      STUDENT_NAME = #{record.studentName,jdbcType=VARCHAR},
+      SCHOOL_CODE = #{record.schoolCode,jdbcType=VARCHAR},
+      SCHOOL_NAME = #{record.schoolName,jdbcType=VARCHAR},
+      STAGE = #{record.stage,jdbcType=DECIMAL},
+      GRADE = #{record.grade,jdbcType=DECIMAL},
+      CLASS_NO = #{record.classNo,jdbcType=DECIMAL},
+      CLASS_ID = #{record.classId,jdbcType=DECIMAL},
+      STATER_TYPE = #{record.staterType,jdbcType=VARCHAR},
+      TYPE = #{record.type,jdbcType=VARCHAR},
+      START_TIME = #{record.startTime,jdbcType=TIMESTAMP},
+      END_TIME = #{record.endTime,jdbcType=TIMESTAMP},
+      REASON = #{record.reason,jdbcType=VARCHAR},
+      STARTER_PARENT_ID = #{record.starterParentId,jdbcType=DECIMAL},
+      STARTER_PARENT_MOBILE = #{record.starterParentMobile,jdbcType=VARCHAR},
+      STARTER_PARENT_NAME = #{record.starterParentName,jdbcType=VARCHAR},
+      STARTER_TEACHER_ID = #{record.starterTeacherId,jdbcType=DECIMAL},
+      STARTER_TEACHER_NAME = #{record.starterTeacherName,jdbcType=VARCHAR},
+      STARTER_TEACHER_MOBILE = #{record.starterTeacherMobile,jdbcType=VARCHAR},
+      STARTER_TEACHER_JOBNO = #{record.starterTeacherJobno,jdbcType=VARCHAR},
+      CONFIRM_TEACHER_ID = #{record.confirmTeacherId,jdbcType=DECIMAL},
+      CONFIRM_TEACHER_NAME = #{record.confirmTeacherName,jdbcType=VARCHAR},
+      CONFIRM_TEACHER_MOBILE = #{record.confirmTeacherMobile,jdbcType=VARCHAR},
+      CONFIRM_TEACHER_JOBNO = #{record.confirmTeacherJobno,jdbcType=VARCHAR},
+      CONFIRM_TEACHER_STATUS = #{record.confirmTeacherStatus,jdbcType=VARCHAR},
+      CONFIRM_TEACHER_TIME = #{record.confirmTeacherTime,jdbcType=TIMESTAMP},
+      CONFIRM_PARENT_ID = #{record.confirmParentId,jdbcType=DECIMAL},
+      CONFIRM_PARENT_NAME = #{record.confirmParentName,jdbcType=VARCHAR},
+      CONFIRM_PARENT_MOBILE = #{record.confirmParentMobile,jdbcType=VARCHAR},
+      CONFIRM_PARENT_STATUS = #{record.confirmParentStatus,jdbcType=VARCHAR},
+      CONFIRM_PARENT_TIME = #{record.confirmParentTime,jdbcType=VARCHAR},
+      MSG_CODE = #{record.msgCode,jdbcType=VARCHAR},
+      CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      UPDATE_TIME = #{record.updateTime,jdbcType=TIMESTAMP},
+      FLAG = #{record.flag,jdbcType=CHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.com.wtrj.jx.web.portal.model.entities.WtrjEcomLeaveRec" >
+    update WTRJ_ECOM_LEAVE_REC
+    <set >
+      <if test="studentId != null" >
+        STUDENT_ID = #{studentId,jdbcType=DECIMAL},
+      </if>
+      <if test="studentName != null" >
+        STUDENT_NAME = #{studentName,jdbcType=VARCHAR},
+      </if>
+      <if test="schoolCode != null" >
+        SCHOOL_CODE = #{schoolCode,jdbcType=VARCHAR},
+      </if>
+      <if test="schoolName != null" >
+        SCHOOL_NAME = #{schoolName,jdbcType=VARCHAR},
+      </if>
+      <if test="stage != null" >
+        STAGE = #{stage,jdbcType=DECIMAL},
+      </if>
+      <if test="grade != null" >
+        GRADE = #{grade,jdbcType=DECIMAL},
+      </if>
+      <if test="classNo != null" >
+        CLASS_NO = #{classNo,jdbcType=DECIMAL},
+      </if>
+      <if test="classId != null" >
+        CLASS_ID = #{classId,jdbcType=DECIMAL},
+      </if>
+      <if test="staterType != null" >
+        STATER_TYPE = #{staterType,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        TYPE = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="startTime != null" >
+        START_TIME = #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null" >
+        END_TIME = #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="reason != null" >
+        REASON = #{reason,jdbcType=VARCHAR},
+      </if>
+      <if test="starterParentId != null" >
+        STARTER_PARENT_ID = #{starterParentId,jdbcType=DECIMAL},
+      </if>
+      <if test="starterParentMobile != null" >
+        STARTER_PARENT_MOBILE = #{starterParentMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="starterParentName != null" >
+        STARTER_PARENT_NAME = #{starterParentName,jdbcType=VARCHAR},
+      </if>
+      <if test="starterTeacherId != null" >
+        STARTER_TEACHER_ID = #{starterTeacherId,jdbcType=DECIMAL},
+      </if>
+      <if test="starterTeacherName != null" >
+        STARTER_TEACHER_NAME = #{starterTeacherName,jdbcType=VARCHAR},
+      </if>
+      <if test="starterTeacherMobile != null" >
+        STARTER_TEACHER_MOBILE = #{starterTeacherMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="starterTeacherJobno != null" >
+        STARTER_TEACHER_JOBNO = #{starterTeacherJobno,jdbcType=VARCHAR},
+      </if>
+      <if test="confirmTeacherId != null" >
+        CONFIRM_TEACHER_ID = #{confirmTeacherId,jdbcType=DECIMAL},
+      </if>
+      <if test="confirmTeacherName != null" >
+        CONFIRM_TEACHER_NAME = #{confirmTeacherName,jdbcType=VARCHAR},
+      </if>
+      <if test="confirmTeacherMobile != null" >
+        CONFIRM_TEACHER_MOBILE = #{confirmTeacherMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="confirmTeacherJobno != null" >
+        CONFIRM_TEACHER_JOBNO = #{confirmTeacherJobno,jdbcType=VARCHAR},
+      </if>
+      <if test="confirmTeacherStatus != null" >
+        CONFIRM_TEACHER_STATUS = #{confirmTeacherStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="confirmTeacherTime != null" >
+        CONFIRM_TEACHER_TIME = #{confirmTeacherTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="confirmParentId != null" >
+        CONFIRM_PARENT_ID = #{confirmParentId,jdbcType=DECIMAL},
+      </if>
+      <if test="confirmParentName != null" >
+        CONFIRM_PARENT_NAME = #{confirmParentName,jdbcType=VARCHAR},
+      </if>
+      <if test="confirmParentMobile != null" >
+        CONFIRM_PARENT_MOBILE = #{confirmParentMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="confirmParentStatus != null" >
+        CONFIRM_PARENT_STATUS = #{confirmParentStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="confirmParentTime != null" >
+        CONFIRM_PARENT_TIME = #{confirmParentTime,jdbcType=VARCHAR},
+      </if>
+      <if test="msgCode != null" >
+        MSG_CODE = #{msgCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="flag != null" >
+        FLAG = #{flag,jdbcType=CHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.com.wtrj.jx.web.portal.model.entities.WtrjEcomLeaveRec" >
+    update WTRJ_ECOM_LEAVE_REC
+    set STUDENT_ID = #{studentId,jdbcType=DECIMAL},
+      STUDENT_NAME = #{studentName,jdbcType=VARCHAR},
+      SCHOOL_CODE = #{schoolCode,jdbcType=VARCHAR},
+      SCHOOL_NAME = #{schoolName,jdbcType=VARCHAR},
+      STAGE = #{stage,jdbcType=DECIMAL},
+      GRADE = #{grade,jdbcType=DECIMAL},
+      CLASS_NO = #{classNo,jdbcType=DECIMAL},
+      CLASS_ID = #{classId,jdbcType=DECIMAL},
+      STATER_TYPE = #{staterType,jdbcType=VARCHAR},
+      TYPE = #{type,jdbcType=VARCHAR},
+      START_TIME = #{startTime,jdbcType=TIMESTAMP},
+      END_TIME = #{endTime,jdbcType=TIMESTAMP},
+      REASON = #{reason,jdbcType=VARCHAR},
+      STARTER_PARENT_ID = #{starterParentId,jdbcType=DECIMAL},
+      STARTER_PARENT_MOBILE = #{starterParentMobile,jdbcType=VARCHAR},
+      STARTER_PARENT_NAME = #{starterParentName,jdbcType=VARCHAR},
+      STARTER_TEACHER_ID = #{starterTeacherId,jdbcType=DECIMAL},
+      STARTER_TEACHER_NAME = #{starterTeacherName,jdbcType=VARCHAR},
+      STARTER_TEACHER_MOBILE = #{starterTeacherMobile,jdbcType=VARCHAR},
+      STARTER_TEACHER_JOBNO = #{starterTeacherJobno,jdbcType=VARCHAR},
+      CONFIRM_TEACHER_ID = #{confirmTeacherId,jdbcType=DECIMAL},
+      CONFIRM_TEACHER_NAME = #{confirmTeacherName,jdbcType=VARCHAR},
+      CONFIRM_TEACHER_MOBILE = #{confirmTeacherMobile,jdbcType=VARCHAR},
+      CONFIRM_TEACHER_JOBNO = #{confirmTeacherJobno,jdbcType=VARCHAR},
+      CONFIRM_TEACHER_STATUS = #{confirmTeacherStatus,jdbcType=VARCHAR},
+      CONFIRM_TEACHER_TIME = #{confirmTeacherTime,jdbcType=TIMESTAMP},
+      CONFIRM_PARENT_ID = #{confirmParentId,jdbcType=DECIMAL},
+      CONFIRM_PARENT_NAME = #{confirmParentName,jdbcType=VARCHAR},
+      CONFIRM_PARENT_MOBILE = #{confirmParentMobile,jdbcType=VARCHAR},
+      CONFIRM_PARENT_STATUS = #{confirmParentStatus,jdbcType=VARCHAR},
+      CONFIRM_PARENT_TIME = #{confirmParentTime,jdbcType=VARCHAR},
+      MSG_CODE = #{msgCode,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      FLAG = #{flag,jdbcType=CHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="deleteLeaveRecordsByStarterParentId" parameterType="cn.com.wtrj.jx.web.portal.model.entities.WtrjEcomLeaveRec">
+  	update WTRJ_ECOM_LEAVE_REC 
+  	set flag = 0
+  	where id = #{id,jdbcType=VARCHAR} and STARTER_PARENT_ID = #{starterParentId,jdbcType=DECIMAL}
+  </update>
+  <update id="deleteLeaveRecordsByStarterTeacherId">
+  	update WTRJ_ECOM_LEAVE_REC 
+  	set flag = 0
+  	where id = #{id,jdbcType=VARCHAR} and STARTER_TEACHER_ID = #{starterTeacherId,jdbcType=DECIMAL}
+  </update>
+</mapper>

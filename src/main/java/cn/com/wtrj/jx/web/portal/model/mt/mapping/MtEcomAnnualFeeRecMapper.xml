@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.wtrj.jx.web.portal.model.mt.dao.MtEcomAnnualFeeRecMapper" >
+  <resultMap id="BaseResultMap" type="cn.com.wtrj.jx.web.portal.model.mt.entities.MtEcomAnnualFeeRec" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="PARENT_ID" property="parentId" jdbcType="DECIMAL" />
+    <result column="OUT_TRADE_NO" property="outTradeNo" jdbcType="VARCHAR" />
+    <result column="STUDENT_ID" property="studentId" jdbcType="DECIMAL" />
+    <result column="STUDENT_NAME" property="studentName" jdbcType="VARCHAR" />
+    <result column="PAY_TYPE" property="payType" jdbcType="VARCHAR" />
+    <result column="PAY_MONEY" property="payMoney" jdbcType="DECIMAL" />
+    <result column="PAY_TIME" property="payTime" jdbcType="TIMESTAMP" />
+    <result column="PAY_STATUS" property="payStatus" jdbcType="VARCHAR"/>
+    <result column="PAY_ITEM_ID" property="payItemId" jdbcType="DECIMAL" />
+    <result column="PAY_ITEM_NAME" property="payItemName" jdbcType="VARCHAR"/>
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="PRICE" property="price" jdbcType="DECIMAL" />
+  </resultMap>
+ <select id="searByParentAndPayItem" resultMap="BaseResultMap">
+ 	select
+		t.id student_id,
+		t.name student_name,
+		f.*,
+		pi.id,
+		pi.name PAY_ITEM_Name,
+		pi.price
+	from
+		(select s.id,s.name 
+		from wtrj_stu_parent_relationship sp 
+		join wtrj_student s on s.id=sp.student_id 
+		where sp.parent_id=#{parentId})t
+	left join WTRJ_ECOM_ANNUAL_FEE_REC f on f.student_id=t.id 
+	left join wtrj_ecom_pay_item pi
+	on f.pay_item_id=pi.id
+	where pay_item_id=#{payItemId} or pay_item_id is null
+ </select>
+ 
+<select id="searchStudentsPayStatusInfoByHearTeacher"  resultType="cn.com.wtrj.jx.web.portal.model.mt.entities.MtStudentPayStatusInfo">
+		 		 select s.id id,
+				       s.name studentName,
+				       s.id_card_number idCardNo,
+				       s.student_no studentNo,
+				       s.grade_no gradeNo,
+				       s.class_no classNo,
+				       case
+				         when s.pay_status = '1' then
+				          '已缴'
+				         else
+				          '未缴'
+				       end payStatus
+				  from wtrj_ecom_permission t
+				  join wtrj_ecom_class c on t.class_id = c.id
+				  join wtrj_student s on s.class_id = c.id
+				 where t.teacher_id = #{teacherId}
+				   and t.type = 1
+				   and t.class_id is not null
+                 <if test='payStatus =="1"'>
+                 	and s.pay_status ='1' 
+                 </if>
+                 <if test='payStatus =="0"'>
+                 	and (s.pay_status is null or s.pay_status ='0')
+                 </if>
+                
+</select>
+
+<select id="searchStudentsPayInfoByHearTeacher" resultType="cn.com.wtrj.jx.web.portal.model.mt.entities.MtStudentPayInfo">
+select *
+  from (select t1.id studentId,
+               t1.name studentName,
+               t1.id_card_number idCardNo,
+               t2.pay_item_id payItemId,
+               t2.out_trade_no outTradeNo,
+               t2.pay_time payTime,
+               case
+                 when t2.pay_status = '01' then
+                  '已缴'
+                 else
+                  '未缴'
+               end payStatus
+          from (select s.id, s.name, s.id_card_number
+                  from wtrj_head_teacher t
+                  join wtrj_ecom_class c on t.class_id = c.id
+                  join wtrj_student s on s.class_id = c.id
+                 where t.teacher_id = #{teacherId}) t1
+          left join (select *
+                      from wtrj_ecom_annual_fee_rec r
+                     where r.pay_item_id = #{payItemId}
+                       and r.pay_status = '01') t2 on t1.id_card_number =
+                                                      t2.id_card_no) t3
+		<if test="payStatus !='全部'">
+		 where payStatus =#{payStatus}
+		</if>
+</select>
+
+<!-- 按家长id查询其关联的所有学生的缴费信息，包含缴费和未交费的 -->
+<select id="searchByParentBindedAndPayItem" resultType="cn.com.wtrj.jx.web.portal.model.mt.entities.MtStudentPayInfo">
+  select *
+  from (select t1.id studentId,
+               t1.name studentName,           
+               t1.id_card_number idCardNo,
+               t1.class_id classId,
+               t1.class_name className,
+               t1.stage,
+               t1.grade,
+               t2.pay_item_id payItemId,
+               t2.out_trade_no outTradeNo,
+               t2.pay_time payTime,
+                t2.pay_money payMoney, 
+               case
+                 when t2.pay_status = '01' then
+                  '已支付'
+                 else
+                  '未支付'
+               end payStatus
+          from (  select s.id, s.name, s.id_card_number,s.class_id,c.class_name,c.stage,c.grade
+                  from wtrj_parent p
+                  join wtrj_stu_parent_relationship sp on p.id=sp.parent_id
+                  join wtrj_student s on s.id =sp.student_id 
+                  left join wtrj_ecom_class c on s.class_id=c.id
+                  where p.id=#{parentId}
+                 ) t1
+          left join (select *
+                     from wtrj_ecom_annual_fee_rec r
+                     where r.pay_item_id =#{payItemId}
+                     and r.pay_status = '01') t2 on t1.id_card_number =
+                                                      t2.id_card_no) t3                                                                                                                                      
+</select>
+</mapper>

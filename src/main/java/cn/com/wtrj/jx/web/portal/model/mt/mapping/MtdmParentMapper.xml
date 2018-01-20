@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.wtrj.jx.web.portal.model.mt.dao.MtdmParentMapper" >
+ 	 <select id="getParentByPhone" resultType="cn.com.wtrj.jx.web.portal.model.mt.entities.MtParent">
+ 	 	select 
+ 	 		id,
+ 	 		name,
+ 	 		sex,
+ 	 		phone,
+ 	 		wx_open_id wxOpenId
+ 	 	from 
+ 	 		wtrj_parent
+ 	 	where 
+ 	 		phone=#{phone}
+ 	 </select> 
+ 	 
+ 	   <update id="update" parameterType="cn.com.wtrj.jx.web.portal.model.mt.entities.MtParent" >
+		    update WTRJ_PARENT
+		    set NAME = #{name,jdbcType=VARCHAR},
+		      SEX = #{sex,jdbcType=VARCHAR},
+		      PHONE = #{phone,jdbcType=VARCHAR}
+		    where ID = #{id,jdbcType=DECIMAL}
+		</update>
+</mapper>

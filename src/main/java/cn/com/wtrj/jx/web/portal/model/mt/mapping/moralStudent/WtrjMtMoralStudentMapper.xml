@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.wtrj.jx.web.portal.model.mt.dao.moralStudent.WtrjMtMoralStudentMapper">
+  <resultMap id="BaseResultMap" type="cn.com.wtrj.jx.web.portal.model.entities.moralStudent.WtrjMoralStudent">
+    <id column="ID" jdbcType="DECIMAL" property="id" />
+    <result column="NAME" jdbcType="VARCHAR" property="name" />
+    <result column="PWD" jdbcType="VARCHAR" property="pwd" />
+    <result column="STU_ID" jdbcType="DECIMAL" property="stuId" />
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="DEL_FLG" jdbcType="CHAR" property="delFlg" />
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    ID, NAME, PWD, STU_ID, CREATE_TIME, UPDATE_TIME, DEL_FLG
+  </sql>
+
+
+
+
+  <select id="selectByName" parameterType="java.lang.String" resultType="cn.com.wtrj.jx.web.portal.model.entities.moralStudent.WtrjMoralStudent">
+    select
+    *
+    from WTRJ_MORAL_STU_USER
+    where NAME = #{name,jdbcType=VARCHAR}
+  </select>
+
+
+
+  <select id="selectByPage" resultType="cn.com.wtrj.jx.web.portal.model.entities.moralStudent.WtrjMoralStudent" resultMap="BaseResultMap">
+    SELECT *
+    FROM (SELECT T.*, row_number() over(ORDER BY id ASC) rn FROM WTRJ_MORAL_STU_USER T
+
+    ) M
+    where M.rn between #{start} and #{end}
+
+  </select>
+
+
+</mapper>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.wtrj.jx.web.portal.model.mt.dao.ScheMapper">
+
+	<select id="searchScheDate" parameterType="Map"
+		resultType="cn.com.wtrj.jx.web.portal.model.mt.entities.ScheDto">
+		SELECT
+		EMPLOYEE_NUMBER AS userCode,
+		NAME AS userName
+		FROM
+		WTRJ_EMPLOYEE
+		WHERE
+		UPDATE_TIME BETWEEN TO_DATE (
+		#{defaultStartDate},
+		'yyyy-mm-dd hh24:mi:ss'
+		)
+		AND TO_DATE (
+		#{defaultEndDate},
+		'yyyy-mm-dd hh24:mi:ss'
+		)
+	</select>
+</mapper>

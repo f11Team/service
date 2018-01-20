@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.wtrj.jx.web.portal.model.mt.dao.parentsMeeting.ParentsMeetingMapper">
+  	
+  	<select id="searchStudentsByTeacherId" parameterType="Integer"      resultType="cn.com.wtrj.jx.web.portal.model.mt.entities.StudentRespWithClass">
+		 select c.class_name className,s.class_No classNo,s.grade_No gradeNo,s.student_No studentNo,s.name name,s.id id,s.class_id classId from  
+		 WTRJ_HEAD_TEACHER  t left join WTRJ_ECOM_CLASS  c 
+		 on c.class_no=t.class_id left join wtrj_student s on t.class_id=s.class_id where t.teacher_id=#{id,jdbcType=NUMERIC}
+  	</select>
+  	
+  	
+  	<select id="searchPrentsMeetingByTeacherId" parameterType="Integer"      resultType="cn.com.wtrj.jx.web.portal.model.mt.entities.PrentsMeetingRespDto">
+		select t.name teacherName,t.phone teacherPhone,  c.class_no classNo,c.class_Name className,pt.id id,pt.teacher_id teacherId,pt.metting_date mettingDate,
+		pt.place place,pt.theme theme,  pt.start_time startTime,pt.end_time endTime from  WTRJ_ECOM_PARENTS_MEETING pt  
+		left join  WTRJ_HEAD_TEACHER ht on pt.teacher_id=ht.teacher_id left join 
+		WTRJ_ECOM_CLASS c on ht.class_id=c.class_no left join wtrj_teacher t
+		on ht.teacher_id=t.id where ht.teacher_id=#{id,jdbcType=NUMERIC}
+  	</select>
+  	
+  	
+  	
+  	<select id="searchClassIdByTeacherId" parameterType="Integer"      resultType="Integer">
+		select class_id classId  from WTRJ_HEAD_TEACHER where teacher_id=#{id,jdbcType=NUMERIC}
+  	</select>
+  	
+  	
+  	
+  	<select id="searchStudentByClassId" parameterType="Integer"      resultType="cn.com.wtrj.jx.web.portal.model.mt.entities.StudentRespWithClass">
+		select name ,student_No studentNo from WTRJ_student where class_id=#{id,jdbcType=NUMERIC}
+  	</select>
+  	
+  	
+  	<select id="searchParentsPhoneByTeacherId" parameterType="Integer"  resultType="cn.com.wtrj.jx.web.portal.model.mt.entities.ParentsRespWithStudent">
+			select p.id         parentId,
+			       p.name       parentName,
+			       p.sex        parentSex,
+			       p.phone      phone,
+			       s.id         id,
+			       s.name       studentName,
+			       s.student_no studentNo,
+			       c.grade   gradeNo,
+			       c.class_no   classNo,
+			       s.class_id   classId,
+			       c.stage      as stage,
+			       c.class_name as className,
+			       c.school_code as schoolCode
+			  from wtrj_ecom_permission ht
+			  left join wtrj_teacher t on ht.teacher_id = t.id
+			  left join wtrj_student s on ht.class_id = s.class_id
+			  left join wtrj_ecom_class c on ht.class_id = c.id
+			  left join wtrj_stu_parent_relationship spr on s.id = spr.student_id
+			  left join wtrj_parent p on spr.parent_id = p.id
+			  where ht.type in ('1','2','4','5','6','101') 
+                    and ht.teacher_id=#{id,jdbcType=NUMERIC}
+                    order by c.school_code asc, c.stage asc, c.grade asc,c.class_no asc
+                    
+  	</select>
+
+  	<select id="searchClassByTeacherId" parameterType="Integer"      resultType="String">
+		   select c.class_name className from  WTRJ_HEAD_TEACHER ht join   WTRJ_ECOM_CLASS  c on ht.class_id=c.class_no 
+		   and ht.teacher_id=#{id,jdbcType=NUMERIC}
+  	</select>
+  	
+  	
+  	<select id="searchWtrjStudent" parameterType="String"   resultType="cn.com.wtrj.jx.web.portal.model.entities.WtrjStudent">
+		  select id,school_code schoolCode,name,sex,student_no studentNo,cureent_school_code cureentSchoolCode,
+		  grade_no gradeNo,class_no classNo,entrance_serial_img entranceSerialImg,
+		  baoming_kahao  baomingKahao,class_id classId,register_year  registerYear,photo  photo
+		  from wtrj_student where student_no=#{student_no,jdbcType=VARCHAR}
+  	</select>
+  	
+  	<select id="searchParentsMeetingDetail" parameterType="Integer"   resultType="cn.com.wtrj.jx.web.portal.model.entities.WtrjEcomPmtNotice">
+		select Id,metting_id mettingId,student_no studentNo,student_name studentName,notice_status noticeStatus,remark,create_time createTime,
+		update_time  updateTime from wtrj_ecom_pmt_notice where metting_id=#{id,jdbcType=NUMERIC}
+
+  	</select>
+  	
+  	
+  	<select id="searchParentsMeetingById" parameterType="Integer"   resultType="cn.com.wtrj.jx.web.portal.model.mt.entities.PrentsMeetingRespDto">
+		    select   m.id id,m.theme theme,m.place place ,m.metting_Date mettingDate,t.name teacherName,ec.class_name className  from   WTRJ_ECOM_PARENTS_MEETING m  join  WTRJ_HEAD_TEACHER ht on  
+		     m.teacher_id = ht.teacher_id join  WTRJ_ecom_class ec  on ht.class_id=ec.class_no join  WTRJ_teacher  t on t.id=ht.teacher_id   
+		     join   WTRJ_ECOM_CLASS c on  m.class_id=c.class_no  where m.id=#{id,jdbcType=NUMERIC}
+
+  	</select>
+  	
+ 
+  	
+</mapper>
+
+
+	    

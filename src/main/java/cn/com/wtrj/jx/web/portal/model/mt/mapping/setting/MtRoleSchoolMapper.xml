@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.wtrj.jx.web.portal.model.mt.dao.setting.MtRoleSchoolMapper">
+  	
+  	<select id="selectSchoolByRoleId" resultType="cn.com.wtrj.jx.web.portal.model.mt.entities.setting.MtRoleSchoolDto">
+		select t.code         as schoolCode,
+		       t.name         as schoolName,
+		       t.zs_school_id as zsSchoolId,
+		       rs.role_id     as roleId
+		  from wtrj_school_info t
+		  left join (select *
+		               from wtrj_role_school_relationship sr
+		              where role_id = #{roleId}) rs on t.code = rs.school_code
+		 where t.code != '02'
+  	</select>
+  	
+  	<select id="selectSchoolByUserId" resultType="cn.com.wtrj.jx.web.portal.model.mt.entities.setting.MtRoleSchoolDto">
+		select t.code         as schoolCode,
+		       t.name         as schoolName,
+		       t.zs_school_id as zsSchoolId,
+		       sr.role_id     as roleId,
+           	   t.nick_name    as nickName,
+           	   t.zs_grade     as zsGrade
+		  from wtrj_user u
+		  left join wtrj_user_role ur on u.id = ur.user_id
+		  left join wtrj_role_school_relationship sr on sr.role_id = ur.role_id
+		  left join wtrj_school_info t on t.code = sr.school_code
+		 where t.code != '02'
+			   and u.id = #{userId}
+  	</select>
+</mapper>

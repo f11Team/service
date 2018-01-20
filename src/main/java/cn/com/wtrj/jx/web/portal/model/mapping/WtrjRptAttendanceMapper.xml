@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.wtrj.jx.web.portal.model.dao.WtrjRptAttendanceMapper" >
+  <resultMap id="BaseResultMap" type="cn.com.wtrj.jx.web.portal.model.entities.WtrjRptAttendance" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="STUDENT_NO" property="studentNo" jdbcType="VARCHAR" />
+    <result column="STUDENT_NAME" property="studentName" jdbcType="VARCHAR" />
+    <result column="ATTENDANCE_TIME" property="attendanceTime" jdbcType="TIMESTAMP" />
+    <result column="ATTENDANCE_PLACE" property="attendancePlace" jdbcType="VARCHAR" />
+    <result column="ATTENDANCE_KIND" property="attendanceKind" jdbcType="VARCHAR" />
+    <result column="ATTENDANCE_STATUS" property="attendanceStatus" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, STUDENT_NO, STUDENT_NAME, ATTENDANCE_TIME, ATTENDANCE_PLACE, ATTENDANCE_KIND, 
+    ATTENDANCE_STATUS
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="cn.com.wtrj.jx.web.portal.model.entities.WtrjRptAttendanceExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from WTRJ_RPT_ATTENDANCE
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from WTRJ_RPT_ATTENDANCE
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from WTRJ_RPT_ATTENDANCE
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <delete id="deleteByExample" parameterType="cn.com.wtrj.jx.web.portal.model.entities.WtrjRptAttendanceExample" >
+    delete from WTRJ_RPT_ATTENDANCE
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="cn.com.wtrj.jx.web.portal.model.entities.WtrjRptAttendance" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      select SEQ_RPT_ATTENDANCE.NEXTVAL from     dual
+    </selectKey>
+    insert into WTRJ_RPT_ATTENDANCE (STUDENT_NO, STUDENT_NAME, ATTENDANCE_TIME, 
+      ATTENDANCE_PLACE, ATTENDANCE_KIND, ATTENDANCE_STATUS
+      )
+    values (#{studentNo,jdbcType=VARCHAR}, #{studentName,jdbcType=VARCHAR}, #{attendanceTime,jdbcType=TIMESTAMP}, 
+      #{attendancePlace,jdbcType=VARCHAR}, #{attendanceKind,jdbcType=VARCHAR}, #{attendanceStatus,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="cn.com.wtrj.jx.web.portal.model.entities.WtrjRptAttendance" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      select SEQ_RPT_ATTENDANCE.NEXTVAL from     dual
+    </selectKey>
+    insert into WTRJ_RPT_ATTENDANCE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="studentNo != null" >
+        STUDENT_NO,
+      </if>
+      <if test="studentName != null" >
+        STUDENT_NAME,
+      </if>
+      <if test="attendanceTime != null" >
+        ATTENDANCE_TIME,
+      </if>
+      <if test="attendancePlace != null" >
+        ATTENDANCE_PLACE,
+      </if>
+      <if test="attendanceKind != null" >
+        ATTENDANCE_KIND,
+      </if>
+      <if test="attendanceStatus != null" >
+        ATTENDANCE_STATUS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="studentNo != null" >
+        #{studentNo,jdbcType=VARCHAR},
+      </if>
+      <if test="studentName != null" >
+        #{studentName,jdbcType=VARCHAR},
+      </if>
+      <if test="attendanceTime != null" >
+        #{attendanceTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="attendancePlace != null" >
+        #{attendancePlace,jdbcType=VARCHAR},
+      </if>
+      <if test="attendanceKind != null" >
+        #{attendanceKind,jdbcType=VARCHAR},
+      </if>
+      <if test="attendanceStatus != null" >
+        #{attendanceStatus,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="cn.com.wtrj.jx.web.portal.model.entities.WtrjRptAttendanceExample" resultType="java.lang.Integer" >
+    select count(*) from WTRJ_RPT_ATTENDANCE
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update WTRJ_RPT_ATTENDANCE
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=DECIMAL},
+      </if>
+      <if test="record.studentNo != null" >
+        STUDENT_NO = #{record.studentNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.studentName != null" >
+        STUDENT_NAME = #{record.studentName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.attendanceTime != null" >
+        ATTENDANCE_TIME = #{record.attendanceTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.attendancePlace != null" >
+        ATTENDANCE_PLACE = #{record.attendancePlace,jdbcType=VARCHAR},
+      </if>
+      <if test="record.attendanceKind != null" >
+        ATTENDANCE_KIND = #{record.attendanceKind,jdbcType=VARCHAR},
+      </if>
+      <if test="record.attendanceStatus != null" >
+        ATTENDANCE_STATUS = #{record.attendanceStatus,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update WTRJ_RPT_ATTENDANCE
+    set ID = #{record.id,jdbcType=DECIMAL},
+      STUDENT_NO = #{record.studentNo,jdbcType=VARCHAR},
+      STUDENT_NAME = #{record.studentName,jdbcType=VARCHAR},
+      ATTENDANCE_TIME = #{record.attendanceTime,jdbcType=TIMESTAMP},
+      ATTENDANCE_PLACE = #{record.attendancePlace,jdbcType=VARCHAR},
+      ATTENDANCE_KIND = #{record.attendanceKind,jdbcType=VARCHAR},
+      ATTENDANCE_STATUS = #{record.attendanceStatus,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.com.wtrj.jx.web.portal.model.entities.WtrjRptAttendance" >
+    update WTRJ_RPT_ATTENDANCE
+    <set >
+      <if test="studentNo != null" >
+        STUDENT_NO = #{studentNo,jdbcType=VARCHAR},
+      </if>
+      <if test="studentName != null" >
+        STUDENT_NAME = #{studentName,jdbcType=VARCHAR},
+      </if>
+      <if test="attendanceTime != null" >
+        ATTENDANCE_TIME = #{attendanceTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="attendancePlace != null" >
+        ATTENDANCE_PLACE = #{attendancePlace,jdbcType=VARCHAR},
+      </if>
+      <if test="attendanceKind != null" >
+        ATTENDANCE_KIND = #{attendanceKind,jdbcType=VARCHAR},
+      </if>
+      <if test="attendanceStatus != null" >
+        ATTENDANCE_STATUS = #{attendanceStatus,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.com.wtrj.jx.web.portal.model.entities.WtrjRptAttendance" >
+    update WTRJ_RPT_ATTENDANCE
+    set STUDENT_NO = #{studentNo,jdbcType=VARCHAR},
+      STUDENT_NAME = #{studentName,jdbcType=VARCHAR},
+      ATTENDANCE_TIME = #{attendanceTime,jdbcType=TIMESTAMP},
+      ATTENDANCE_PLACE = #{attendancePlace,jdbcType=VARCHAR},
+      ATTENDANCE_KIND = #{attendanceKind,jdbcType=VARCHAR},
+      ATTENDANCE_STATUS = #{attendanceStatus,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

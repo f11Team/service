@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.wtrj.jx.web.portal.model.mt.dao.report.MtReportHrMapper">
+    <select id="searchKaoqinData" parameterType="Map" resultType="cn.com.wtrj.jx.web.portal.model.mt.entities.report.MtStudentKaoqinDto">
+        SELECT
+		T .schoolCode,
+		T .schoolName,
+		T .classId,
+		T .className,
+		"SUM" (lateNum) AS lateNum,
+		"SUM" (leaveEarlyNum) AS leaveEarlyNum,
+		"SUM" (leaveNum) AS leaveNum,
+		"SUM" (noSwipeNum) AS noSwipeNum
+		FROM
+		(
+		SELECT
+			A . YEAR AS YEAR,
+			A ."MONTH" AS MONTH,
+			A .LATE_NUM AS lateNum,
+			A .LEAVE_EARLY_NUM AS leaveEarlyNum,
+			A .LEAVE_NUM AS leaveNum,
+			A .NO_SWIPE_NUM AS noSwipeNum,
+			b.SCHOOL_CODE AS schoolCode,
+			b.CLASS_ID AS classId,
+			c.CLASS_NAME AS className,
+			D . NAME AS schoolName
+		FROM
+			WTRJ_RPT_ATTENDANCE_MONTH A
+		LEFT JOIN WTRJ_STUDENT b ON A .STUDENT_NO = b.STUDENT_NO
+		LEFT JOIN WTRJ_ECOM_CLASS c ON b.class_id = c. ID
+		LEFT JOIN WTRJ_SCHOOL_INFO D ON b.school_code = D .code
+		WHERE 
+		d.code IN (
+		SELECT DISTINCT
+		ship.SCHOOL_CODE
+		FROM
+		WTRJ_USER_ROLE rl,
+		WTRJ_ROLE_SCHOOL_RELATIONSHIP ship
+		WHERE
+		rl.ROLE_ID = ship.ROLE_ID
+		AND rl.user_id = #{userId}
+		)
+		<if test="schoolCode !='' and schoolCode!=null ">
+		   AND d.code=#{schoolCode}
+		</if>
+		<if test="startYear != '' and startYear != null ">
+		AND "YEAR" BETWEEN #{startYear}	AND #{endYear}
+		AND "MONTH" BETWEEN #{startMonth} AND #{endMonth}
+    	</if>
+		) T
+		GROUP BY
+		T .schoolCode,
+		T .schoolName,
+		T .classId,
+		T .className
+    </select>
+    
+    <select id="searchShishengBidui" parameterType="Map" resultType="cn.com.wtrj.jx.web.portal.model.mt.entities.report.MtTeacherOrStudentDto">
+		SELECT
+			T1.registYear,
+			"NVL" (T1.teacher, 0) AS teacher,
+			"NVL" (T2.student, 0) AS student,
+			"ROUND"(NVL(T1.teacher, 0) / NVL(T2.student, 0) * 100,2) AS rate
+		FROM
+			(
+				SELECT
+					REGIST_YEAR AS registYear,
+					"COUNT" (DISTINCT TEACHER_ID) AS teacher
+				FROM
+					WTRJ_ECOM_COURSE_SCHEDULE
+				WHERE
+					school_code IN (
+						SELECT DISTINCT
+							ship.SCHOOL_CODE
+						FROM
+							WTRJ_USER_ROLE rl,
+							WTRJ_ROLE_SCHOOL_RELATIONSHIP ship
+						WHERE
+							rl.ROLE_ID = ship.ROLE_ID
+						AND rl.user_id = #{userId}
+					) 
+					<if test="schoolCode !='' and schoolCode!=null ">
+				 	AND SCHOOL_CODE = #{schoolCode}
+					</if>
+				GROUP BY
+					REGIST_YEAR
+			) T1
+		LEFT JOIN (
+			SELECT
+				REGISTER_YEAR AS registerYear,
+				"COUNT" (DISTINCT id_card_number) AS student
+			FROM
+				WTRJ_STUDENT
+			WHERE
+				school_code IN (
+					SELECT DISTINCT
+						ship.SCHOOL_CODE
+					FROM
+						WTRJ_USER_ROLE rl,
+						WTRJ_ROLE_SCHOOL_RELATIONSHIP ship
+					WHERE
+						rl.ROLE_ID = ship.ROLE_ID
+					AND rl.user_id = #{userId}
+				)
+				<if test="schoolCode !='' and schoolCode!=null ">
+				AND SCHOOL_CODE = #{schoolCode}
+				</if>
+			GROUP BY
+				REGISTER_YEAR
+		) T2 ON T1.registYear = T2.registerYear
+		ORDER BY
+			T1.registYear DESC
+    </select>
+</mapper>

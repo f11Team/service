@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.wtrj.jx.web.portal.model.mt.dao.kpi.MtKpiGroupMapper">
+	<resultMap type="cn.com.wtrj.jx.web.portal.model.mt.entities.kpi.MtKpiEmpls" id="MtKpiEmpls">
+		<result column="employeeTid" property="employeeId" />
+		<result column="employeeTname" property="employeeName" />
+	</resultMap>
+	<resultMap type="cn.com.wtrj.jx.web.portal.model.mt.entities.kpi.MtWtrjKpiGradeGroup" id="MtWtrjKpiGradeGroup">
+		<result column="code" property="code" />
+		<result column="name" property="name" />
+		<result column="schoolCode" property="schoolCode" />
+		<result column="schoolName" property="schoolName" />
+		<result column="employeeId" property="employeeId" />
+		<result column="employeeName" property="employeeName" />
+		<collection property="empls" resultMap="MtKpiEmpls" />
+	</resultMap>
+	<select id="findGrade"  parameterType="Map" resultMap="MtWtrjKpiGradeGroup">
+	select a.code,
+	       a.name,
+	       a.school_code as schoolCode,
+	       c.name as schoolName,
+	       a.employee_id as employeeId,
+	       d.name as employeeName,
+	       b.employee_id as employeeTid,
+	       e.name as employeeTname
+	  from WTRJ_KPI_GRADE_GROUP a
+	  left join WTRJ_KPI_GRADE_EMPL b on a.code = b.grade_code
+	 inner join WTRJ_SCHOOL_INFO c on a.school_code = c.code
+	 inner join WTRJ_EMPLOYEE d on a.employee_id = d.id
+	  left join WTRJ_EMPLOYEE e on b.employee_id = e.id
+	 where 1 = 1
+		<if test="searchKey != null and searchKey != ''">
+	   and (a.name like '%' + #{searchKey} + '%' 
+	   	or c.name like '%' + #{searchKey} + '%'
+	   	or e.name like '%' + #{searchKey} + '%')
+		</if>
+		<if test="code != null">
+	   	and a.code = #{code}
+		</if>
+		<if test="schoolCode != null">
+	   	and a.school_code = #{schoolCode}
+		</if>		
+	</select>
+
+	<resultMap type="cn.com.wtrj.jx.web.portal.model.mt.entities.kpi.MtWtrjKpiJiaoYanZu" id="MtWtrjKpiJiaoYanZu">
+		<result column="code" property="code" />
+		<result column="name" property="name" />
+		<result column="schoolCode" property="schoolCode" />
+		<result column="schoolName" property="schoolName" />
+		<result column="employeeId" property="employeeId" />
+		<result column="employeeName" property="employeeName" />
+		<collection property="empls" resultMap="MtKpiEmpls" />
+	</resultMap>
+	<select id="findJiaoyan"  parameterType="Map" resultMap="MtWtrjKpiJiaoYanZu">
+	select a.code,
+	       a.name,
+	       a.school_code as schoolCode,
+	       c.name as schoolName,
+	       a.employee_id as employeeId,
+	       d.name as employeeName,
+	       b.employee_id as employeeTid,
+	       e.name as employeeTname
+	  from WTRJ_KPI_JIAOYANZU a
+	  left join WTRJ_KPI_RESEARCH_EMPL b on a.code = b.RESEARCH_CODE
+	 inner join WTRJ_SCHOOL_INFO c on a.school_code = c.code
+	 inner join WTRJ_EMPLOYEE d on a.employee_id = d.id
+	  left join WTRJ_EMPLOYEE e on b.employee_id = e.id
+	 where 1 = 1
+		<if test="searchKey != null and searchKey != ''">
+	   and (a.name like '%' + #{searchKey} + '%' 
+	   	or c.name like '%' + #{searchKey} + '%'
+	   	or e.name like '%' + #{searchKey} + '%')
+		</if>
+		<if test="code != null">
+	   	and a.code = #{code}
+		</if>
+		<if test="schoolCode != null">
+	   	and a.school_code = #{schoolCode}
+		</if>		
+	</select>	
+	
+	<select id="selectNianjizuCount" resultType="Integer">
+		select count(*)
+		  from (select g.code as nianjizuCode,
+		               g.name as nianjizuName,
+		               s.code as schoolCode,
+		               s.name as schoolName,
+		               e.id as employeeId,
+		               e.name as employeeName,
+		               e.employee_number as employeeNumber
+		          from wtrj_kpi_grade_group g
+		          left join wtrj_school_info s on g.school_code = s.code
+		          left join wtrj_employee e on g.employee_id = e.id
+		          <if test="search != null">
+				       where g.name like CONCAT(CONCAT('%','${search}'), '%') 
+				  </if>
+		        ) T
+	</select>
+	<select id="selectNianjizuByPage" resultType="cn.com.wtrj.jx.web.portal.model.mt.entities.kpi.MtNianjizuDto">
+		select *
+		  from (select g.code as nianjizuCode,
+                   g.name as nianjizuName,
+                   s.code as schoolCode,
+                   s.name as schoolName,
+                   e.id as employeeId,
+                   e.name as employeeName,
+                   e.employee_number as employeeNumber,
+                   M.cnt as memberNum,
+                   row_number() over(ORDER BY g.code ASC) rn
+	              from wtrj_kpi_grade_group g
+	              left join wtrj_school_info s on g.school_code = s.code
+	              left join wtrj_employee e on g.employee_id = e.id
+	              left join (
+	                     select count(*) as cnt, grade_code from wtrj_kpi_grade_empl re group by re.grade_code
+	                )M on g.code = m.grade_code
+		          <if test="search != null">
+				       where g.name like CONCAT(CONCAT('%','${search}'), '%') 
+				       OR s.name like CONCAT(CONCAT('%','${search}'), '%') 
+				       OR e.name like CONCAT(CONCAT('%','${search}'), '%') 
+				  </if>
+		        ) T
+		 where T.rn between #{start} and #{end}
+	</select>
+	
+	<select id="countNianjizuMembers" resultType="Integer">
+		select count(*)
+		  from (select ge.employee_id      as employeeId,
+				       ge.grade_code       as nianjizuCode,
+				       e.name              as employeeName,
+				       e.sex               as sex
+				  from wtrj_kpi_grade_empl ge
+				  left join wtrj_employee e on ge.employee_id = e.id
+				  where ge.grade_code = #{nianjizuCode}
+		          <if test="search != null">
+				       and e.name like CONCAT(CONCAT('%','${search}'), '%') 
+				  </if>
+		        ) T
+	</select>
+	
+	<select id="selectNianjizuMemberByPage" resultType="cn.com.wtrj.jx.web.portal.model.mt.entities.kpi.MtNianjizuMemberDto">
+		select *
+		  from (select ge.employee_id      as employeeId,
+				       ge.grade_code       as nianjizuCode,
+				       e.name              as employeeName,
+				       e.employee_number    as employeeNumber,
+				       e.sex               as sex,
+				       row_number() over(ORDER BY ge.employee_id ASC) rn
+				  from wtrj_kpi_grade_empl ge
+				  left join wtrj_employee e on ge.employee_id = e.id
+				  where ge.grade_code = #{nianjizuCode}
+		          <if test="search != null">
+				       and e.name like CONCAT(CONCAT('%','${search}'), '%') 
+				  </if>
+		        ) T
+		 where T.rn between #{start} and #{end}
+	</select>
+	
+	<!-- ===================================教研组====================================================== -->
+	<select id="countJiaoyanzu" resultType="Integer">
+		select count(*)
+		  from (select g.code as jiaoyanzuCode,
+	                   g.name as jiaoyanzuName,
+	                   s.code as schoolCode,
+	                   s.name as schoolName,
+	                   e.id as employeeId,
+	                   e.name as employeeName,
+	                   e.employee_number as employeeNumber
+	              from wtrj_kpi_jiaoyanzu g
+	              left join wtrj_school_info s on g.school_code = s.code
+	              left join wtrj_employee e on g.employee_id = e.id
+		          <if test="search != null">
+				       where g.name like CONCAT(CONCAT('%','${search}'), '%') 
+				  </if>
+		        ) T
+	</select>
+	<select id="selectJiaoyanzuByPage" resultType="cn.com.wtrj.jx.web.portal.model.mt.entities.kpi.MtJiaoyanzuDto">
+		select *
+		  from (select g.code as jiaoyanzuCode,
+                   g.name as jiaoyanzuName,
+                   s.code as schoolCode,
+                   s.name as schoolName,
+                   e.id as employeeId,
+                   e.name as employeeName,
+                   e.employee_number as employeeNumber,
+                   M.cnt as memberNum,
+                   row_number() over(ORDER BY g.code ASC) rn
+	              from wtrj_kpi_jiaoyanzu g
+	              left join wtrj_school_info s on g.school_code = s.code
+	              left join wtrj_employee e on g.employee_id = e.id
+	              left join (
+	                   select count(*) as cnt, research_code from wtrj_kpi_research_empl re group by re.research_code
+	              )M on g.code = m.research_code
+		          <if test="search != null">
+				       where g.name like CONCAT(CONCAT('%','${search}'), '%') 
+				  </if>
+		        ) T
+		 where T.rn between #{start} and #{end}
+	</select>
+	
+	<select id="countJiaoyanzuMembers" resultType="Integer">
+		select count(*)
+		  from (select ge.employee_id      as employeeId,
+				       ge.research_code    as jiaoyanzuCode,
+				       e.name              as employeeName,
+				       e.sex               as sex
+				  from wtrj_kpi_research_empl ge
+				  left join wtrj_employee e on ge.employee_id = e.id
+				  where ge.research_code = #{jiaoyanzuCode}
+		          <if test="search != null">
+				       and e.name like CONCAT(CONCAT('%','${search}'), '%') 
+				  </if>
+		        ) T
+	</select>
+	
+	<select id="selectJiaoyanzuMemberByPage" resultType="cn.com.wtrj.jx.web.portal.model.mt.entities.kpi.MtJiaoyanzuMemberDto">
+		select *
+		  from (select ge.employee_id      as employeeId,
+				       ge.research_code     as jiaoyanzuCode,
+				       e.name              as employeeName,
+				       e.employee_number    as employeeNumber,
+				       e.sex               as sex,
+				       row_number() over(ORDER BY ge.employee_id ASC) rn
+				  from wtrj_kpi_research_empl ge
+				  left join wtrj_employee e on ge.employee_id = e.id
+				  where ge.research_code = #{jiaoyanzuCode}
+		          <if test="search != null">
+				       and e.name like CONCAT(CONCAT('%','${search}'), '%') 
+				  </if>
+		        ) T
+		 where T.rn between #{start} and #{end}
+	</select>
+</mapper>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.wtrj.jx.web.portal.model.mt.dao.moralStudent.WtrjMtMoralStandardMapper" >
+  <resultMap id="BaseResultMap" type="cn.com.wtrj.jx.web.portal.model.entities.moralStudent.WtrjMoralStandard" >
+    <id column="CODE" property="code" jdbcType="VARCHAR" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="BASE_SCORE" property="baseScore" jdbcType="DECIMAL" />
+    <result column="BL_LEAF" property="blLeaf" jdbcType="CHAR" />
+    <result column="TYPE" property="type" jdbcType="VARCHAR" />
+    <result column="INS_NUM" property="insNum" jdbcType="DECIMAL" />
+    <result column="INS_SCORE_MIN" property="insScoreMin" jdbcType="DECIMAL" />
+    <result column="INS_SCORE_MAX" property="insScoreMax" jdbcType="DECIMAL" />
+    <result column="AUTH_ROLE" property="authRole" jdbcType="VARCHAR" />
+    <result column="REPORT_CYCLE" property="reportCycle" jdbcType="VARCHAR" />
+    <result column="ACT_START" property="actStart" jdbcType="TIMESTAMP" />
+    <result column="ACT_END" property="actEnd" jdbcType="TIMESTAMP" />
+    <result column="BL_DEL_FLG" property="blDelFlg" jdbcType="CHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    CODE, NAME, BASE_SCORE, BL_LEAF, TYPE, INS_NUM, INS_SCORE_MIN, INS_SCORE_MAX, AUTH_ROLE, 
+    REPORT_CYCLE, ACT_START, ACT_END, BL_DEL_FLG
+  </sql>
+
+
+  <select id="selectStandardByPage" resultType="cn.com.wtrj.jx.web.portal.model.entities.moralStudent.WtrjMoralStandard" resultMap="BaseResultMap">
+    SELECT *
+    FROM (SELECT T.*, row_number() over(ORDER BY code ASC) rn FROM WTRJ_MORAL_STANDARD T
+
+    ) M
+    where M.rn between #{start} and #{end}
+
+  </select>
+
+
+</mapper>

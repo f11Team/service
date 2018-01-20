@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.wtrj.jx.web.portal.model.mt.dao.personalHomepage.DailyActivitiesMapper">
+  	
+  
+  	
+  	<select id="searchDailyActivities" parameterType="String"   resultType="cn.com.wtrj.jx.web.portal.model.entities.WtrjEcomDailyActivities">
+		  select id id,student_No  studentNo, student_Name studentName, activity_Date  activityDate,
+		   content ,attach_File  attachFile,tag tag,del_flg delFlg,create_Time createTime
+		  from wtrj_ecom_daily_activities where student_no=#{stuIdCard,jdbcType=VARCHAR} and del_flg=0 
+		  order by tag , activityDate desc
+		  
+	  
+		  
+  	</select>
+  	
+  <update id="updatePhoto" >
+  	update wtrj_student set photo=#{src} where id=#{id,jdbcType=NUMERIC}
+  </update>
+  	
+  <update id="deleteActive" parameterType="Integer">
+  	update wtrj_ecom_daily_activities set del_flg=1 where id=#{id,jdbcType=NUMERIC}
+  </update>
+  	
+</mapper>
+
+
+	    

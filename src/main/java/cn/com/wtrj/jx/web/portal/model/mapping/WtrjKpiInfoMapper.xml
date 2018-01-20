@@ -1,0 +1,466 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.wtrj.jx.web.portal.model.dao.WtrjKpiInfoMapper" >
+  <resultMap id="BaseResultMap" type="cn.com.wtrj.jx.web.portal.model.entities.WtrjKpiInfo" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="KPI_INS" property="kpiIns" jdbcType="DECIMAL" />
+    <result column="EMPLOYEE_ID" property="employeeId" jdbcType="DECIMAL" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="JIAOWU_SCORE_PLAN" property="jiaowuScorePlan" jdbcType="DECIMAL" />
+    <result column="JIAOYANZU_PINGJIA_SCORE_PLAN" property="jiaoyanzuPingjiaScorePlan" jdbcType="DECIMAL" />
+    <result column="NIANJI_PINGJIA_SCORE_PLAN" property="nianjiPingjiaScorePlan" jdbcType="DECIMAL" />
+    <result column="JIAOWU_SCORE_ACT" property="jiaowuScoreAct" jdbcType="DECIMAL" />
+    <result column="JIAOYANZU_PINGJIA_SCORE_ACT" property="jiaoyanzuPingjiaScoreAct" jdbcType="DECIMAL" />
+    <result column="NIANJI_PINGJIA_SCORE_ACT" property="nianjiPingjiaScoreAct" jdbcType="DECIMAL" />
+    <result column="ZIPING_SCORE" property="zipingScore" jdbcType="DECIMAL" />
+    <result column="KPI_SCORE" property="kpiScore" jdbcType="DECIMAL" />
+    <result column="KPI_SCORE_ACT" property="kpiScoreAct" jdbcType="DECIMAL" />
+    <result column="ZIPING_TIME" property="zipingTime" jdbcType="TIMESTAMP" />
+    <result column="JIAOYANZU_PINGJIA_TIME" property="jiaoyanzuPingjiaTime" jdbcType="TIMESTAMP" />
+    <result column="NIANJIZU_PINGJIA_TIME" property="nianjizuPingjiaTime" jdbcType="TIMESTAMP" />
+    <result column="JIAOWU_PINGJIA_TIME" property="jiaowuPingjiaTime" jdbcType="TIMESTAMP" />
+    <result column="JIAOXUE_SCORE" property="jiaoxueScore" jdbcType="DECIMAL" />
+    <result column="STU_PINGJIA_SCORE" property="stuPingjiaScore" jdbcType="DECIMAL" />
+    <result column="STU_PINGJIA_SCORE_ACT" property="stuPingjiaScoreAct" jdbcType="DECIMAL" />
+    <result column="TOTAL_SCORE" property="totalScore" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, KPI_INS, EMPLOYEE_ID, REMARK, JIAOWU_SCORE_PLAN, JIAOYANZU_PINGJIA_SCORE_PLAN, 
+    NIANJI_PINGJIA_SCORE_PLAN, JIAOWU_SCORE_ACT, JIAOYANZU_PINGJIA_SCORE_ACT, NIANJI_PINGJIA_SCORE_ACT, 
+    ZIPING_SCORE, KPI_SCORE, KPI_SCORE_ACT, ZIPING_TIME, JIAOYANZU_PINGJIA_TIME, NIANJIZU_PINGJIA_TIME, 
+    JIAOWU_PINGJIA_TIME, JIAOXUE_SCORE, STU_PINGJIA_SCORE, STU_PINGJIA_SCORE_ACT, TOTAL_SCORE
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="cn.com.wtrj.jx.web.portal.model.entities.WtrjKpiInfoExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from WTRJ_KPI_INFO
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from WTRJ_KPI_INFO
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from WTRJ_KPI_INFO
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <delete id="deleteByExample" parameterType="cn.com.wtrj.jx.web.portal.model.entities.WtrjKpiInfoExample" >
+    delete from WTRJ_KPI_INFO
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="cn.com.wtrj.jx.web.portal.model.entities.WtrjKpiInfo" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      select Sequence_KPI_INFO.NEXTVAL from dual
+    </selectKey>
+    insert into WTRJ_KPI_INFO (KPI_INS, EMPLOYEE_ID, REMARK, 
+      JIAOWU_SCORE_PLAN, JIAOYANZU_PINGJIA_SCORE_PLAN, 
+      NIANJI_PINGJIA_SCORE_PLAN, JIAOWU_SCORE_ACT, 
+      JIAOYANZU_PINGJIA_SCORE_ACT, NIANJI_PINGJIA_SCORE_ACT, 
+      ZIPING_SCORE, KPI_SCORE, KPI_SCORE_ACT, 
+      ZIPING_TIME, JIAOYANZU_PINGJIA_TIME, NIANJIZU_PINGJIA_TIME, 
+      JIAOWU_PINGJIA_TIME, JIAOXUE_SCORE, STU_PINGJIA_SCORE, 
+      STU_PINGJIA_SCORE_ACT, TOTAL_SCORE)
+    values (#{kpiIns,jdbcType=DECIMAL}, #{employeeId,jdbcType=DECIMAL}, #{remark,jdbcType=VARCHAR}, 
+      #{jiaowuScorePlan,jdbcType=DECIMAL}, #{jiaoyanzuPingjiaScorePlan,jdbcType=DECIMAL}, 
+      #{nianjiPingjiaScorePlan,jdbcType=DECIMAL}, #{jiaowuScoreAct,jdbcType=DECIMAL}, 
+      #{jiaoyanzuPingjiaScoreAct,jdbcType=DECIMAL}, #{nianjiPingjiaScoreAct,jdbcType=DECIMAL}, 
+      #{zipingScore,jdbcType=DECIMAL}, #{kpiScore,jdbcType=DECIMAL}, #{kpiScoreAct,jdbcType=DECIMAL}, 
+      #{zipingTime,jdbcType=TIMESTAMP}, #{jiaoyanzuPingjiaTime,jdbcType=TIMESTAMP}, #{nianjizuPingjiaTime,jdbcType=TIMESTAMP}, 
+      #{jiaowuPingjiaTime,jdbcType=TIMESTAMP}, #{jiaoxueScore,jdbcType=DECIMAL}, #{stuPingjiaScore,jdbcType=DECIMAL}, 
+      #{stuPingjiaScoreAct,jdbcType=DECIMAL}, #{totalScore,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.com.wtrj.jx.web.portal.model.entities.WtrjKpiInfo" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      select Sequence_KPI_INFO.NEXTVAL from dual
+    </selectKey>
+    insert into WTRJ_KPI_INFO
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="kpiIns != null" >
+        KPI_INS,
+      </if>
+      <if test="employeeId != null" >
+        EMPLOYEE_ID,
+      </if>
+      <if test="remark != null" >
+        REMARK,
+      </if>
+      <if test="jiaowuScorePlan != null" >
+        JIAOWU_SCORE_PLAN,
+      </if>
+      <if test="jiaoyanzuPingjiaScorePlan != null" >
+        JIAOYANZU_PINGJIA_SCORE_PLAN,
+      </if>
+      <if test="nianjiPingjiaScorePlan != null" >
+        NIANJI_PINGJIA_SCORE_PLAN,
+      </if>
+      <if test="jiaowuScoreAct != null" >
+        JIAOWU_SCORE_ACT,
+      </if>
+      <if test="jiaoyanzuPingjiaScoreAct != null" >
+        JIAOYANZU_PINGJIA_SCORE_ACT,
+      </if>
+      <if test="nianjiPingjiaScoreAct != null" >
+        NIANJI_PINGJIA_SCORE_ACT,
+      </if>
+      <if test="zipingScore != null" >
+        ZIPING_SCORE,
+      </if>
+      <if test="kpiScore != null" >
+        KPI_SCORE,
+      </if>
+      <if test="kpiScoreAct != null" >
+        KPI_SCORE_ACT,
+      </if>
+      <if test="zipingTime != null" >
+        ZIPING_TIME,
+      </if>
+      <if test="jiaoyanzuPingjiaTime != null" >
+        JIAOYANZU_PINGJIA_TIME,
+      </if>
+      <if test="nianjizuPingjiaTime != null" >
+        NIANJIZU_PINGJIA_TIME,
+      </if>
+      <if test="jiaowuPingjiaTime != null" >
+        JIAOWU_PINGJIA_TIME,
+      </if>
+      <if test="jiaoxueScore != null" >
+        JIAOXUE_SCORE,
+      </if>
+      <if test="stuPingjiaScore != null" >
+        STU_PINGJIA_SCORE,
+      </if>
+      <if test="stuPingjiaScoreAct != null" >
+        STU_PINGJIA_SCORE_ACT,
+      </if>
+      <if test="totalScore != null" >
+        TOTAL_SCORE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="kpiIns != null" >
+        #{kpiIns,jdbcType=DECIMAL},
+      </if>
+      <if test="employeeId != null" >
+        #{employeeId,jdbcType=DECIMAL},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="jiaowuScorePlan != null" >
+        #{jiaowuScorePlan,jdbcType=DECIMAL},
+      </if>
+      <if test="jiaoyanzuPingjiaScorePlan != null" >
+        #{jiaoyanzuPingjiaScorePlan,jdbcType=DECIMAL},
+      </if>
+      <if test="nianjiPingjiaScorePlan != null" >
+        #{nianjiPingjiaScorePlan,jdbcType=DECIMAL},
+      </if>
+      <if test="jiaowuScoreAct != null" >
+        #{jiaowuScoreAct,jdbcType=DECIMAL},
+      </if>
+      <if test="jiaoyanzuPingjiaScoreAct != null" >
+        #{jiaoyanzuPingjiaScoreAct,jdbcType=DECIMAL},
+      </if>
+      <if test="nianjiPingjiaScoreAct != null" >
+        #{nianjiPingjiaScoreAct,jdbcType=DECIMAL},
+      </if>
+      <if test="zipingScore != null" >
+        #{zipingScore,jdbcType=DECIMAL},
+      </if>
+      <if test="kpiScore != null" >
+        #{kpiScore,jdbcType=DECIMAL},
+      </if>
+      <if test="kpiScoreAct != null" >
+        #{kpiScoreAct,jdbcType=DECIMAL},
+      </if>
+      <if test="zipingTime != null" >
+        #{zipingTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="jiaoyanzuPingjiaTime != null" >
+        #{jiaoyanzuPingjiaTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="nianjizuPingjiaTime != null" >
+        #{nianjizuPingjiaTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="jiaowuPingjiaTime != null" >
+        #{jiaowuPingjiaTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="jiaoxueScore != null" >
+        #{jiaoxueScore,jdbcType=DECIMAL},
+      </if>
+      <if test="stuPingjiaScore != null" >
+        #{stuPingjiaScore,jdbcType=DECIMAL},
+      </if>
+      <if test="stuPingjiaScoreAct != null" >
+        #{stuPingjiaScoreAct,jdbcType=DECIMAL},
+      </if>
+      <if test="totalScore != null" >
+        #{totalScore,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="cn.com.wtrj.jx.web.portal.model.entities.WtrjKpiInfoExample" resultType="java.lang.Integer" >
+    select count(*) from WTRJ_KPI_INFO
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update WTRJ_KPI_INFO
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=DECIMAL},
+      </if>
+      <if test="record.kpiIns != null" >
+        KPI_INS = #{record.kpiIns,jdbcType=DECIMAL},
+      </if>
+      <if test="record.employeeId != null" >
+        EMPLOYEE_ID = #{record.employeeId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.remark != null" >
+        REMARK = #{record.remark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.jiaowuScorePlan != null" >
+        JIAOWU_SCORE_PLAN = #{record.jiaowuScorePlan,jdbcType=DECIMAL},
+      </if>
+      <if test="record.jiaoyanzuPingjiaScorePlan != null" >
+        JIAOYANZU_PINGJIA_SCORE_PLAN = #{record.jiaoyanzuPingjiaScorePlan,jdbcType=DECIMAL},
+      </if>
+      <if test="record.nianjiPingjiaScorePlan != null" >
+        NIANJI_PINGJIA_SCORE_PLAN = #{record.nianjiPingjiaScorePlan,jdbcType=DECIMAL},
+      </if>
+      <if test="record.jiaowuScoreAct != null" >
+        JIAOWU_SCORE_ACT = #{record.jiaowuScoreAct,jdbcType=DECIMAL},
+      </if>
+      <if test="record.jiaoyanzuPingjiaScoreAct != null" >
+        JIAOYANZU_PINGJIA_SCORE_ACT = #{record.jiaoyanzuPingjiaScoreAct,jdbcType=DECIMAL},
+      </if>
+      <if test="record.nianjiPingjiaScoreAct != null" >
+        NIANJI_PINGJIA_SCORE_ACT = #{record.nianjiPingjiaScoreAct,jdbcType=DECIMAL},
+      </if>
+      <if test="record.zipingScore != null" >
+        ZIPING_SCORE = #{record.zipingScore,jdbcType=DECIMAL},
+      </if>
+      <if test="record.kpiScore != null" >
+        KPI_SCORE = #{record.kpiScore,jdbcType=DECIMAL},
+      </if>
+      <if test="record.kpiScoreAct != null" >
+        KPI_SCORE_ACT = #{record.kpiScoreAct,jdbcType=DECIMAL},
+      </if>
+      <if test="record.zipingTime != null" >
+        ZIPING_TIME = #{record.zipingTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.jiaoyanzuPingjiaTime != null" >
+        JIAOYANZU_PINGJIA_TIME = #{record.jiaoyanzuPingjiaTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.nianjizuPingjiaTime != null" >
+        NIANJIZU_PINGJIA_TIME = #{record.nianjizuPingjiaTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.jiaowuPingjiaTime != null" >
+        JIAOWU_PINGJIA_TIME = #{record.jiaowuPingjiaTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.jiaoxueScore != null" >
+        JIAOXUE_SCORE = #{record.jiaoxueScore,jdbcType=DECIMAL},
+      </if>
+      <if test="record.stuPingjiaScore != null" >
+        STU_PINGJIA_SCORE = #{record.stuPingjiaScore,jdbcType=DECIMAL},
+      </if>
+      <if test="record.stuPingjiaScoreAct != null" >
+        STU_PINGJIA_SCORE_ACT = #{record.stuPingjiaScoreAct,jdbcType=DECIMAL},
+      </if>
+      <if test="record.totalScore != null" >
+        TOTAL_SCORE = #{record.totalScore,jdbcType=DECIMAL},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update WTRJ_KPI_INFO
+    set ID = #{record.id,jdbcType=DECIMAL},
+      KPI_INS = #{record.kpiIns,jdbcType=DECIMAL},
+      EMPLOYEE_ID = #{record.employeeId,jdbcType=DECIMAL},
+      REMARK = #{record.remark,jdbcType=VARCHAR},
+      JIAOWU_SCORE_PLAN = #{record.jiaowuScorePlan,jdbcType=DECIMAL},
+      JIAOYANZU_PINGJIA_SCORE_PLAN = #{record.jiaoyanzuPingjiaScorePlan,jdbcType=DECIMAL},
+      NIANJI_PINGJIA_SCORE_PLAN = #{record.nianjiPingjiaScorePlan,jdbcType=DECIMAL},
+      JIAOWU_SCORE_ACT = #{record.jiaowuScoreAct,jdbcType=DECIMAL},
+      JIAOYANZU_PINGJIA_SCORE_ACT = #{record.jiaoyanzuPingjiaScoreAct,jdbcType=DECIMAL},
+      NIANJI_PINGJIA_SCORE_ACT = #{record.nianjiPingjiaScoreAct,jdbcType=DECIMAL},
+      ZIPING_SCORE = #{record.zipingScore,jdbcType=DECIMAL},
+      KPI_SCORE = #{record.kpiScore,jdbcType=DECIMAL},
+      KPI_SCORE_ACT = #{record.kpiScoreAct,jdbcType=DECIMAL},
+      ZIPING_TIME = #{record.zipingTime,jdbcType=TIMESTAMP},
+      JIAOYANZU_PINGJIA_TIME = #{record.jiaoyanzuPingjiaTime,jdbcType=TIMESTAMP},
+      NIANJIZU_PINGJIA_TIME = #{record.nianjizuPingjiaTime,jdbcType=TIMESTAMP},
+      JIAOWU_PINGJIA_TIME = #{record.jiaowuPingjiaTime,jdbcType=TIMESTAMP},
+      JIAOXUE_SCORE = #{record.jiaoxueScore,jdbcType=DECIMAL},
+      STU_PINGJIA_SCORE = #{record.stuPingjiaScore,jdbcType=DECIMAL},
+      STU_PINGJIA_SCORE_ACT = #{record.stuPingjiaScoreAct,jdbcType=DECIMAL},
+      TOTAL_SCORE = #{record.totalScore,jdbcType=DECIMAL}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.com.wtrj.jx.web.portal.model.entities.WtrjKpiInfo" >
+    update WTRJ_KPI_INFO
+    <set >
+      <if test="kpiIns != null" >
+        KPI_INS = #{kpiIns,jdbcType=DECIMAL},
+      </if>
+      <if test="employeeId != null" >
+        EMPLOYEE_ID = #{employeeId,jdbcType=DECIMAL},
+      </if>
+      <if test="remark != null" >
+        REMARK = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="jiaowuScorePlan != null" >
+        JIAOWU_SCORE_PLAN = #{jiaowuScorePlan,jdbcType=DECIMAL},
+      </if>
+      <if test="jiaoyanzuPingjiaScorePlan != null" >
+        JIAOYANZU_PINGJIA_SCORE_PLAN = #{jiaoyanzuPingjiaScorePlan,jdbcType=DECIMAL},
+      </if>
+      <if test="nianjiPingjiaScorePlan != null" >
+        NIANJI_PINGJIA_SCORE_PLAN = #{nianjiPingjiaScorePlan,jdbcType=DECIMAL},
+      </if>
+      <if test="jiaowuScoreAct != null" >
+        JIAOWU_SCORE_ACT = #{jiaowuScoreAct,jdbcType=DECIMAL},
+      </if>
+      <if test="jiaoyanzuPingjiaScoreAct != null" >
+        JIAOYANZU_PINGJIA_SCORE_ACT = #{jiaoyanzuPingjiaScoreAct,jdbcType=DECIMAL},
+      </if>
+      <if test="nianjiPingjiaScoreAct != null" >
+        NIANJI_PINGJIA_SCORE_ACT = #{nianjiPingjiaScoreAct,jdbcType=DECIMAL},
+      </if>
+      <if test="zipingScore != null" >
+        ZIPING_SCORE = #{zipingScore,jdbcType=DECIMAL},
+      </if>
+      <if test="kpiScore != null" >
+        KPI_SCORE = #{kpiScore,jdbcType=DECIMAL},
+      </if>
+      <if test="kpiScoreAct != null" >
+        KPI_SCORE_ACT = #{kpiScoreAct,jdbcType=DECIMAL},
+      </if>
+      <if test="zipingTime != null" >
+        ZIPING_TIME = #{zipingTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="jiaoyanzuPingjiaTime != null" >
+        JIAOYANZU_PINGJIA_TIME = #{jiaoyanzuPingjiaTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="nianjizuPingjiaTime != null" >
+        NIANJIZU_PINGJIA_TIME = #{nianjizuPingjiaTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="jiaowuPingjiaTime != null" >
+        JIAOWU_PINGJIA_TIME = #{jiaowuPingjiaTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="jiaoxueScore != null" >
+        JIAOXUE_SCORE = #{jiaoxueScore,jdbcType=DECIMAL},
+      </if>
+      <if test="stuPingjiaScore != null" >
+        STU_PINGJIA_SCORE = #{stuPingjiaScore,jdbcType=DECIMAL},
+      </if>
+      <if test="stuPingjiaScoreAct != null" >
+        STU_PINGJIA_SCORE_ACT = #{stuPingjiaScoreAct,jdbcType=DECIMAL},
+      </if>
+      <if test="totalScore != null" >
+        TOTAL_SCORE = #{totalScore,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.com.wtrj.jx.web.portal.model.entities.WtrjKpiInfo" >
+    update WTRJ_KPI_INFO
+    set KPI_INS = #{kpiIns,jdbcType=DECIMAL},
+      EMPLOYEE_ID = #{employeeId,jdbcType=DECIMAL},
+      REMARK = #{remark,jdbcType=VARCHAR},
+      JIAOWU_SCORE_PLAN = #{jiaowuScorePlan,jdbcType=DECIMAL},
+      JIAOYANZU_PINGJIA_SCORE_PLAN = #{jiaoyanzuPingjiaScorePlan,jdbcType=DECIMAL},
+      NIANJI_PINGJIA_SCORE_PLAN = #{nianjiPingjiaScorePlan,jdbcType=DECIMAL},
+      JIAOWU_SCORE_ACT = #{jiaowuScoreAct,jdbcType=DECIMAL},
+      JIAOYANZU_PINGJIA_SCORE_ACT = #{jiaoyanzuPingjiaScoreAct,jdbcType=DECIMAL},
+      NIANJI_PINGJIA_SCORE_ACT = #{nianjiPingjiaScoreAct,jdbcType=DECIMAL},
+      ZIPING_SCORE = #{zipingScore,jdbcType=DECIMAL},
+      KPI_SCORE = #{kpiScore,jdbcType=DECIMAL},
+      KPI_SCORE_ACT = #{kpiScoreAct,jdbcType=DECIMAL},
+      ZIPING_TIME = #{zipingTime,jdbcType=TIMESTAMP},
+      JIAOYANZU_PINGJIA_TIME = #{jiaoyanzuPingjiaTime,jdbcType=TIMESTAMP},
+      NIANJIZU_PINGJIA_TIME = #{nianjizuPingjiaTime,jdbcType=TIMESTAMP},
+      JIAOWU_PINGJIA_TIME = #{jiaowuPingjiaTime,jdbcType=TIMESTAMP},
+      JIAOXUE_SCORE = #{jiaoxueScore,jdbcType=DECIMAL},
+      STU_PINGJIA_SCORE = #{stuPingjiaScore,jdbcType=DECIMAL},
+      STU_PINGJIA_SCORE_ACT = #{stuPingjiaScoreAct,jdbcType=DECIMAL},
+      TOTAL_SCORE = #{totalScore,jdbcType=DECIMAL}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

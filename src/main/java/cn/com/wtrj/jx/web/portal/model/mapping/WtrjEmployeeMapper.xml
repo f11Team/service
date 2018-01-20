@@ -1,0 +1,1050 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.wtrj.jx.web.portal.model.dao.WtrjEmployeeMapper" >
+  <resultMap id="BaseResultMap" type="cn.com.wtrj.jx.web.portal.model.entities.WtrjEmployee" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="EMPLOYEE_NUMBER" property="employeeNumber" jdbcType="VARCHAR" />
+    <result column="TYPE" property="type" jdbcType="VARCHAR" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="SEX" property="sex" jdbcType="VARCHAR" />
+    <result column="ENGLISH_NAME" property="englishName" jdbcType="VARCHAR" />
+    <result column="BELONG_UNIT" property="belongUnit" jdbcType="VARCHAR" />
+    <result column="NATION" property="nation" jdbcType="VARCHAR" />
+    <result column="NATIVE_PLACE" property="nativePlace" jdbcType="VARCHAR" />
+    <result column="BIRTHDAY" property="birthday" jdbcType="TIMESTAMP" />
+    <result column="AGE" property="age" jdbcType="DECIMAL" />
+    <result column="PHONE" property="phone" jdbcType="VARCHAR" />
+    <result column="HUKOU_ADDRESS" property="hukouAddress" jdbcType="VARCHAR" />
+    <result column="HUKOU_TYPE" property="hukouType" jdbcType="VARCHAR" />
+    <result column="RESIDENCE" property="residence" jdbcType="VARCHAR" />
+    <result column="WORKING_YEARS" property="workingYears" jdbcType="DECIMAL" />
+    <result column="POLITICAL_STATUS" property="politicalStatus" jdbcType="VARCHAR" />
+    <result column="MARITAL_STATUS" property="maritalStatus" jdbcType="VARCHAR" />
+    <result column="GRADUATE_SCHOOL" property="graduateSchool" jdbcType="VARCHAR" />
+    <result column="GRADUATE_TIME" property="graduateTime" jdbcType="TIMESTAMP" />
+    <result column="MAJOR" property="major" jdbcType="VARCHAR" />
+    <result column="SCHOOL_CODE" property="schoolCode" jdbcType="VARCHAR" />
+    <result column="JOB_CODE" property="jobCode" jdbcType="VARCHAR" />
+    <result column="ID_TYPE" property="idType" jdbcType="VARCHAR" />
+    <result column="ID_NUMBER" property="idNumber" jdbcType="VARCHAR" />
+    <result column="MAIL" property="mail" jdbcType="VARCHAR" />
+    <result column="EDUCATION" property="education" jdbcType="VARCHAR" />
+    <result column="EDU_DEGREE" property="eduDegree" jdbcType="VARCHAR" />
+    <result column="FOREIGN_LANGUAGE" property="foreignLanguage" jdbcType="VARCHAR" />
+    <result column="FOREIGN_LANGUAGE_LEVEL" property="foreignLanguageLevel" jdbcType="VARCHAR" />
+    <result column="ENTRY_DATE" property="entryDate" jdbcType="TIMESTAMP" />
+    <result column="ENTRY_NUM" property="entryNum" jdbcType="DECIMAL" />
+    <result column="CONFIRMATION_DATE" property="confirmationDate" jdbcType="TIMESTAMP" />
+    <result column="WORK_START_DATE" property="workStartDate" jdbcType="TIMESTAMP" />
+    <result column="TEACH_YEARS" property="teachYears" jdbcType="DECIMAL" />
+    <result column="JX_TEACH_YEARS" property="jxTeachYears" jdbcType="DECIMAL" />
+    <result column="TEACH_PERIOD" property="teachPeriod" jdbcType="VARCHAR" />
+    <result column="TEACH_SUBJECTS" property="teachSubjects" jdbcType="VARCHAR" />
+    <result column="BL_CLASS_TEACHER" property="blClassTeacher" jdbcType="CHAR" />
+    <result column="BL_GRADE_LEADER" property="blGradeLeader" jdbcType="CHAR" />
+    <result column="BL_LESSON_PREPARATION_LEADER" property="blLessonPreparationLeader" jdbcType="CHAR" />
+    <result column="BL_RESEARCH_LEADER" property="blResearchLeader" jdbcType="CHAR" />
+    <result column="QUIT_DATE" property="quitDate" jdbcType="TIMESTAMP" />
+    <result column="QUIT_TYPE" property="quitType" jdbcType="VARCHAR" />
+    <result column="QUIT_REASON" property="quitReason" jdbcType="VARCHAR" />
+    <result column="EHR_JOB" property="ehrJob" jdbcType="VARCHAR" />
+    <result column="EHR_TITLE" property="ehrTitle" jdbcType="VARCHAR" />
+    <result column="EHR_TITLE_LEVEL" property="ehrTitleLevel" jdbcType="VARCHAR" />
+    <result column="EHR_TITLE_MAJOR" property="ehrTitleMajor" jdbcType="VARCHAR" />
+    <result column="EHR_ADMINISTRATIVE_DUTY" property="ehrAdministrativeDuty" jdbcType="VARCHAR" />
+    <result column="EHR_ADMINISTRATIVE_DUTY_LEVEL" property="ehrAdministrativeDutyLevel" jdbcType="VARCHAR" />
+    <result column="EHR_ADMINISTRATIVE_DUTY_RANK" property="ehrAdministrativeDutyRank" jdbcType="VARCHAR" />
+    <result column="EHR_TEACHER_DUTY" property="ehrTeacherDuty" jdbcType="VARCHAR" />
+    <result column="EHR_TEACHER_DUTY_RANK" property="ehrTeacherDutyRank" jdbcType="VARCHAR" />
+    <result column="EHR_DEPT" property="ehrDept" jdbcType="VARCHAR" />
+    <result column="WAGE_RANK" property="wageRank" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, EMPLOYEE_NUMBER, TYPE, NAME, SEX, ENGLISH_NAME, BELONG_UNIT, NATION, NATIVE_PLACE, 
+    BIRTHDAY, AGE, PHONE, HUKOU_ADDRESS, HUKOU_TYPE, RESIDENCE, WORKING_YEARS, POLITICAL_STATUS, 
+    MARITAL_STATUS, GRADUATE_SCHOOL, GRADUATE_TIME, MAJOR, SCHOOL_CODE, JOB_CODE, ID_TYPE, 
+    ID_NUMBER, MAIL, EDUCATION, EDU_DEGREE, FOREIGN_LANGUAGE, FOREIGN_LANGUAGE_LEVEL, 
+    ENTRY_DATE, ENTRY_NUM, CONFIRMATION_DATE, WORK_START_DATE, TEACH_YEARS, JX_TEACH_YEARS, 
+    TEACH_PERIOD, TEACH_SUBJECTS, BL_CLASS_TEACHER, BL_GRADE_LEADER, BL_LESSON_PREPARATION_LEADER, 
+    BL_RESEARCH_LEADER, QUIT_DATE, QUIT_TYPE, QUIT_REASON, EHR_JOB, EHR_TITLE, EHR_TITLE_LEVEL, 
+    EHR_TITLE_MAJOR, EHR_ADMINISTRATIVE_DUTY, EHR_ADMINISTRATIVE_DUTY_LEVEL, EHR_ADMINISTRATIVE_DUTY_RANK, 
+    EHR_TEACHER_DUTY, EHR_TEACHER_DUTY_RANK, EHR_DEPT, WAGE_RANK, CREATE_TIME, UPDATE_TIME
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="cn.com.wtrj.jx.web.portal.model.entities.WtrjEmployeeExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from WTRJ_EMPLOYEE
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from WTRJ_EMPLOYEE
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from WTRJ_EMPLOYEE
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <delete id="deleteByExample" parameterType="cn.com.wtrj.jx.web.portal.model.entities.WtrjEmployeeExample" >
+    delete from WTRJ_EMPLOYEE
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="cn.com.wtrj.jx.web.portal.model.entities.WtrjEmployee" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      select     Sequence_employee.NEXTVAL from dual
+    </selectKey>
+    insert into WTRJ_EMPLOYEE (EMPLOYEE_NUMBER, TYPE, NAME, 
+      SEX, ENGLISH_NAME, BELONG_UNIT, 
+      NATION, NATIVE_PLACE, BIRTHDAY, 
+      AGE, PHONE, HUKOU_ADDRESS, 
+      HUKOU_TYPE, RESIDENCE, WORKING_YEARS, 
+      POLITICAL_STATUS, MARITAL_STATUS, GRADUATE_SCHOOL, 
+      GRADUATE_TIME, MAJOR, SCHOOL_CODE, 
+      JOB_CODE, ID_TYPE, ID_NUMBER, 
+      MAIL, EDUCATION, EDU_DEGREE, 
+      FOREIGN_LANGUAGE, FOREIGN_LANGUAGE_LEVEL, 
+      ENTRY_DATE, ENTRY_NUM, CONFIRMATION_DATE, 
+      WORK_START_DATE, TEACH_YEARS, JX_TEACH_YEARS, 
+      TEACH_PERIOD, TEACH_SUBJECTS, BL_CLASS_TEACHER, 
+      BL_GRADE_LEADER, BL_LESSON_PREPARATION_LEADER, BL_RESEARCH_LEADER, 
+      QUIT_DATE, QUIT_TYPE, QUIT_REASON, 
+      EHR_JOB, EHR_TITLE, EHR_TITLE_LEVEL, 
+      EHR_TITLE_MAJOR, EHR_ADMINISTRATIVE_DUTY, EHR_ADMINISTRATIVE_DUTY_LEVEL, 
+      EHR_ADMINISTRATIVE_DUTY_RANK, EHR_TEACHER_DUTY, 
+      EHR_TEACHER_DUTY_RANK, EHR_DEPT, WAGE_RANK, 
+      CREATE_TIME, UPDATE_TIME)
+    values (#{employeeNumber,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{sex,jdbcType=VARCHAR}, #{englishName,jdbcType=VARCHAR}, #{belongUnit,jdbcType=VARCHAR}, 
+      #{nation,jdbcType=VARCHAR}, #{nativePlace,jdbcType=VARCHAR}, #{birthday,jdbcType=TIMESTAMP}, 
+      #{age,jdbcType=DECIMAL}, #{phone,jdbcType=VARCHAR}, #{hukouAddress,jdbcType=VARCHAR}, 
+      #{hukouType,jdbcType=VARCHAR}, #{residence,jdbcType=VARCHAR}, #{workingYears,jdbcType=DECIMAL}, 
+      #{politicalStatus,jdbcType=VARCHAR}, #{maritalStatus,jdbcType=VARCHAR}, #{graduateSchool,jdbcType=VARCHAR}, 
+      #{graduateTime,jdbcType=TIMESTAMP}, #{major,jdbcType=VARCHAR}, #{schoolCode,jdbcType=VARCHAR}, 
+      #{jobCode,jdbcType=VARCHAR}, #{idType,jdbcType=VARCHAR}, #{idNumber,jdbcType=VARCHAR}, 
+      #{mail,jdbcType=VARCHAR}, #{education,jdbcType=VARCHAR}, #{eduDegree,jdbcType=VARCHAR}, 
+      #{foreignLanguage,jdbcType=VARCHAR}, #{foreignLanguageLevel,jdbcType=VARCHAR}, 
+      #{entryDate,jdbcType=TIMESTAMP}, #{entryNum,jdbcType=DECIMAL}, #{confirmationDate,jdbcType=TIMESTAMP}, 
+      #{workStartDate,jdbcType=TIMESTAMP}, #{teachYears,jdbcType=DECIMAL}, #{jxTeachYears,jdbcType=DECIMAL}, 
+      #{teachPeriod,jdbcType=VARCHAR}, #{teachSubjects,jdbcType=VARCHAR}, #{blClassTeacher,jdbcType=CHAR}, 
+      #{blGradeLeader,jdbcType=CHAR}, #{blLessonPreparationLeader,jdbcType=CHAR}, #{blResearchLeader,jdbcType=CHAR}, 
+      #{quitDate,jdbcType=TIMESTAMP}, #{quitType,jdbcType=VARCHAR}, #{quitReason,jdbcType=VARCHAR}, 
+      #{ehrJob,jdbcType=VARCHAR}, #{ehrTitle,jdbcType=VARCHAR}, #{ehrTitleLevel,jdbcType=VARCHAR}, 
+      #{ehrTitleMajor,jdbcType=VARCHAR}, #{ehrAdministrativeDuty,jdbcType=VARCHAR}, #{ehrAdministrativeDutyLevel,jdbcType=VARCHAR}, 
+      #{ehrAdministrativeDutyRank,jdbcType=VARCHAR}, #{ehrTeacherDuty,jdbcType=VARCHAR}, 
+      #{ehrTeacherDutyRank,jdbcType=VARCHAR}, #{ehrDept,jdbcType=VARCHAR}, #{wageRank,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.com.wtrj.jx.web.portal.model.entities.WtrjEmployee" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      select     Sequence_employee.NEXTVAL from dual
+    </selectKey>
+    insert into WTRJ_EMPLOYEE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="employeeNumber != null" >
+        EMPLOYEE_NUMBER,
+      </if>
+      <if test="type != null" >
+        TYPE,
+      </if>
+      <if test="name != null" >
+        NAME,
+      </if>
+      <if test="sex != null" >
+        SEX,
+      </if>
+      <if test="englishName != null" >
+        ENGLISH_NAME,
+      </if>
+      <if test="belongUnit != null" >
+        BELONG_UNIT,
+      </if>
+      <if test="nation != null" >
+        NATION,
+      </if>
+      <if test="nativePlace != null" >
+        NATIVE_PLACE,
+      </if>
+      <if test="birthday != null" >
+        BIRTHDAY,
+      </if>
+      <if test="age != null" >
+        AGE,
+      </if>
+      <if test="phone != null" >
+        PHONE,
+      </if>
+      <if test="hukouAddress != null" >
+        HUKOU_ADDRESS,
+      </if>
+      <if test="hukouType != null" >
+        HUKOU_TYPE,
+      </if>
+      <if test="residence != null" >
+        RESIDENCE,
+      </if>
+      <if test="workingYears != null" >
+        WORKING_YEARS,
+      </if>
+      <if test="politicalStatus != null" >
+        POLITICAL_STATUS,
+      </if>
+      <if test="maritalStatus != null" >
+        MARITAL_STATUS,
+      </if>
+      <if test="graduateSchool != null" >
+        GRADUATE_SCHOOL,
+      </if>
+      <if test="graduateTime != null" >
+        GRADUATE_TIME,
+      </if>
+      <if test="major != null" >
+        MAJOR,
+      </if>
+      <if test="schoolCode != null" >
+        SCHOOL_CODE,
+      </if>
+      <if test="jobCode != null" >
+        JOB_CODE,
+      </if>
+      <if test="idType != null" >
+        ID_TYPE,
+      </if>
+      <if test="idNumber != null" >
+        ID_NUMBER,
+      </if>
+      <if test="mail != null" >
+        MAIL,
+      </if>
+      <if test="education != null" >
+        EDUCATION,
+      </if>
+      <if test="eduDegree != null" >
+        EDU_DEGREE,
+      </if>
+      <if test="foreignLanguage != null" >
+        FOREIGN_LANGUAGE,
+      </if>
+      <if test="foreignLanguageLevel != null" >
+        FOREIGN_LANGUAGE_LEVEL,
+      </if>
+      <if test="entryDate != null" >
+        ENTRY_DATE,
+      </if>
+      <if test="entryNum != null" >
+        ENTRY_NUM,
+      </if>
+      <if test="confirmationDate != null" >
+        CONFIRMATION_DATE,
+      </if>
+      <if test="workStartDate != null" >
+        WORK_START_DATE,
+      </if>
+      <if test="teachYears != null" >
+        TEACH_YEARS,
+      </if>
+      <if test="jxTeachYears != null" >
+        JX_TEACH_YEARS,
+      </if>
+      <if test="teachPeriod != null" >
+        TEACH_PERIOD,
+      </if>
+      <if test="teachSubjects != null" >
+        TEACH_SUBJECTS,
+      </if>
+      <if test="blClassTeacher != null" >
+        BL_CLASS_TEACHER,
+      </if>
+      <if test="blGradeLeader != null" >
+        BL_GRADE_LEADER,
+      </if>
+      <if test="blLessonPreparationLeader != null" >
+        BL_LESSON_PREPARATION_LEADER,
+      </if>
+      <if test="blResearchLeader != null" >
+        BL_RESEARCH_LEADER,
+      </if>
+      <if test="quitDate != null" >
+        QUIT_DATE,
+      </if>
+      <if test="quitType != null" >
+        QUIT_TYPE,
+      </if>
+      <if test="quitReason != null" >
+        QUIT_REASON,
+      </if>
+      <if test="ehrJob != null" >
+        EHR_JOB,
+      </if>
+      <if test="ehrTitle != null" >
+        EHR_TITLE,
+      </if>
+      <if test="ehrTitleLevel != null" >
+        EHR_TITLE_LEVEL,
+      </if>
+      <if test="ehrTitleMajor != null" >
+        EHR_TITLE_MAJOR,
+      </if>
+      <if test="ehrAdministrativeDuty != null" >
+        EHR_ADMINISTRATIVE_DUTY,
+      </if>
+      <if test="ehrAdministrativeDutyLevel != null" >
+        EHR_ADMINISTRATIVE_DUTY_LEVEL,
+      </if>
+      <if test="ehrAdministrativeDutyRank != null" >
+        EHR_ADMINISTRATIVE_DUTY_RANK,
+      </if>
+      <if test="ehrTeacherDuty != null" >
+        EHR_TEACHER_DUTY,
+      </if>
+      <if test="ehrTeacherDutyRank != null" >
+        EHR_TEACHER_DUTY_RANK,
+      </if>
+      <if test="ehrDept != null" >
+        EHR_DEPT,
+      </if>
+      <if test="wageRank != null" >
+        WAGE_RANK,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="employeeNumber != null" >
+        #{employeeNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="englishName != null" >
+        #{englishName,jdbcType=VARCHAR},
+      </if>
+      <if test="belongUnit != null" >
+        #{belongUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="nation != null" >
+        #{nation,jdbcType=VARCHAR},
+      </if>
+      <if test="nativePlace != null" >
+        #{nativePlace,jdbcType=VARCHAR},
+      </if>
+      <if test="birthday != null" >
+        #{birthday,jdbcType=TIMESTAMP},
+      </if>
+      <if test="age != null" >
+        #{age,jdbcType=DECIMAL},
+      </if>
+      <if test="phone != null" >
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="hukouAddress != null" >
+        #{hukouAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="hukouType != null" >
+        #{hukouType,jdbcType=VARCHAR},
+      </if>
+      <if test="residence != null" >
+        #{residence,jdbcType=VARCHAR},
+      </if>
+      <if test="workingYears != null" >
+        #{workingYears,jdbcType=DECIMAL},
+      </if>
+      <if test="politicalStatus != null" >
+        #{politicalStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="maritalStatus != null" >
+        #{maritalStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="graduateSchool != null" >
+        #{graduateSchool,jdbcType=VARCHAR},
+      </if>
+      <if test="graduateTime != null" >
+        #{graduateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="major != null" >
+        #{major,jdbcType=VARCHAR},
+      </if>
+      <if test="schoolCode != null" >
+        #{schoolCode,jdbcType=VARCHAR},
+      </if>
+      <if test="jobCode != null" >
+        #{jobCode,jdbcType=VARCHAR},
+      </if>
+      <if test="idType != null" >
+        #{idType,jdbcType=VARCHAR},
+      </if>
+      <if test="idNumber != null" >
+        #{idNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="mail != null" >
+        #{mail,jdbcType=VARCHAR},
+      </if>
+      <if test="education != null" >
+        #{education,jdbcType=VARCHAR},
+      </if>
+      <if test="eduDegree != null" >
+        #{eduDegree,jdbcType=VARCHAR},
+      </if>
+      <if test="foreignLanguage != null" >
+        #{foreignLanguage,jdbcType=VARCHAR},
+      </if>
+      <if test="foreignLanguageLevel != null" >
+        #{foreignLanguageLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="entryDate != null" >
+        #{entryDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="entryNum != null" >
+        #{entryNum,jdbcType=DECIMAL},
+      </if>
+      <if test="confirmationDate != null" >
+        #{confirmationDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="workStartDate != null" >
+        #{workStartDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="teachYears != null" >
+        #{teachYears,jdbcType=DECIMAL},
+      </if>
+      <if test="jxTeachYears != null" >
+        #{jxTeachYears,jdbcType=DECIMAL},
+      </if>
+      <if test="teachPeriod != null" >
+        #{teachPeriod,jdbcType=VARCHAR},
+      </if>
+      <if test="teachSubjects != null" >
+        #{teachSubjects,jdbcType=VARCHAR},
+      </if>
+      <if test="blClassTeacher != null" >
+        #{blClassTeacher,jdbcType=CHAR},
+      </if>
+      <if test="blGradeLeader != null" >
+        #{blGradeLeader,jdbcType=CHAR},
+      </if>
+      <if test="blLessonPreparationLeader != null" >
+        #{blLessonPreparationLeader,jdbcType=CHAR},
+      </if>
+      <if test="blResearchLeader != null" >
+        #{blResearchLeader,jdbcType=CHAR},
+      </if>
+      <if test="quitDate != null" >
+        #{quitDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="quitType != null" >
+        #{quitType,jdbcType=VARCHAR},
+      </if>
+      <if test="quitReason != null" >
+        #{quitReason,jdbcType=VARCHAR},
+      </if>
+      <if test="ehrJob != null" >
+        #{ehrJob,jdbcType=VARCHAR},
+      </if>
+      <if test="ehrTitle != null" >
+        #{ehrTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="ehrTitleLevel != null" >
+        #{ehrTitleLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="ehrTitleMajor != null" >
+        #{ehrTitleMajor,jdbcType=VARCHAR},
+      </if>
+      <if test="ehrAdministrativeDuty != null" >
+        #{ehrAdministrativeDuty,jdbcType=VARCHAR},
+      </if>
+      <if test="ehrAdministrativeDutyLevel != null" >
+        #{ehrAdministrativeDutyLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="ehrAdministrativeDutyRank != null" >
+        #{ehrAdministrativeDutyRank,jdbcType=VARCHAR},
+      </if>
+      <if test="ehrTeacherDuty != null" >
+        #{ehrTeacherDuty,jdbcType=VARCHAR},
+      </if>
+      <if test="ehrTeacherDutyRank != null" >
+        #{ehrTeacherDutyRank,jdbcType=VARCHAR},
+      </if>
+      <if test="ehrDept != null" >
+        #{ehrDept,jdbcType=VARCHAR},
+      </if>
+      <if test="wageRank != null" >
+        #{wageRank,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="cn.com.wtrj.jx.web.portal.model.entities.WtrjEmployeeExample" resultType="java.lang.Integer" >
+    select count(*) from WTRJ_EMPLOYEE
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update WTRJ_EMPLOYEE
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=DECIMAL},
+      </if>
+      <if test="record.employeeNumber != null" >
+        EMPLOYEE_NUMBER = #{record.employeeNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.type != null" >
+        TYPE = #{record.type,jdbcType=VARCHAR},
+      </if>
+      <if test="record.name != null" >
+        NAME = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sex != null" >
+        SEX = #{record.sex,jdbcType=VARCHAR},
+      </if>
+      <if test="record.englishName != null" >
+        ENGLISH_NAME = #{record.englishName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.belongUnit != null" >
+        BELONG_UNIT = #{record.belongUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="record.nation != null" >
+        NATION = #{record.nation,jdbcType=VARCHAR},
+      </if>
+      <if test="record.nativePlace != null" >
+        NATIVE_PLACE = #{record.nativePlace,jdbcType=VARCHAR},
+      </if>
+      <if test="record.birthday != null" >
+        BIRTHDAY = #{record.birthday,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.age != null" >
+        AGE = #{record.age,jdbcType=DECIMAL},
+      </if>
+      <if test="record.phone != null" >
+        PHONE = #{record.phone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.hukouAddress != null" >
+        HUKOU_ADDRESS = #{record.hukouAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="record.hukouType != null" >
+        HUKOU_TYPE = #{record.hukouType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.residence != null" >
+        RESIDENCE = #{record.residence,jdbcType=VARCHAR},
+      </if>
+      <if test="record.workingYears != null" >
+        WORKING_YEARS = #{record.workingYears,jdbcType=DECIMAL},
+      </if>
+      <if test="record.politicalStatus != null" >
+        POLITICAL_STATUS = #{record.politicalStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="record.maritalStatus != null" >
+        MARITAL_STATUS = #{record.maritalStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="record.graduateSchool != null" >
+        GRADUATE_SCHOOL = #{record.graduateSchool,jdbcType=VARCHAR},
+      </if>
+      <if test="record.graduateTime != null" >
+        GRADUATE_TIME = #{record.graduateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.major != null" >
+        MAJOR = #{record.major,jdbcType=VARCHAR},
+      </if>
+      <if test="record.schoolCode != null" >
+        SCHOOL_CODE = #{record.schoolCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.jobCode != null" >
+        JOB_CODE = #{record.jobCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.idType != null" >
+        ID_TYPE = #{record.idType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.idNumber != null" >
+        ID_NUMBER = #{record.idNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mail != null" >
+        MAIL = #{record.mail,jdbcType=VARCHAR},
+      </if>
+      <if test="record.education != null" >
+        EDUCATION = #{record.education,jdbcType=VARCHAR},
+      </if>
+      <if test="record.eduDegree != null" >
+        EDU_DEGREE = #{record.eduDegree,jdbcType=VARCHAR},
+      </if>
+      <if test="record.foreignLanguage != null" >
+        FOREIGN_LANGUAGE = #{record.foreignLanguage,jdbcType=VARCHAR},
+      </if>
+      <if test="record.foreignLanguageLevel != null" >
+        FOREIGN_LANGUAGE_LEVEL = #{record.foreignLanguageLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="record.entryDate != null" >
+        ENTRY_DATE = #{record.entryDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.entryNum != null" >
+        ENTRY_NUM = #{record.entryNum,jdbcType=DECIMAL},
+      </if>
+      <if test="record.confirmationDate != null" >
+        CONFIRMATION_DATE = #{record.confirmationDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.workStartDate != null" >
+        WORK_START_DATE = #{record.workStartDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.teachYears != null" >
+        TEACH_YEARS = #{record.teachYears,jdbcType=DECIMAL},
+      </if>
+      <if test="record.jxTeachYears != null" >
+        JX_TEACH_YEARS = #{record.jxTeachYears,jdbcType=DECIMAL},
+      </if>
+      <if test="record.teachPeriod != null" >
+        TEACH_PERIOD = #{record.teachPeriod,jdbcType=VARCHAR},
+      </if>
+      <if test="record.teachSubjects != null" >
+        TEACH_SUBJECTS = #{record.teachSubjects,jdbcType=VARCHAR},
+      </if>
+      <if test="record.blClassTeacher != null" >
+        BL_CLASS_TEACHER = #{record.blClassTeacher,jdbcType=CHAR},
+      </if>
+      <if test="record.blGradeLeader != null" >
+        BL_GRADE_LEADER = #{record.blGradeLeader,jdbcType=CHAR},
+      </if>
+      <if test="record.blLessonPreparationLeader != null" >
+        BL_LESSON_PREPARATION_LEADER = #{record.blLessonPreparationLeader,jdbcType=CHAR},
+      </if>
+      <if test="record.blResearchLeader != null" >
+        BL_RESEARCH_LEADER = #{record.blResearchLeader,jdbcType=CHAR},
+      </if>
+      <if test="record.quitDate != null" >
+        QUIT_DATE = #{record.quitDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.quitType != null" >
+        QUIT_TYPE = #{record.quitType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.quitReason != null" >
+        QUIT_REASON = #{record.quitReason,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ehrJob != null" >
+        EHR_JOB = #{record.ehrJob,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ehrTitle != null" >
+        EHR_TITLE = #{record.ehrTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ehrTitleLevel != null" >
+        EHR_TITLE_LEVEL = #{record.ehrTitleLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ehrTitleMajor != null" >
+        EHR_TITLE_MAJOR = #{record.ehrTitleMajor,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ehrAdministrativeDuty != null" >
+        EHR_ADMINISTRATIVE_DUTY = #{record.ehrAdministrativeDuty,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ehrAdministrativeDutyLevel != null" >
+        EHR_ADMINISTRATIVE_DUTY_LEVEL = #{record.ehrAdministrativeDutyLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ehrAdministrativeDutyRank != null" >
+        EHR_ADMINISTRATIVE_DUTY_RANK = #{record.ehrAdministrativeDutyRank,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ehrTeacherDuty != null" >
+        EHR_TEACHER_DUTY = #{record.ehrTeacherDuty,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ehrTeacherDutyRank != null" >
+        EHR_TEACHER_DUTY_RANK = #{record.ehrTeacherDutyRank,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ehrDept != null" >
+        EHR_DEPT = #{record.ehrDept,jdbcType=VARCHAR},
+      </if>
+      <if test="record.wageRank != null" >
+        WAGE_RANK = #{record.wageRank,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null" >
+        CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateTime != null" >
+        UPDATE_TIME = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update WTRJ_EMPLOYEE
+    set ID = #{record.id,jdbcType=DECIMAL},
+      EMPLOYEE_NUMBER = #{record.employeeNumber,jdbcType=VARCHAR},
+      TYPE = #{record.type,jdbcType=VARCHAR},
+      NAME = #{record.name,jdbcType=VARCHAR},
+      SEX = #{record.sex,jdbcType=VARCHAR},
+      ENGLISH_NAME = #{record.englishName,jdbcType=VARCHAR},
+      BELONG_UNIT = #{record.belongUnit,jdbcType=VARCHAR},
+      NATION = #{record.nation,jdbcType=VARCHAR},
+      NATIVE_PLACE = #{record.nativePlace,jdbcType=VARCHAR},
+      BIRTHDAY = #{record.birthday,jdbcType=TIMESTAMP},
+      AGE = #{record.age,jdbcType=DECIMAL},
+      PHONE = #{record.phone,jdbcType=VARCHAR},
+      HUKOU_ADDRESS = #{record.hukouAddress,jdbcType=VARCHAR},
+      HUKOU_TYPE = #{record.hukouType,jdbcType=VARCHAR},
+      RESIDENCE = #{record.residence,jdbcType=VARCHAR},
+      WORKING_YEARS = #{record.workingYears,jdbcType=DECIMAL},
+      POLITICAL_STATUS = #{record.politicalStatus,jdbcType=VARCHAR},
+      MARITAL_STATUS = #{record.maritalStatus,jdbcType=VARCHAR},
+      GRADUATE_SCHOOL = #{record.graduateSchool,jdbcType=VARCHAR},
+      GRADUATE_TIME = #{record.graduateTime,jdbcType=TIMESTAMP},
+      MAJOR = #{record.major,jdbcType=VARCHAR},
+      SCHOOL_CODE = #{record.schoolCode,jdbcType=VARCHAR},
+      JOB_CODE = #{record.jobCode,jdbcType=VARCHAR},
+      ID_TYPE = #{record.idType,jdbcType=VARCHAR},
+      ID_NUMBER = #{record.idNumber,jdbcType=VARCHAR},
+      MAIL = #{record.mail,jdbcType=VARCHAR},
+      EDUCATION = #{record.education,jdbcType=VARCHAR},
+      EDU_DEGREE = #{record.eduDegree,jdbcType=VARCHAR},
+      FOREIGN_LANGUAGE = #{record.foreignLanguage,jdbcType=VARCHAR},
+      FOREIGN_LANGUAGE_LEVEL = #{record.foreignLanguageLevel,jdbcType=VARCHAR},
+      ENTRY_DATE = #{record.entryDate,jdbcType=TIMESTAMP},
+      ENTRY_NUM = #{record.entryNum,jdbcType=DECIMAL},
+      CONFIRMATION_DATE = #{record.confirmationDate,jdbcType=TIMESTAMP},
+      WORK_START_DATE = #{record.workStartDate,jdbcType=TIMESTAMP},
+      TEACH_YEARS = #{record.teachYears,jdbcType=DECIMAL},
+      JX_TEACH_YEARS = #{record.jxTeachYears,jdbcType=DECIMAL},
+      TEACH_PERIOD = #{record.teachPeriod,jdbcType=VARCHAR},
+      TEACH_SUBJECTS = #{record.teachSubjects,jdbcType=VARCHAR},
+      BL_CLASS_TEACHER = #{record.blClassTeacher,jdbcType=CHAR},
+      BL_GRADE_LEADER = #{record.blGradeLeader,jdbcType=CHAR},
+      BL_LESSON_PREPARATION_LEADER = #{record.blLessonPreparationLeader,jdbcType=CHAR},
+      BL_RESEARCH_LEADER = #{record.blResearchLeader,jdbcType=CHAR},
+      QUIT_DATE = #{record.quitDate,jdbcType=TIMESTAMP},
+      QUIT_TYPE = #{record.quitType,jdbcType=VARCHAR},
+      QUIT_REASON = #{record.quitReason,jdbcType=VARCHAR},
+      EHR_JOB = #{record.ehrJob,jdbcType=VARCHAR},
+      EHR_TITLE = #{record.ehrTitle,jdbcType=VARCHAR},
+      EHR_TITLE_LEVEL = #{record.ehrTitleLevel,jdbcType=VARCHAR},
+      EHR_TITLE_MAJOR = #{record.ehrTitleMajor,jdbcType=VARCHAR},
+      EHR_ADMINISTRATIVE_DUTY = #{record.ehrAdministrativeDuty,jdbcType=VARCHAR},
+      EHR_ADMINISTRATIVE_DUTY_LEVEL = #{record.ehrAdministrativeDutyLevel,jdbcType=VARCHAR},
+      EHR_ADMINISTRATIVE_DUTY_RANK = #{record.ehrAdministrativeDutyRank,jdbcType=VARCHAR},
+      EHR_TEACHER_DUTY = #{record.ehrTeacherDuty,jdbcType=VARCHAR},
+      EHR_TEACHER_DUTY_RANK = #{record.ehrTeacherDutyRank,jdbcType=VARCHAR},
+      EHR_DEPT = #{record.ehrDept,jdbcType=VARCHAR},
+      WAGE_RANK = #{record.wageRank,jdbcType=VARCHAR},
+      CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      UPDATE_TIME = #{record.updateTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.com.wtrj.jx.web.portal.model.entities.WtrjEmployee" >
+    update WTRJ_EMPLOYEE
+    <set >
+      <if test="employeeNumber != null" >
+        EMPLOYEE_NUMBER = #{employeeNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        TYPE = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        NAME = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        SEX = #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="englishName != null" >
+        ENGLISH_NAME = #{englishName,jdbcType=VARCHAR},
+      </if>
+      <if test="belongUnit != null" >
+        BELONG_UNIT = #{belongUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="nation != null" >
+        NATION = #{nation,jdbcType=VARCHAR},
+      </if>
+      <if test="nativePlace != null" >
+        NATIVE_PLACE = #{nativePlace,jdbcType=VARCHAR},
+      </if>
+      <if test="birthday != null" >
+        BIRTHDAY = #{birthday,jdbcType=TIMESTAMP},
+      </if>
+      <if test="age != null" >
+        AGE = #{age,jdbcType=DECIMAL},
+      </if>
+      <if test="phone != null" >
+        PHONE = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="hukouAddress != null" >
+        HUKOU_ADDRESS = #{hukouAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="hukouType != null" >
+        HUKOU_TYPE = #{hukouType,jdbcType=VARCHAR},
+      </if>
+      <if test="residence != null" >
+        RESIDENCE = #{residence,jdbcType=VARCHAR},
+      </if>
+      <if test="workingYears != null" >
+        WORKING_YEARS = #{workingYears,jdbcType=DECIMAL},
+      </if>
+      <if test="politicalStatus != null" >
+        POLITICAL_STATUS = #{politicalStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="maritalStatus != null" >
+        MARITAL_STATUS = #{maritalStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="graduateSchool != null" >
+        GRADUATE_SCHOOL = #{graduateSchool,jdbcType=VARCHAR},
+      </if>
+      <if test="graduateTime != null" >
+        GRADUATE_TIME = #{graduateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="major != null" >
+        MAJOR = #{major,jdbcType=VARCHAR},
+      </if>
+      <if test="schoolCode != null" >
+        SCHOOL_CODE = #{schoolCode,jdbcType=VARCHAR},
+      </if>
+      <if test="jobCode != null" >
+        JOB_CODE = #{jobCode,jdbcType=VARCHAR},
+      </if>
+      <if test="idType != null" >
+        ID_TYPE = #{idType,jdbcType=VARCHAR},
+      </if>
+      <if test="idNumber != null" >
+        ID_NUMBER = #{idNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="mail != null" >
+        MAIL = #{mail,jdbcType=VARCHAR},
+      </if>
+      <if test="education != null" >
+        EDUCATION = #{education,jdbcType=VARCHAR},
+      </if>
+      <if test="eduDegree != null" >
+        EDU_DEGREE = #{eduDegree,jdbcType=VARCHAR},
+      </if>
+      <if test="foreignLanguage != null" >
+        FOREIGN_LANGUAGE = #{foreignLanguage,jdbcType=VARCHAR},
+      </if>
+      <if test="foreignLanguageLevel != null" >
+        FOREIGN_LANGUAGE_LEVEL = #{foreignLanguageLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="entryDate != null" >
+        ENTRY_DATE = #{entryDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="entryNum != null" >
+        ENTRY_NUM = #{entryNum,jdbcType=DECIMAL},
+      </if>
+      <if test="confirmationDate != null" >
+        CONFIRMATION_DATE = #{confirmationDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="workStartDate != null" >
+        WORK_START_DATE = #{workStartDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="teachYears != null" >
+        TEACH_YEARS = #{teachYears,jdbcType=DECIMAL},
+      </if>
+      <if test="jxTeachYears != null" >
+        JX_TEACH_YEARS = #{jxTeachYears,jdbcType=DECIMAL},
+      </if>
+      <if test="teachPeriod != null" >
+        TEACH_PERIOD = #{teachPeriod,jdbcType=VARCHAR},
+      </if>
+      <if test="teachSubjects != null" >
+        TEACH_SUBJECTS = #{teachSubjects,jdbcType=VARCHAR},
+      </if>
+      <if test="blClassTeacher != null" >
+        BL_CLASS_TEACHER = #{blClassTeacher,jdbcType=CHAR},
+      </if>
+      <if test="blGradeLeader != null" >
+        BL_GRADE_LEADER = #{blGradeLeader,jdbcType=CHAR},
+      </if>
+      <if test="blLessonPreparationLeader != null" >
+        BL_LESSON_PREPARATION_LEADER = #{blLessonPreparationLeader,jdbcType=CHAR},
+      </if>
+      <if test="blResearchLeader != null" >
+        BL_RESEARCH_LEADER = #{blResearchLeader,jdbcType=CHAR},
+      </if>
+      <if test="quitDate != null" >
+        QUIT_DATE = #{quitDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="quitType != null" >
+        QUIT_TYPE = #{quitType,jdbcType=VARCHAR},
+      </if>
+      <if test="quitReason != null" >
+        QUIT_REASON = #{quitReason,jdbcType=VARCHAR},
+      </if>
+      <if test="ehrJob != null" >
+        EHR_JOB = #{ehrJob,jdbcType=VARCHAR},
+      </if>
+      <if test="ehrTitle != null" >
+        EHR_TITLE = #{ehrTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="ehrTitleLevel != null" >
+        EHR_TITLE_LEVEL = #{ehrTitleLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="ehrTitleMajor != null" >
+        EHR_TITLE_MAJOR = #{ehrTitleMajor,jdbcType=VARCHAR},
+      </if>
+      <if test="ehrAdministrativeDuty != null" >
+        EHR_ADMINISTRATIVE_DUTY = #{ehrAdministrativeDuty,jdbcType=VARCHAR},
+      </if>
+      <if test="ehrAdministrativeDutyLevel != null" >
+        EHR_ADMINISTRATIVE_DUTY_LEVEL = #{ehrAdministrativeDutyLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="ehrAdministrativeDutyRank != null" >
+        EHR_ADMINISTRATIVE_DUTY_RANK = #{ehrAdministrativeDutyRank,jdbcType=VARCHAR},
+      </if>
+      <if test="ehrTeacherDuty != null" >
+        EHR_TEACHER_DUTY = #{ehrTeacherDuty,jdbcType=VARCHAR},
+      </if>
+      <if test="ehrTeacherDutyRank != null" >
+        EHR_TEACHER_DUTY_RANK = #{ehrTeacherDutyRank,jdbcType=VARCHAR},
+      </if>
+      <if test="ehrDept != null" >
+        EHR_DEPT = #{ehrDept,jdbcType=VARCHAR},
+      </if>
+      <if test="wageRank != null" >
+        WAGE_RANK = #{wageRank,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.com.wtrj.jx.web.portal.model.entities.WtrjEmployee" >
+    update WTRJ_EMPLOYEE
+    set EMPLOYEE_NUMBER = #{employeeNumber,jdbcType=VARCHAR},
+      TYPE = #{type,jdbcType=VARCHAR},
+      NAME = #{name,jdbcType=VARCHAR},
+      SEX = #{sex,jdbcType=VARCHAR},
+      ENGLISH_NAME = #{englishName,jdbcType=VARCHAR},
+      BELONG_UNIT = #{belongUnit,jdbcType=VARCHAR},
+      NATION = #{nation,jdbcType=VARCHAR},
+      NATIVE_PLACE = #{nativePlace,jdbcType=VARCHAR},
+      BIRTHDAY = #{birthday,jdbcType=TIMESTAMP},
+      AGE = #{age,jdbcType=DECIMAL},
+      PHONE = #{phone,jdbcType=VARCHAR},
+      HUKOU_ADDRESS = #{hukouAddress,jdbcType=VARCHAR},
+      HUKOU_TYPE = #{hukouType,jdbcType=VARCHAR},
+      RESIDENCE = #{residence,jdbcType=VARCHAR},
+      WORKING_YEARS = #{workingYears,jdbcType=DECIMAL},
+      POLITICAL_STATUS = #{politicalStatus,jdbcType=VARCHAR},
+      MARITAL_STATUS = #{maritalStatus,jdbcType=VARCHAR},
+      GRADUATE_SCHOOL = #{graduateSchool,jdbcType=VARCHAR},
+      GRADUATE_TIME = #{graduateTime,jdbcType=TIMESTAMP},
+      MAJOR = #{major,jdbcType=VARCHAR},
+      SCHOOL_CODE = #{schoolCode,jdbcType=VARCHAR},
+      JOB_CODE = #{jobCode,jdbcType=VARCHAR},
+      ID_TYPE = #{idType,jdbcType=VARCHAR},
+      ID_NUMBER = #{idNumber,jdbcType=VARCHAR},
+      MAIL = #{mail,jdbcType=VARCHAR},
+      EDUCATION = #{education,jdbcType=VARCHAR},
+      EDU_DEGREE = #{eduDegree,jdbcType=VARCHAR},
+      FOREIGN_LANGUAGE = #{foreignLanguage,jdbcType=VARCHAR},
+      FOREIGN_LANGUAGE_LEVEL = #{foreignLanguageLevel,jdbcType=VARCHAR},
+      ENTRY_DATE = #{entryDate,jdbcType=TIMESTAMP},
+      ENTRY_NUM = #{entryNum,jdbcType=DECIMAL},
+      CONFIRMATION_DATE = #{confirmationDate,jdbcType=TIMESTAMP},
+      WORK_START_DATE = #{workStartDate,jdbcType=TIMESTAMP},
+      TEACH_YEARS = #{teachYears,jdbcType=DECIMAL},
+      JX_TEACH_YEARS = #{jxTeachYears,jdbcType=DECIMAL},
+      TEACH_PERIOD = #{teachPeriod,jdbcType=VARCHAR},
+      TEACH_SUBJECTS = #{teachSubjects,jdbcType=VARCHAR},
+      BL_CLASS_TEACHER = #{blClassTeacher,jdbcType=CHAR},
+      BL_GRADE_LEADER = #{blGradeLeader,jdbcType=CHAR},
+      BL_LESSON_PREPARATION_LEADER = #{blLessonPreparationLeader,jdbcType=CHAR},
+      BL_RESEARCH_LEADER = #{blResearchLeader,jdbcType=CHAR},
+      QUIT_DATE = #{quitDate,jdbcType=TIMESTAMP},
+      QUIT_TYPE = #{quitType,jdbcType=VARCHAR},
+      QUIT_REASON = #{quitReason,jdbcType=VARCHAR},
+      EHR_JOB = #{ehrJob,jdbcType=VARCHAR},
+      EHR_TITLE = #{ehrTitle,jdbcType=VARCHAR},
+      EHR_TITLE_LEVEL = #{ehrTitleLevel,jdbcType=VARCHAR},
+      EHR_TITLE_MAJOR = #{ehrTitleMajor,jdbcType=VARCHAR},
+      EHR_ADMINISTRATIVE_DUTY = #{ehrAdministrativeDuty,jdbcType=VARCHAR},
+      EHR_ADMINISTRATIVE_DUTY_LEVEL = #{ehrAdministrativeDutyLevel,jdbcType=VARCHAR},
+      EHR_ADMINISTRATIVE_DUTY_RANK = #{ehrAdministrativeDutyRank,jdbcType=VARCHAR},
+      EHR_TEACHER_DUTY = #{ehrTeacherDuty,jdbcType=VARCHAR},
+      EHR_TEACHER_DUTY_RANK = #{ehrTeacherDutyRank,jdbcType=VARCHAR},
+      EHR_DEPT = #{ehrDept,jdbcType=VARCHAR},
+      WAGE_RANK = #{wageRank,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.wtrj.jx.web.portal.model.mt.dao.report.MtReportMapper">
+	<resultMap type="cn.com.wtrj.jx.web.portal.model.entities.WtrjOrg" id="WtrjOrg">
+		<result column="orgCode" property="code" />
+		<result column="orgName" property="name" />
+		<result column="nickName" property="nickName" />
+	</resultMap>
+	<resultMap type="cn.com.wtrj.jx.web.portal.model.mt.entities.report.MtBusinessSegmentDto" id="MtBusinessSegmentDto">
+		<result column="code" property="code" />
+		<result column="name" property="name" />
+		<collection property="orgs" resultMap="WtrjOrg" />
+	</resultMap>
+	<select id="searchRoleOrgByUser" resultMap="MtBusinessSegmentDto">
+		SELECT DISTINCT
+			seg.code,
+			seg."NAME",
+			org.CODE AS orgCode,
+			org."NAME" AS orgName,
+			org.NICK_NAME AS nickName
+		FROM
+			WTRJ_BUSINESS_SEGMENT seg,
+			WTRJ_ORG org,
+			WTRJ_ROLE_NC_RELATIONSHIP ship,
+			WTRJ_USER_ROLE urole
+		WHERE
+			seg.CODE = org.SEGEMENT_CODE
+		AND org.CODE = SHIP.ORG_CODE
+		AND SHIP.ROLE_ID = UROLE.ROLE_ID
+		AND UROLE.USER_ID = #{userId}
+		ORDER BY
+			seg.CODE,
+			ORG.CODE
+	</select>
+	<select id="searchRoleSchoolByUser" resultType="cn.com.wtrj.jx.web.portal.model.mt.entities.report.MtSchoolDto">
+		SELECT DISTINCT
+			sc.code,
+			sc."NAME",
+			sc.NICK_NAME AS nickName
+		FROM
+			WTRJ_SCHOOL_INFO sc,
+			WTRJ_ROLE_SCHOOL_RELATIONSHIP ship,
+			WTRJ_USER_ROLE urole
+		WHERE
+			sc.CODE = SHIP.SCHOOL_CODE
+		AND SHIP.ROLE_ID = UROLE.ROLE_ID
+		AND UROLE.USER_ID = #{userId}
+		ORDER BY
+			sc.CODE
+	</select>
+	<select id="searchRoleExamIns" resultType="cn.com.wtrj.jx.web.portal.model.entities.WtrjRptScoreExamIns">
+		SELECT DISTINCT
+			ID,
+			NAME
+		FROM
+			(
+				SELECT
+					EXAM. ID,
+					EXAM."NAME",
+					EXAM.START_DATE
+				FROM
+					WTRJ_RPT_SCORE_DETAIL sc,
+					WTRJ_RPT_SCORE_EXAM_INS exam
+				WHERE
+					SC.EXAM_INS_ID = EXAM."ID"
+				AND SC.SCHOOL_CODE IN (
+					SELECT DISTINCT
+						ship.SCHOOL_CODE
+					FROM
+						WTRJ_USER_ROLE rl,
+						WTRJ_ROLE_SCHOOL_RELATIONSHIP ship
+					WHERE
+						rl.ROLE_ID = ship.ROLE_ID
+					AND rl.user_id = #{userId}
+				)
+				ORDER BY
+					EXAM.START_DATE DESC
+			) T
+	</select>	
+</mapper>

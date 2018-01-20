@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.wtrj.jx.web.portal.model.mt.dao.MtCourseScheduleMapper">
+  <resultMap id="BaseResultMap" type="cn.com.wtrj.jx.web.portal.model.mt.entities.MtCourseSchedule">
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="COURSE_SCHEDULE_NO" property="courseScheduleNo" jdbcType="VARCHAR" />
+    <result column="COURSE_SCHEDULE_NAME" property="courseScheduleName" jdbcType="VARCHAR" />
+    <result column="YEAR" property="year" jdbcType="DECIMAL" />
+    <result column="MONTH" property="month" jdbcType="DECIMAL" />
+    <result column="SEQ" property="seq" jdbcType="DECIMAL" />
+    <result column="CLASS_ID" property="classId" jdbcType="DECIMAL" />
+    <result column="SCHOOL_CODE" property="schoolCode" jdbcType="VARCHAR" />
+    <result column="SCHOOL_NAME" property="schoolName" jdbcType="VARCHAR" />
+    <result column="GRADE" property="grade" jdbcType="DECIMAL" />
+    <result column="KIND" property="kind" jdbcType="VARCHAR" />
+    <result column="REGIST_YEAR" property="registYear" jdbcType="DECIMAL" />
+    <result column="WEEK_DAY" property="weekDay" jdbcType="DECIMAL" />
+    <result column="COURSE" property="course" jdbcType="VARCHAR" />
+    <result column="COURSE_SEQ" property="courseSeq" jdbcType="DECIMAL" />
+    <result column="CLASS_NAME" property="className" jdbcType="VARCHAR" />
+    <result column="START_DATE" property="startDate" jdbcType="TIMESTAMP" />
+    <result column="END_DATE" property="endDate" jdbcType="TIMESTAMP" />
+    <result column="EMPLOYEE_ID" property="employeeId" jdbcType="DECIMAL" />
+    <result column="SCHEDULE_START_DATE" property="scheduleStartDate" jdbcType="TIMESTAMP" />
+    <result column="SCHEDULE_END_DATE" property="scheduleEndDate" jdbcType="TIMESTAMP" />
+    <result column="VERSION" property="version" jdbcType="DECIMAL" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="ODEVITY" property="odevity" jdbcType="DECIMAL" />
+    <result column="SPECIAL_TEACHER_NAME" property="specialTeacherName" jdbcType="VARCHAR" />
+    <result column="PLACE" property="place" jdbcType="VARCHAR" />
+    <result column="MARK" property="mark" jdbcType="VARCHAR" />
+    <result column="showTeacherName" jdbcType="VARCHAR" property="showTeacherName" />
+    <result column="TEACHER_NAME" jdbcType="VARCHAR" property="teacherName" />
+  </resultMap>
+<!--   <select id="searchByStudentAndWeek" resultMap="BaseResultMap">
+  select cs.*,e.name  EMPLOYEE_NAME,
+  case when e.name is not null then e.name else cs.special_teacher_name end showTeacherName
+  from wtrj_student s
+  join wtrj_student_course  sc on s.id=sc.student_id
+  join wtrj_ecom_course_schedule_temp cs on sc.course_schedule_id=cs.id
+  left join wtrj_employee e on e.id=cs.employee_id
+  where s.id=#{studentId} and odevity=#{odevity}
+  and (select sysdate from dual)between schedule_start_date and schedule_end_date
+  order by week_day,seq
+  </select> -->
+  
+  <select id="searchByStudentAndWeek" resultMap="BaseResultMap">
+	  select c.*, t.name as TEACHER_NAME
+		  from wtrj_student s
+		  left join wtrj_ecom_course_schedule c on s.class_id = c.class_id
+		  left join wtrj_teacher t on c.teacher_id = t.id
+	   where s.id = #{studentId}
+		   and #{courseTime} between start_date and end_date
+		   and odevity = #{odevity}
+	    order by c.course_schedule_no asc
+  </select>
+  
+  <select id="searchCourseSchedule" resultMap="BaseResultMap" >
+	  select cs.*,e.name  as TEACHER_NAME
+		  from wtrj_student s join wtrj_ecom_course_schedule cs on s.class_id=cs.class_id 
+		  left join wtrj_teacher e on e.id=cs.teacher_id
+	  where s.id=#{studentId} 
+	  	  and #{courseTime} between schedule_start_date and schedule_end_date
+	  order by  cs.course_schedule_no asc
+  </select>
+</mapper>

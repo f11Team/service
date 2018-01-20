@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.wtrj.jx.web.portal.model.dao.research.StuResearchDao">
+   <resultMap id="BaseResultMap" type="cn.com.wtrj.jx.web.portal.model.entities.stu.Wcs_quest_item">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="subject1_code" jdbcType="VARCHAR" property="subject1_code" />
+    <result column="subject1_name" jdbcType="VARCHAR" property="subject1_name" />
+    <result column="subject2_code" jdbcType="VARCHAR" property="subject2_code" />
+    <result column="subject2_name" jdbcType="VARCHAR" property="subject2_name" />
+    <result column="subject3_code" jdbcType="VARCHAR" property="subject3_code" />
+    <result column="subject3_name" jdbcType="VARCHAR" property="subject3_name" />
+  </resultMap>
+ 
+  <select id="searchOne" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select  student_no ,student_name,school_name from  wcs_quest_answer
+    where student_no = #{id}
+  </select>  
+  
+  <!-- 查询所有的调查问卷表-->
+  <select id="selectWcsQuestItem"  resultMap="BaseResultMap">
+	    select  id,
+	    subject1_code,
+	    subject1_name,
+	    subject2_code,
+	    subject2_name,
+	    subject3_code,
+	    subject3_name from  wcs_quest_item order by cast(id as int)
+  </select> 
+  <select id="selectOne"    resultType="cn.com.wtrj.jx.web.portal.model.entities.stu.Wcs_quest_answers">
+	   select student_no,student_name,school_code,item_id,wcs_class_no,flag  from  wcs_quest_answer where flag=#{param1 ,jdbcType=VARCHAR} and  student_no=#{param2,jdbcType=VARCHAR}
+  </select> 
+  
+ <!--  
+  <resultMap id="BaseResultMap1" type="cn.com.wtrj.jx.web.portal.model.entities.stu.Wcs_quest_answers">
+    	<id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="student_no" jdbcType="VARCHAR" property="student_no" />
+    <result column="student_name" jdbcType="VARCHAR" property="student_name" />
+    <result column="school_code" jdbcType="VARCHAR" property="school_code" />
+    <result column="school_name" jdbcType="VARCHAR" property="school_name" />
+    <result column="stage" jdbcType="INTEGER" property="stage" />
+    <result column="grade" jdbcType="INTEGER" property="grade" />
+    <result column="class_no" jdbcType="INTEGER" property="class_no" />
+    <result column="class_id" jdbcType="INTEGER" property="class_id" />
+    <result column="item_id" jdbcType="VARCHAR" property="item_id" />
+    <result column="wcs_class_no" jdbcType="VARCHAR" property="wcs_class_no" />
+    <result column="create_time" jdbcType="DATE" property="create_time" />
+    <result column="last_time" jdbcType="DATE" property="last_time" />
+     <result column="subject1_code" jdbcType="VARCHAR" property="subject1_code" />
+    <result column="subject1_name" jdbcType="VARCHAR" property="subject1_name" />
+     <result column="subject2_code" jdbcType="VARCHAR" property="subject2_code" />
+      <result column="subject2_name" jdbcType="VARCHAR" property="subject2_name" />
+       <result column="subject3_code" jdbcType="VARCHAR" property="subject3_code" />
+        <result column="subject3_name" jdbcType="VARCHAR" property="subject3_name" />
+  </resultMap>
+  <select id="selectOne1"  parameterType="java.lang.String" resultMap="BaseResultMap1">
+	   select student_no,student_name,school_code,item_id,wcs_class_no,flag from  wcs_quest_answer where student_no=#{param1}
+  </select>  -->
+  
+  <!-- 更新flag -->
+  <update id="update"  >
+
+  	update wcs_quest_answer  set flag=#{param1,jdbcType=VARCHAR}  where student_no= #{param2 ,jdbcType=VARCHAR}
+  </update>
+   <!--  查找 -->
+  <select id="searchStuAnswers" parameterType="java.lang.String"  resultType="cn.com.wtrj.jx.web.portal.model.entities.stu.Wcs_quest_item">
+	    select  id,
+	    subject1_code,
+	    subject1_name,
+	    subject2_code,
+	    subject2_name,
+	    subject3_code,
+	    subject3_name from  wcs_quest_item 
+	    where id=#{clazzNo}
+  </select> 
+  <!-- 查詢該用戶是否有數據 -->
+  <select id="searchCount" parameterType="java.lang.String"  resultType="java.lang.Integer">
+	    select count(*) from  wcs_quest_answer
+	    where student_no=#{idCard}
+  </select> 
+  <select id="searchCurryStu" parameterType="java.lang.String"  resultType="cn.com.wtrj.jx.web.portal.model.entities.stu.Student">
+	    select id,
+	    school_code,
+	    student_code,
+	    name,
+	    class_no,
+	    grade_no,
+	    class_id,
+	    student_no
+	     from  wtrj_student 
+	    where id_card_number=#{idCard}
+  </select> 
+  <insert id="insertOneAnswer" parameterType="cn.com.wtrj.jx.web.portal.model.entities.stu.Wcs_quest_answers" >
+  	insert into wcs_quest_answer
+  		<trim prefix="(" suffix=")" suffixOverrides=",">
+		       <if test="id != null">
+		        id,
+		      </if> 
+		      <if test="student_no != null">
+		        student_no,
+		      </if>
+		      <if test="student_name != null">
+		        student_name,
+		      </if>
+		      <if test="school_code != null">
+		        school_code,
+		      </if>
+		      <if test="school_name != null">
+		        school_name,
+		      </if>
+		      <if test="stage != null">
+		        stage,
+		      </if>
+		      <if test="grade != null">
+		        grade,
+		      </if>
+		      <if test="class_no != null">
+		        class_no,
+		      </if>
+		      <if test="class_id != null">
+		        class_id,
+		      </if>
+		      <if test="create_time != null">
+		        create_time,
+		      </if>
+		      <if test="last_time != null">
+		        last_time,
+		      </if>
+		      <if test="flag != null">
+		        flag,
+		      </if>
+		      <if test="item_id != null">
+		        item_id,
+		      </if>
+		      <if test="wcs_class_no != null">
+		        wcs_class_no,
+		      </if>
+		      <if test="subject1_code != null">
+		        subject1_code,
+		      </if>
+		      <if test="subject1_name != null">
+		        subject1_name,
+		      </if>
+		      <if test="subject2_code != null">
+		        subject2_code,
+		      </if>
+		      <if test="subject2_name != null">
+		        subject2_name,
+		      </if>
+		      <if test="subject3_code != null">
+		        subject3_code,
+		      </if>
+		      <if test="subject3_name != null">
+		        subject3_name,
+		      </if>
+		     </trim>
+		      <trim prefix="values (" suffix=")" suffixOverrides=",">
+			       <if test="id != null">
+			        #{id},
+			      </if> 
+			      <if test="student_no != null">
+			        #{student_no,jdbcType=VARCHAR},
+			      </if>
+			      <if test="student_name != null">
+			        #{student_name,jdbcType=VARCHAR},
+			      </if>
+			      
+			      <if test="school_code != null">
+			        #{school_code,jdbcType=VARCHAR},
+			      </if>
+			      <if test="school_name != null">
+			        #{school_name,jdbcType=VARCHAR},
+			      </if>
+			      <if test="stage != null">
+			        #{stage},
+			      </if>
+			      <if test="grade != null">
+			        #{grade,jdbcType=VARCHAR},
+			      </if>
+			      <if test="class_no != null">
+			        #{class_no},
+			      </if>
+			      <if test="class_id != null">
+			        #{class_id},
+			      </if>
+			      <if test="create_time != null">
+			        #{create_time},
+			      </if>
+			      <if test="last_time != null">
+			        #{last_time},
+			      </if>
+			      <if test="flag != null">
+			        #{flag,jdbcType=VARCHAR},
+			      </if>
+			      <if test="item_id != null">
+			        #{item_id,jdbcType=VARCHAR},
+			      </if>
+			      <if test="wcs_class_no != null">
+			        #{wcs_class_no,jdbcType=VARCHAR},
+			      </if>
+			      <if test="subject1_code != null">
+			        #{subject1_code,jdbcType=VARCHAR},
+			      </if>
+			      <if test="subject1_name != null">
+			        #{subject1_name,jdbcType=VARCHAR},
+			      </if>
+			      <if test="subject1_code != null">
+			        #{subject2_code,jdbcType=VARCHAR},
+			      </if>
+			      <if test="subject1_name != null">
+			        #{subject2_name,jdbcType=VARCHAR},
+			      </if>
+			      <if test="subject1_code != null">
+			        #{subject3_code,jdbcType=VARCHAR},
+			      </if>
+			      <if test="subject1_name != null">
+			        #{subject3_name,jdbcType=VARCHAR},
+			      </if>
+			    </trim>
+  </insert>
+  
+  
+</mapper>

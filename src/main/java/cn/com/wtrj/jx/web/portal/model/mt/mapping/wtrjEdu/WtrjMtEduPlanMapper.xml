@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.wtrj.jx.web.portal.model.mt.dao.wtrjEdu.WtrjMtEduPlanMapper" >
+  <resultMap id="BaseResultMap" type="cn.com.wtrj.jx.web.portal.model.entities.wtrjEdu.WtrjEduPlan" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="YEAR" property="year" jdbcType="VARCHAR" />
+    <result column="TERM" property="term" jdbcType="VARCHAR" />
+    <result column="TYPE" property="type" jdbcType="VARCHAR" />
+    <result column="SCHOOL_NAME" property="schoolName" jdbcType="VARCHAR" />
+    <result column="SCHOOL_CODE" property="schoolCode" jdbcType="VARCHAR" />
+    <result column="STAGE" property="stage" jdbcType="VARCHAR" />
+    <result column="GRADE" property="grade" jdbcType="VARCHAR" />
+    <result column="COURSE" property="course" jdbcType="VARCHAR" />
+    <result column="URL" property="url" jdbcType="VARCHAR" />
+    <result column="CREATE_USER_ID" property="createUserId" jdbcType="DECIMAL" />
+    <result column="CREATE_USER_NAME" property="createUserName" jdbcType="VARCHAR" />
+    <result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="DEL_FLAG" property="delFlag" jdbcType="VARCHAR" />
+    <result column="SOCRE" property="socre" jdbcType="VARCHAR" />
+    <result column="TERM_NAME" property="termName" jdbcType="VARCHAR" />
+    <result column="COURSE_NAME" property="courseName" jdbcType="VARCHAR" />
+  </resultMap>
+
+
+  <sql id="Base_Column_List" >
+    ID, YEAR, TERM, TYPE, SCHOOL_NAME, SCHOOL_CODE, STAGE, GRADE, COURSE, URL, CREATE_USER_ID, 
+    CREATE_USER_NAME, CREATE_DATE, STATUS, DEL_FLAG, SOCRE,TERM_NAME,COURSE_NAME
+  </sql>
+  
+  <select id="getTeacherEduPlanByPage" resultType="cn.com.wtrj.jx.web.portal.model.entities.wtrjEdu.WtrjEduPlan" resultMap="BaseResultMap">
+    select * from (select rownum rn,M.* from (select *
+       from wtrj_edu_plan wep
+		where create_user_id=#{id} and  del_flag='0' order by id desc)
+		M )
+       where rn between #{start} and #{end}
+
+  </select>
+  
+  <select id="countTeacherEduPlanByPage" resultType="int">
+    select count(*) from (select rownum rn,M.* from (select *
+       from wtrj_edu_plan wep
+		where create_user_id=#{id})
+		M )
+
+  </select>
+  
+  
+  <select id="getVerifyEduPlanByPage" resultType="cn.com.wtrj.jx.web.portal.model.entities.wtrjEdu.WtrjEduPlan" resultMap="BaseResultMap">
+    select * from (select rownum rn,M.* from (select *
+       from wtrj_edu_plan wep where del_flag != '1' 
+
+      <if test="type != null  and type !='' ">
+       and type=#{type}
+      </if>
+      <if test="schoolCode != null  and schoolCode !='' ">
+       and school_code=#{schoolCode}
+      </if>
+      <if test="schoolYear != null  and schoolYear !='' ">
+       and year=#{schoolYear}
+      </if>
+		<if test="schoolTerm != null  and schoolTerm !='' ">
+       and term=#{schoolTerm}
+      </if>
+      <if test="grade != null  and grade !='' ">
+       and grade=#{grade}
+      </if>
+      <if test="course != null  and course !='' ">
+       and course=#{course}
+      </if>
+      <if test="status != null  and status !='' ">
+       and status=#{status}
+      </if>
+      
+      <if test="teacherName != null  and teacherName !='' ">
+       and create_user_name like CONCAT(CONCAT('%','${teacherName}'), '%')
+      </if>
+		
+        order by id desc )M)
+       where rn between #{start} and #{end}
+
+  </select>
+  
+  
+  <select id="countVerifyEduPlanByPage" resultType="int">
+    select count(*)
+       from wtrj_edu_plan wep where 1=1 
+
+      <if test="type != null  and type !='' ">
+       and type=#{type}
+      </if>
+      <if test="schoolCode != null  and schoolCode !='' ">
+       and school_code=#{schoolCode}
+      </if>
+      <if test="schoolYear != null  and schoolYear !='' ">
+       and year=#{schoolYear}
+      </if>
+		<if test="schoolTerm != null  and schoolTerm !='' ">
+       and term=#{schoolTerm}
+      </if>
+      <if test="grade != null  and grade !='' ">
+       and grade=#{grade}
+      </if>
+      <if test="course != null  and course !='' ">
+       and course=#{course}
+      </if>
+      <if test="status != null  and status !='' ">
+       and status=#{status}
+      </if>
+      
+      <if test="teacherName != null  and teacherName !='' ">
+       and create_user_name like CONCAT(CONCAT('%','${teacherName}'), '%')
+      </if>
+  </select>
+
+</mapper>

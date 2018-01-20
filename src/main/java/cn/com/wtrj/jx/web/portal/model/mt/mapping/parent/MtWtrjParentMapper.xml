@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper
+	namespace="cn.com.wtrj.jx.web.portal.model.mt.dao.parent.MtWtrjParentMapper">
+	<select id="findWtrjParentsByStudentNo" resultType="cn.com.wtrj.jx.web.portal.model.mt.entities.MtParentInfo">
+		select p.id                 id,
+		       p.name               name,
+		       p.sex                sex,
+		       sp.bl_attendance_sms blAttendanceSms,
+		       p.phone              phone,
+		       s.school_code        schoolCode
+		  from wtrj_parent p
+		  left join wtrj_stu_parent_relationship sp on p.id = sp.parent_id
+		  left join wtrj_student s on sp.student_id = s.id
+		where
+		s.student_no = #{studentNo}
+	</select>
+
+	<resultMap id="resultMap1"
+		type="cn.com.wtrj.jx.web.portal.model.entities.WtrjParent">
+		<id column="id" property="id" />
+		<result column="name" property="name" />
+		<result column="sex" property="sex" />
+		<result column="phone" property="phone" />
+		<result column="bl_attendance_sms" property="blAttendanceSms" />
+	</resultMap>
+
+	<select id="findParentsByStudentName" resultMap="resultMap2">
+		select wp.* from wtrj_parent wp join
+		wtrj_stu_parent_relationship wr on
+		wp.id = wr.parent_id join wtrj_student ws on wr.student_id = ws.id
+		where ws.name = #{studentName}
+	</select>
+
+	<resultMap id="resultMap2"
+		type="cn.com.wtrj.jx.web.portal.model.entities.WtrjParent">
+		<id column="id" property="id" />
+		<result column="name" property="name" />
+		<result column="sex" property="sex" />
+		<result column="phone" property="phone" />
+	</resultMap>
+	
+	
+	<select id="findParentsByStudentId" resultMap="resultMap3">
+		select wp.* from wtrj_parent wp join
+		wtrj_stu_parent_relationship wr on
+		wp.id = wr.parent_id join wtrj_student ws on wr.student_id = ws.id
+		where ws.id = #{studentId}
+	</select>
+	
+	<resultMap id="resultMap3"
+		type="cn.com.wtrj.jx.web.portal.model.entities.WtrjParent">
+		<id column="id" property="id" />
+		<result column="name" property="name" />
+		<result column="sex" property="sex" />
+		<result column="phone" property="phone" />
+	</resultMap>
+</mapper>
